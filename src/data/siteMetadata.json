@@ -1,0 +1,18 @@
+{
+  "title": "Yuwei's Blog",
+  "author": "Yuwei Chen",
+  "headerTitle": "Lead YW Blog",
+  "description": "A blog created with Next.js and Tailwind.css",
+  "language": "en-us",
+  "siteUrl": "https://yuweichen1008.github.io",
+  "siteRepo": "https://github.com/yuweichen1008/yuweichen1008.github.io",
+  "image": "/static/images/avatar.png",
+  "socialBanner": "/static/images/twitter-card.png",
+  "email": "address@yoursite.com",
+  "github": "https://github.com/yuweichen1008",
+  "twitter": "https://twitter.com/Twitter",
+  "facebook": "https://facebook.com",
+  "youtube": "https://youtube.com",
+  "linkedin": "https://www.linkedin.com/in/yuwei-chen-1008/",
+  "locale": "en-US"
+}
