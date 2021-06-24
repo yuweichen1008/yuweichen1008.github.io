@@ -38,6 +38,7 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
+  webpack5: true,
   async rewrites() {
     return {
       beforeFiles: [
