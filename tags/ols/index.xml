@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Yuwei&#39;s Blog</title>
+      <link>https://yuweichen1008.github.io/blog</link>
+      <description>A blog created with Next.js and Tailwind.css</description>
+      <language>en-us</language>
+      <managingEditor>address@yoursite.com (Yuwei Chen)</managingEditor>
+      <webMaster>address@yoursite.com (Yuwei Chen)</webMaster>
+      <lastBuildDate>Sat, 16 Nov 2019 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://yuweichen1008.github.io/tags/ols/index.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://yuweichen1008.github.io/blog/deriving-ols-estimator</guid>
+    <title>Deriving the OLS Estimator</title>
+    <link>https://yuweichen1008.github.io/blog/deriving-ols-estimator</link>
+    <description>How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.</description>
+    <pubDate>Sat, 16 Nov 2019 00:00:00 GMT</pubDate>
+    <author>address@yoursite.com (Yuwei Chen)</author>
+    <category>next js</category><category>math</category><category>ols</category>
+  </item>
+
+    </channel>
+  </rss>
