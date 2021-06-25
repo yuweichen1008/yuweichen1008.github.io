@@ -1,4 +1,4 @@
-import Image from './Image'
+import Image from 'next/image'
 import CustomLink from './Link'
 
 const MDXComponents = {

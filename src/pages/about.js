@@ -1,6 +1,6 @@
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
-import Image from '@/components/Image'
+import Image from 'next/image'
 import { PageSeo } from '@/components/SEO'
 
 export default function About() {

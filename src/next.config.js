@@ -1,3 +1,5 @@
+// const withPlugins = require('next-compose-plugins');
+// const withOptimizedImages = require('next-optimized-images');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -49,6 +51,26 @@ module.exports = {
           destination: '/index',
         },
       ],
+    }
+  },
+  images: {
+    loader: 'imgix',
+    domains: ['https://yuweichen1008.github.io'],
+  },
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/blog': { page: '/blog' },
+      '/project': { page: '/project' },
+      '/tags': { page: '/tags'},
+      '/404': { page: '/404'},
+      // '//hello-nextjs': { page: '/post', query: { title: 'hello-nextjs' } },
+      // '/p/learn-nextjs': { page: '/post', query: { title: 'learn-nextjs' } },
+      // '/p/deploy-nextjs': { page: '/post', query: { title: 'deploy-nextjs' } },
     }
   },
 }

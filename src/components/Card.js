@@ -2,8 +2,8 @@ import Image from 'next/image'
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 
-const myLoader = ({ src, width, quality }) => {
-  return `${siteMetadata.siteUrl}/${src}?w=${width}&q=${quality || 75}`
+const myLoader = ({ src }) => {
+  return `${siteMetadata.siteUrl}/${src}`
 }
 
 const Card = ({ title, description, imgSrc, href }) => (
@@ -22,6 +22,7 @@ const Card = ({ title, description, imgSrc, href }) => (
         </Link>
       ) : (
         <Image
+          loader={myLoader}
           alt={title}
           src={imgSrc}
           className="object-cover object-center lg:h-48 md:h-36"
