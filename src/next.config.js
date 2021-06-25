@@ -1,6 +1,7 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
@@ -38,7 +39,6 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
-  webpack5: true,
   async rewrites() {
     return {
       beforeFiles: [
@@ -52,4 +52,6 @@ module.exports = withBundleAnalyzer({
       ],
     }
   },
+  // assetPrefix: isProd ? 'https://cdn.statically.io/gh/yuweichen1008/yuweichen1008.github.io/gh-pages/' : '',
+
 })
