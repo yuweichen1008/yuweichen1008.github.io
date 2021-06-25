@@ -65,7 +65,7 @@ module.exports = {
       '/': { page: '/' },
       '/about': { page: '/about' },
       '/blog': { page: '/blog' },
-      '/project': { page: '/project' },
+      '/projects': { page: '/projects' },
       '/tags': { page: '/tags'},
       '/404': { page: '/404'},
       // '//hello-nextjs': { page: '/post', query: { title: 'hello-nextjs' } },
