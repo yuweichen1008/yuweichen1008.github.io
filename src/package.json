@@ -6,10 +6,7 @@
     "start": "next-remote-watch ./data",
     "dev": "next dev",
     "build": "next build && node ./scripts/generate-sitemap",
-    "serve": "next start",
-    "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
-    "prepare": "husky install"
+    "serve": "next start"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.6.0",
@@ -19,7 +16,7 @@
     "gray-matter": "^4.0.2",
     "image-size": "1.0.0",
     "next": "11.0.1",
-    "next-mdx-remote": "^3.0.1",
+    "next-mdx-remote": "^3.0.2",
     "next-seo": "4.24.0",
     "next-themes": "^0.0.14",
     "postcss": "^8.3.5",
