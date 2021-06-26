@@ -6,7 +6,7 @@
     "start": "next-remote-watch ./data",
     "dev": "next dev",
     "build": "next build && node ./scripts/generate-sitemap && next export",
-    "postbuild": "touch out/.nojekyll && cp -a out/. ../build",
+    "postbuild": "touch out/.nojekyll && cp -a out/. ../build/ && cp -a out/. ../build/yuweichen1008",
     "serve": "next start && next export",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
