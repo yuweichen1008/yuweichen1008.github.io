@@ -1,8 +1,8 @@
-import '@/css/tailwind.css'
-
+import 'tailwindcss/tailwind.css'
 import { ThemeProvider } from 'next-themes'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
+import '@/css/tailwind.css'
 
 import { SEO } from '@/components/SEO'
 import LayoutWrapper from '@/components/LayoutWrapper'

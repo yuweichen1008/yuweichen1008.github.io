@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  // mode: 'jit',
+  mode: 'jit',
   purge: ['./pages/**/*.js', './components/**/*.js', './layouts/**/*.js', './lib/**/*.js'],
   darkMode: 'class',
   theme: {
@@ -147,5 +147,11 @@ module.exports = {
   variants: {
     typography: ['dark'],
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+    require('@tailwindcss/forms'), 
+    require('@tailwindcss/typography')
+  ],
 }
