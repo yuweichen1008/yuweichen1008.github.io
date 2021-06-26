@@ -3,6 +3,8 @@ on: [push]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: /yuweichen1008
     defaults:
       run:
         working-directory: ./src
@@ -33,5 +35,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
+          FOLDER: src/out # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
