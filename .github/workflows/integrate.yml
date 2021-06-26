@@ -4,7 +4,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_BASE_PATH: /
+      NEXT_PUBLIC_BASE_PATH: /yuweichen1008
     defaults:
       run:
         working-directory: ./src
