@@ -5,8 +5,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 module.exports = {
-  basePath: '/yuweichen1008',
-  assetPrefix: '/yuweichen1008',
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH,
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
@@ -18,7 +18,7 @@ module.exports = {
         {
           loader: 'file-loader',
           options: {
-            publicPath: '/yuweichen1008/_next',
+            publicPath: process.env.NEXT_PUBLIC_BASE_PATH + '/_next',
             name: 'static/media/[name].[hash].[ext]',
           },
         },

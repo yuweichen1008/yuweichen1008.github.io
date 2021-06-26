@@ -26,7 +26,11 @@ jobs:
         with:
           node-version: '14'
       - run: npm install
+        env:
+          NEXT_PUBLIC_BASE_PATH: /yuweichen1008
       - run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /yuweichen1008
         env:
             CI: true
 
