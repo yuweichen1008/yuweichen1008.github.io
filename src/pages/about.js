@@ -2,6 +2,7 @@ import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Image from 'next/image'
 import { PageSeo } from '@/components/SEO'
+import Link from '@/components/Link'
 
 export default function About() {
   return (
@@ -29,32 +30,32 @@ export default function About() {
             <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
               {siteMetadata.author}
             </h3>
-            <div className="text-gray-500 dark:text-gray-400">Professor of Atmospheric Science</div>
-            <div className="text-gray-500 dark:text-gray-400">Stanford University</div>
+            <div className="text-gray-500 dark:text-gray-400">Software Engineer</div>
+            <div className="text-gray-500 dark:text-gray-400">Singapore</div>
             <div className="flex pt-6 space-x-3">
               <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} />
               <SocialIcon kind="github" href={siteMetadata.github} />
-              <SocialIcon kind="facebook" href={siteMetadata.facebook} />
-              <SocialIcon kind="youtube" href={siteMetadata.youtube} />
               <SocialIcon kind="linkedin" href={siteMetadata.linkedin} />
-              <SocialIcon kind="twitter" href={siteMetadata.twitter} />
             </div>
           </div>
           <div className="pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
             <p>
-              Tails Azimuth is a professor of atmospheric sciences at the Stanford AI Lab. His
-              research interests includes complexity modelling of tailwinds, headwinds and
-              crosswinds.
+              Hey, I&apos;m Yuwei — 32, originally from Taiwan, currently based in Singapore after a
+              few years in Silicon Valley.
             </p>
             <p>
-              He leads the clean energy group which develops 3D air pollution-climate models, writes
-              differential equation solvers, and manufactures titanium plated air ballons. In his
-              free time he bakes raspberry pi.
+              By day I work in tech. By night I&apos;m chasing Michelin stars at hawker centres,
+              logging km on the pavement, and grinding through JLPT N2 kanji. I&apos;m flying back
+              to Taiwan on July 4th and documenting every day until then.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique
-              placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem
-              nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+              This site is my living journal — food, fitness, adventures, Japanese study, and
+              whatever else I stumble into in this city.
+            </p>
+            <p>
+              <Link href="/life" className="text-blue-500 hover:text-blue-600">
+                Read the full story →
+              </Link>
             </p>
           </div>
         </div>

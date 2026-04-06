@@ -62,16 +62,41 @@ module.exports = {
     defaultPathMap,
     { dev, dir, outDir, distDir, buildId }
   ) {
+    // Enumerate journal slugs from Notion (or empty if no token)
+    let journalPaths = {}
+    try {
+      const { getJournalEntries } = require('./lib/notion')
+      const entries = await getJournalEntries()
+      entries.forEach((entry) => {
+        if (entry.slug) {
+          journalPaths[`/journal/${entry.slug}`] = {
+            page: '/journal/[slug]',
+            query: { slug: entry.slug },
+          }
+        }
+      })
+    } catch (e) {
+      console.warn('[exportPathMap] Could not fetch journal entries:', e.message)
+    }
+
     return {
       '/': { page: '/' },
       '/about': { page: '/about' },
       '/blog': { page: '/blog' },
       '/projects': { page: '/projects' },
-      '/tags': { page: '/tags'},
-      '/404': { page: '/404'},
-      // '//hello-nextjs': { page: '/post', query: { title: 'hello-nextjs' } },
-      // '/p/learn-nextjs': { page: '/post', query: { title: 'learn-nextjs' } },
-      // '/p/deploy-nextjs': { page: '/post', query: { title: 'deploy-nextjs' } },
+      '/tags': { page: '/tags' },
+      '/404': { page: '/404' },
+      // New pages
+      '/life': { page: '/life' },
+      '/calendar': { page: '/calendar' },
+      '/journal': { page: '/journal' },
+      '/timeline': { page: '/timeline' },
+      '/singapore': { page: '/singapore' },
+      '/singapore/food': { page: '/singapore/food' },
+      '/singapore/adventures': { page: '/singapore/adventures' },
+      '/fitness': { page: '/fitness' },
+      // Dynamic journal entry routes
+      ...journalPaths,
     }
   },
 }
