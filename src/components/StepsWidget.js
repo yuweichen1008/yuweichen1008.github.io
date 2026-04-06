@@ -42,7 +42,7 @@ function StepBar({ steps }) {
   )
 }
 
-export function StepsWidget({ stats }) {
+export function StepsWidget({ stats, noDataMsg }) {
   const today = stats && stats[0]
   const steps = today?.steps
 
@@ -50,7 +50,7 @@ export function StepsWidget({ stats }) {
     return (
       <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 py-1">
         <span>🦶</span>
-        <span>No step data yet — add to Notion DailyStats</span>
+        <span>{noDataMsg || 'No step data yet — add to Notion DailyStats'}</span>
       </div>
     )
   }
@@ -120,12 +120,12 @@ function NowCard({ item }) {
   return content
 }
 
-export function NowSection({ items }) {
+export function NowSection({ items, label }) {
   if (!items || !items.length) return null
   return (
     <div>
       <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-        Right now
+        {label || 'Right now'}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {items.map((item) => (

@@ -95,6 +95,7 @@ module.exports = {
       '/singapore/food': { page: '/singapore/food' },
       '/singapore/adventures': { page: '/singapore/adventures' },
       '/fitness': { page: '/fitness' },
+      '/debug': { page: '/debug' },
       // Dynamic journal entry routes
       ...journalPaths,
     }

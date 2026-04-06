@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "life": "人生",
+    "calendar": "行事曆",
+    "journal": "日誌",
+    "singapore": "新加坡",
+    "timeline": "時間軸",
+    "projects": "專案",
+    "book": "預約",
+    "blog": "部落格"
+  },
+  "home": {
+    "tagline": "工程師・探索者・吃貨・32歲",
+    "bio": "現居新加坡，曾待過矽谷與台灣。努力備考JLPT N2，吃遍米其林指南，公開打造產品。",
+    "status_sg": "現居新加坡",
+    "status_jlpt": "JLPT N2 · 2026年7月",
+    "status_skyreal": "SkyReal 共同創辦人",
+    "status_taiwan": "7月4日返台",
+    "explore": "探索",
+    "rightNow": "現在",
+    "today": "今天",
+    "noSteps": "尚無步數資料 — 請在 Notion DailyStats 新增"
+  },
+  "life": {
+    "heroTitle": "三個城市",
+    "heroSub": "台灣出生。矽谷塑造。新加坡生活。這是目前為止的故事。",
+    "rightNow": "現在（2026年）",
+    "cta_calendar": "4/1 → 7/4 記錄 →",
+    "cta_timeline": "完整時間軸 →"
+  },
+  "footer": {
+    "tagline": "在7月4日返台之前，記錄新加坡的生活點滴。",
+    "pages": "頁面",
+    "built": "Next.js · Tailwind · GitHub Pages"
+  }
+}

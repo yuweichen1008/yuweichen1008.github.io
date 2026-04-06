@@ -4,7 +4,7 @@ import GiscusComments from '@/components/GiscusComments'
 import { CATEGORY_CONFIG, MOOD_EMOJI, MOOD_LABEL } from '@/lib/categoryConfig'
 
 export default function JournalPostLayout({ entry }) {
-  const { title, date, categories = [], mood, blocks = [] } = entry
+  const { title, date, categories = [], mood, blocks = [], wordCount = 0 } = entry
 
   const formattedDate = date
     ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
@@ -34,6 +34,12 @@ export default function JournalPostLayout({ entry }) {
             <>
               <span>·</span>
               <span>{MOOD_EMOJI[mood]} {MOOD_LABEL[mood] || mood}</span>
+            </>
+          )}
+          {wordCount > 0 && (
+            <>
+              <span>·</span>
+              <span>{wordCount.toLocaleString()} words · {Math.max(1, Math.round(wordCount / 200))} min read</span>
             </>
           )}
         </div>

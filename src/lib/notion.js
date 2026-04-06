@@ -90,11 +90,21 @@ async function getJournalEntry(slug) {
     if (!pages.length) return null
     const page = pages[0]
     const blocks = await getPageBlocks(page.id)
-    return { ...mapJournalPage(page), blocks }
+    return { ...mapJournalPage(page), blocks, wordCount: countWordsInBlocks(blocks) }
   } catch (err) {
     console.warn('[notion] getJournalEntry failed:', err.message)
     return null
   }
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function countWordsInBlocks(blocks) {
+  return blocks.reduce((total, block) => {
+    const richText = block[block.type]?.rich_text || []
+    const text = richText.map((t) => t.plain_text).join(' ')
+    return total + text.split(/\s+/).filter(Boolean).length
+  }, 0)
 }
 
 // ─── Page Blocks ──────────────────────────────────────────────────────────────
@@ -122,7 +132,10 @@ async function getPageBlocks(pageId) {
 // ─── Timeline ────────────────────────────────────────────────────────────────
 
 async function getTimelineEvents() {
-  const pages = await queryDatabase(process.env.NOTION_DB_TIMELINE)
+  const pages = await queryDatabase(process.env.NOTION_DB_TIMELINE, {
+    property: 'Published',
+    checkbox: { equals: true },
+  })
   return pages
     .map((page) => {
       const props = page.properties
@@ -130,6 +143,7 @@ async function getTimelineEvents() {
         id: page.id,
         title: getTitle(props.Name),
         date: getDate(props.Date),
+        slug: getText(props.Slug) || page.id,
         location: getSelect(props.Location),
         categories: getMultiSelect(props.Category),
         description: getText(props.Description),
@@ -142,7 +156,10 @@ async function getTimelineEvents() {
 // ─── Food Log ────────────────────────────────────────────────────────────────
 
 async function getFoodLog() {
-  const pages = await queryDatabase(process.env.NOTION_DB_FOOD_LOG)
+  const pages = await queryDatabase(process.env.NOTION_DB_FOOD_LOG, {
+    property: 'Published',
+    checkbox: { equals: true },
+  })
   return pages
     .map((page) => {
       const props = page.properties
@@ -157,6 +174,7 @@ async function getFoodLog() {
         notes: getText(props.Notes),
         photo: getUrl(props.Photo),
         address: getText(props.Address),
+        mapsUrl: getUrl(props.MapsURL),
       }
     })
     .sort((a, b) => new Date(b.visitDate) - new Date(a.visitDate))
@@ -203,6 +221,39 @@ async function getFitnessLog() {
       }
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date))
+}
+
+// ─── Life Chapters ───────────────────────────────────────────────────────────
+
+async function getLifeChapters() {
+  const pages = await queryDatabase(process.env.NOTION_DB_LIFE, {
+    property: 'Published',
+    checkbox: { equals: true },
+  })
+  return pages
+    .map((page) => {
+      const props = page.properties
+      return {
+        id: page.id,
+        city: getTitle(props.Name),
+        flag: getText(props.Flag),
+        years: getText(props.Years),
+        accentColor: getSelect(props.AccentColor),
+        tags: getMultiSelect(props.Tags),
+        order: getNumber(props.Order) || 0,
+        headline: {
+          en: getText(props.Headline),
+          zh: getText(props.HeadlineZh),
+          ja: getText(props.HeadlineJa),
+        },
+        body: {
+          en: getText(props.Body),
+          zh: getText(props.BodyZh),
+          ja: getText(props.BodyJa),
+        },
+      }
+    })
+    .sort((a, b) => a.order - b.order)
 }
 
 // ─── Daily Stats ─────────────────────────────────────────────────────────────
@@ -258,4 +309,5 @@ module.exports = {
   getFitnessLog,
   getDailyStats,
   getNowStatus,
+  getLifeChapters,
 }

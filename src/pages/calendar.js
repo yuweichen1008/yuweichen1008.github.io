@@ -3,19 +3,21 @@ import siteMetadata from '@/data/siteMetadata'
 import CountdownBanner from '@/components/CountdownBanner'
 import CalendarGrid from '@/components/CalendarGrid'
 import { getJournalEntries } from '@/lib/notion'
+import { getCalendarEvents } from '@/lib/gcal'
 
 export async function getStaticProps() {
-  const entries = await getJournalEntries()
-  return {
-    props: { entries },
-  }
+  const [entries, calEvents] = await Promise.all([
+    getJournalEntries(),
+    getCalendarEvents(process.env.GOOGLE_CALENDAR_ICAL_URL),
+  ])
+  return { props: { entries, calEvents } }
 }
 
-export default function Calendar({ entries }) {
+export default function Calendar({ entries, calEvents }) {
   return (
     <>
       <PageSeo
-        title={`Calendar - ${siteMetadata.author}`}
+        title={`Calendar – ${siteMetadata.title}`}
         description="95 days documented. Apr 1 → Jul 4, 2026. Singapore life before flying back to Taiwan."
         url={`${siteMetadata.siteUrl}/calendar`}
       />
@@ -28,10 +30,9 @@ export default function Calendar({ entries }) {
             95 days in Singapore. Every day counts.
           </p>
         </div>
-
         <div className="py-8">
           <CountdownBanner />
-          <CalendarGrid entries={entries} />
+          <CalendarGrid entries={entries} calEvents={calEvents} />
         </div>
       </div>
     </>

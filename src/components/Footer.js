@@ -1,18 +1,21 @@
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
+import { useTranslation } from '@/lib/i18n'
 
 const footerLinks = [
-  { href: '/life', label: 'Life' },
-  { href: '/timeline', label: 'Timeline' },
-  { href: '/calendar', label: 'Calendar' },
-  { href: '/journal', label: 'Journal' },
-  { href: '/singapore', label: 'Singapore' },
-  { href: '/fitness', label: 'Fitness' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/life', key: 'life' },
+  { href: '/timeline', key: 'timeline' },
+  { href: '/calendar', key: 'calendar' },
+  { href: '/journal', key: 'journal' },
+  { href: '/singapore', key: 'singapore' },
+  { href: '/projects', key: 'projects' },
+  { href: '/blog', key: 'blog' },
 ]
 
 export default function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="border-t border-gray-100 dark:border-gray-800 mt-16 pt-10 pb-8">
       <div className="flex flex-col sm:flex-row justify-between gap-10">
@@ -23,10 +26,10 @@ export default function Footer() {
             className="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
           >
             <span>🦙</span>
-            <span>yuwei.life</span>
+            <span>{siteMetadata.headerTitle}</span>
           </Link>
           <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-            Documenting life in Singapore before flying home to Taiwan on Jul 4.
+            {t('footer.tagline')}
           </p>
           <div className="flex items-center gap-3">
             <SocialIcon kind="github" href={siteMetadata.github} size={5} />
@@ -47,16 +50,16 @@ export default function Footer() {
         {/* Nav */}
         <div>
           <div className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
-            Pages
+            {t('footer.pages')}
           </div>
           <ul className="grid grid-cols-2 gap-x-10 gap-y-2.5">
-            {footerLinks.map(({ href, label }) => (
+            {footerLinks.map(({ href, key }) => (
               <li key={href}>
                 <Link
                   href={href}
                   className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                 >
-                  {label}
+                  {t(`nav.${key}`)}
                 </Link>
               </li>
             ))}
@@ -66,7 +69,7 @@ export default function Footer() {
 
       <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400 dark:text-gray-500">
         <span>{siteMetadata.author} · © {new Date().getFullYear()}</span>
-        <span>Next.js · Tailwind · GitHub Pages</span>
+        <span>{t('footer.built')}</span>
       </div>
     </footer>
   )

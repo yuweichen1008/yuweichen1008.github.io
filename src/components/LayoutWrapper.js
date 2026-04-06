@@ -6,9 +6,12 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
+import LanguageSwitch from './LanguageSwitch'
+import { useTranslation } from '@/lib/i18n'
 
 const LayoutWrapper = ({ children }) => {
   const { pathname } = useRouter()
+  const { t } = useTranslation()
 
   return (
     <SectionContainer>
@@ -21,13 +24,16 @@ const LayoutWrapper = ({ children }) => {
             </span>
           </Link>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <nav className="hidden sm:flex items-center">
               {headerNavLinks.map((link) => {
                 const isActive =
                   link.href === '/'
                     ? pathname === '/'
                     : pathname.startsWith(link.href)
+                // Map href to translation key
+                const navKey = link.href.replace('/', '').replace('/', '_') || 'home'
+                const label = t(`nav.${navKey}`) !== `nav.${navKey}` ? t(`nav.${navKey}`) : link.title
                 return (
                   <Link
                     key={link.title}
@@ -38,11 +44,12 @@ const LayoutWrapper = ({ children }) => {
                         : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800'
                     }`}
                   >
-                    {link.title}
+                    {label}
                   </Link>
                 )
               })}
             </nav>
+            <LanguageSwitch />
             <ThemeSwitch />
             <MobileNav />
           </div>

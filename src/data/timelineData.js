@@ -2,6 +2,7 @@
 const timelineEvents = [
   {
     id: '1',
+    slug: 'born-in-taiwan',
     title: 'Born in Taiwan',
     date: '1993-01-01',
     location: 'Taiwan',
@@ -11,6 +12,7 @@ const timelineEvents = [
   },
   {
     id: '2',
+    slug: 'silicon-valley',
     title: 'Moved to Silicon Valley',
     date: '2017-01-01',
     location: 'Silicon Valley',
@@ -20,6 +22,7 @@ const timelineEvents = [
   },
   {
     id: '3',
+    slug: 'singapore',
     title: 'Relocated to Singapore',
     date: '2022-01-01',
     location: 'Singapore',
@@ -29,6 +32,7 @@ const timelineEvents = [
   },
   {
     id: '4',
+    slug: 'learning-japanese',
     title: 'Started learning Japanese',
     date: '2025-01-01',
     location: 'Singapore',
@@ -38,6 +42,7 @@ const timelineEvents = [
   },
   {
     id: '5',
+    slug: 'singapore-sprint',
     title: 'Apr 1 → Jul 4 Documentation Sprint',
     date: '2026-04-01',
     location: 'Singapore',

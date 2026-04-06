@@ -27,6 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Enrich food entries from Google Maps
+        run: node ../scripts/enrich-food.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_FOOD_LOG: ${{ secrets.NOTION_DB_FOOD_LOG }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+
       - name: Build
         run: npm run build
         env:
@@ -40,6 +47,11 @@ jobs:
           NOTION_DB_FITNESS: ${{ secrets.NOTION_DB_FITNESS }}
           NOTION_DB_DAILY_STATS: ${{ secrets.NOTION_DB_DAILY_STATS }}
           NOTION_DB_NOW_STATUS: ${{ secrets.NOTION_DB_NOW_STATUS }}
+          NOTION_DB_LIFE: ${{ secrets.NOTION_DB_LIFE }}
+          NOTION_DB_PROJECTS: ${{ secrets.NOTION_DB_PROJECTS }}
+          NOTION_DB_GOALS: ${{ secrets.NOTION_DB_GOALS }}
+          GOOGLE_CALENDAR_ICAL_URL: ${{ secrets.GOOGLE_CALENDAR_ICAL_URL }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

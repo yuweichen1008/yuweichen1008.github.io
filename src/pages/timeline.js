@@ -140,9 +140,17 @@ export default function Timeline({ events }) {
                         ))}
                       </div>
                       {event.description && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                           {event.description}
                         </p>
+                      )}
+                      {event.slug && (
+                        <a
+                          href={`/timeline/${event.slug}`}
+                          className="text-xs text-blue-500 hover:text-blue-600 font-medium"
+                        >
+                          View + comment →
+                        </a>
                       )}
                     </div>
                   </div>

@@ -16,8 +16,17 @@ const accentClasses = {
   },
 }
 
-export default function CityChapter({ city, flag, years, headline, body, accentColor, tags, flip }) {
+// headline and body can be plain strings (legacy) or { en, zh, ja } objects
+function resolve(value, locale) {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  return value[locale] || value.en || ''
+}
+
+export default function CityChapter({ city, flag, years, headline, body, accentColor, tags, flip, locale = 'en' }) {
   const accent = accentClasses[accentColor] || accentClasses.blue
+  const headlineText = resolve(headline, locale)
+  const bodyText = resolve(body, locale)
 
   return (
     <div
@@ -35,9 +44,9 @@ export default function CityChapter({ city, flag, years, headline, body, accentC
             </div>
           </div>
           <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
-            {headline}
+            {headlineText}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{body}</p>
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{bodyText}</p>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <span

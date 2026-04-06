@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "life": "Life",
+    "calendar": "Calendar",
+    "journal": "Journal",
+    "singapore": "Singapore",
+    "timeline": "Timeline",
+    "projects": "Projects",
+    "book": "Book",
+    "blog": "Blog"
+  },
+  "home": {
+    "tagline": "Engineer · Explorer · Eater · 32",
+    "bio": "Currently in Singapore — previously Silicon Valley & Taiwan. Grinding JLPT N2, eating through the Michelin guide, building in public.",
+    "status_sg": "Based in Singapore",
+    "status_jlpt": "JLPT N2 · Jul 2026",
+    "status_skyreal": "Co-founder @ SkyReal",
+    "status_taiwan": "Home to Taiwan · Jul 4",
+    "explore": "Explore",
+    "rightNow": "Right now",
+    "today": "Today",
+    "noSteps": "No step data yet — add to Notion DailyStats"
+  },
+  "life": {
+    "heroTitle": "Three Cities",
+    "heroSub": "Taiwan born. Silicon Valley shaped. Singapore living. This is how the story goes so far.",
+    "rightNow": "Right now (2026)",
+    "cta_calendar": "Apr 1 → Jul 4 Chronicle →",
+    "cta_timeline": "Full Timeline →"
+  },
+  "footer": {
+    "tagline": "Documenting life in Singapore before flying home to Taiwan on Jul 4.",
+    "pages": "Pages",
+    "built": "Next.js · Tailwind · GitHub Pages"
+  }
+}
