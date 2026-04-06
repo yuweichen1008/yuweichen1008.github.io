@@ -9,7 +9,23 @@
   </url>
 
   <url>
+    <loc>https://yuweichen1008.github.io/calendar</loc>
+  </url>
+
+  <url>
+    <loc>https://yuweichen1008.github.io/fitness</loc>
+  </url>
+
+  <url>
     <loc>https://yuweichen1008.github.io</loc>
+  </url>
+
+  <url>
+    <loc>https://yuweichen1008.github.io/journal</loc>
+  </url>
+
+  <url>
+    <loc>https://yuweichen1008.github.io/life</loc>
   </url>
 
   <url>
@@ -17,7 +33,15 @@
   </url>
 
   <url>
+    <loc>https://yuweichen1008.github.io/singapore</loc>
+  </url>
+
+  <url>
     <loc>https://yuweichen1008.github.io/tags</loc>
+  </url>
+
+  <url>
+    <loc>https://yuweichen1008.github.io/timeline</loc>
   </url>
 
   <url>
@@ -59,15 +83,15 @@
   </url>
 
   <url>
-    <loc>https://yuweichen1008.github.io/tags/book</loc>
-  </url>
-
-  <url>
     <loc>https://yuweichen1008.github.io/tags/canada</loc>
   </url>
 
   <url>
     <loc>https://yuweichen1008.github.io/tags/code</loc>
+  </url>
+
+  <url>
+    <loc>https://yuweichen1008.github.io/tags/book</loc>
   </url>
 
   <url>

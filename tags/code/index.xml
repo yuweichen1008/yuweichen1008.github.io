@@ -1,12 +1,12 @@
 
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Yuwei&#39;s Blog</title>
+      <title>Yuwei Chen</title>
       <link>https://yuweichen1008.github.io/blog</link>
-      <description>A blog created with Next.js and Tailwind.css</description>
+      <description>32. Silicon Valley → Taiwan → Singapore. Tech, food, fitness, Japanese, and whatever comes next.</description>
       <language>en-us</language>
-      <managingEditor>address@yoursite.com (Yuwei Chen)</managingEditor>
-      <webMaster>address@yoursite.com (Yuwei Chen)</webMaster>
+      <managingEditor>yuweichen1008@gmail.com (Yuwei Chen)</managingEditor>
+      <webMaster>yuweichen1008@gmail.com (Yuwei Chen)</webMaster>
       <lastBuildDate>Tue, 08 Mar 2016 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://yuweichen1008.github.io/tags/code/index.xml" rel="self" type="application/rss+xml"/>
       
@@ -16,7 +16,7 @@
     <link>https://yuweichen1008.github.io/blog/code-sample</link>
     <description>Example of a markdown file with code blocks and syntax highlighting</description>
     <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Yuwei Chen)</author>
+    <author>yuweichen1008@gmail.com (Yuwei Chen)</author>
     <category>markdown</category><category>code</category><category>features</category>
   </item>
 
