@@ -33,18 +33,18 @@ function getValues() {
   }
 }
 
-function CountdownItem({ emoji, label, days, date }) {
+function Stat({ emoji, label, value, sub }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="text-3xl">{emoji}</div>
-      <div>
-        <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">
+    <div className="flex items-center gap-3 min-w-0">
+      <span className="text-2xl flex-shrink-0">{emoji}</span>
+      <div className="min-w-0">
+        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider leading-none mb-0.5">
           {label}
         </div>
-        <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {days === 0 ? 'Today!' : `${days} days`}
+        <div className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-none">
+          {value}
         </div>
-        <div className="text-xs text-gray-400">{date}</div>
+        <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</div>
       </div>
     </div>
   )
@@ -65,31 +65,44 @@ export default function CountdownBanner() {
   const { taiwanDays, jlptDays, progress } = values
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-4 mb-8">
-      <div className="flex flex-wrap gap-4 items-center justify-between mb-4">
-        <CountdownItem emoji="✈️" label="Back to Taiwan" days={taiwanDays} date="Jul 4, 2026" />
-        <CountdownItem emoji="🇯🇵" label="JLPT N2 Exam" days={jlptDays} date="Jul 5, 2026" />
-        <div className="flex items-center gap-3">
-          <div className="text-3xl">📅</div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">
-              Apr 1 → Jul 4 Sprint
-            </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{progress}%</div>
-            <div className="text-xs text-gray-400">95 days</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-        <div
-          className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-500"
-          style={{ width: `${progress}%` }}
+    <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      {/* Stats row */}
+      <div className="flex flex-wrap gap-6 px-5 py-4 bg-gray-50 dark:bg-gray-800">
+        <Stat
+          emoji="✈️"
+          label="Back to Taiwan"
+          value={taiwanDays === 0 ? 'Today!' : `${taiwanDays}d`}
+          sub="Jul 4, 2026"
+        />
+        <div className="w-px bg-gray-200 dark:bg-gray-700 self-stretch hidden sm:block" />
+        <Stat
+          emoji="🇯🇵"
+          label="JLPT N2"
+          value={jlptDays === 0 ? 'Today!' : `${jlptDays}d`}
+          sub="Jul 5, 2026"
+        />
+        <div className="w-px bg-gray-200 dark:bg-gray-700 self-stretch hidden sm:block" />
+        <Stat
+          emoji="📅"
+          label="Sprint"
+          value={`${progress}%`}
+          sub="Apr 1 → Jul 4"
         />
       </div>
-      <div className="flex justify-between text-xs text-gray-400 mt-1">
-        <span>Apr 1</span>
-        <span>Jul 4</span>
+
+      {/* Progress bar */}
+      <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700/50">
+        <div className="flex justify-between text-xs text-gray-400 mb-1.5">
+          <span>Apr 1</span>
+          <span className="font-medium text-gray-500 dark:text-gray-400">{progress}% complete</span>
+          <span>Jul 4</span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+          <div
+            className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 h-1.5 rounded-full transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </div>
   )

@@ -5,12 +5,61 @@ import Link from '@/components/Link'
 import CountdownBanner from '@/components/CountdownBanner'
 
 const quickLinks = [
-  { href: '/calendar', emoji: '📅', title: 'Apr→Jul Calendar', desc: '95-day sprint before flying home' },
-  { href: '/journal', emoji: '📓', title: 'Journal', desc: 'Daily life in Singapore' },
-  { href: '/singapore/food', emoji: '🍜', title: 'Food Log', desc: 'Michelin & hawker picks' },
-  { href: '/fitness', emoji: '🏃', title: 'Fitness', desc: 'Running, cycling, hiking' },
-  { href: '/singapore/adventures', emoji: '🗺️', title: 'Adventures', desc: 'SE Asia nearby trips' },
-  { href: '/timeline', emoji: '⏱️', title: 'Timeline', desc: 'TW → SV → SG story' },
+  {
+    href: '/calendar',
+    emoji: '📅',
+    title: 'Apr→Jul Calendar',
+    desc: '95-day sprint before flying home',
+    accent: 'border-blue-400',
+    emojiBg: 'bg-blue-50 dark:bg-blue-900',
+  },
+  {
+    href: '/journal',
+    emoji: '📓',
+    title: 'Journal',
+    desc: 'Daily life in Singapore',
+    accent: 'border-purple-400',
+    emojiBg: 'bg-purple-50 dark:bg-purple-900',
+  },
+  {
+    href: '/singapore/food',
+    emoji: '🍜',
+    title: 'Food Log',
+    desc: 'Michelin & hawker picks',
+    accent: 'border-orange-400',
+    emojiBg: 'bg-orange-50 dark:bg-orange-900',
+  },
+  {
+    href: '/fitness',
+    emoji: '🏃',
+    title: 'Fitness',
+    desc: 'Running, cycling, hiking',
+    accent: 'border-green-400',
+    emojiBg: 'bg-green-50 dark:bg-green-900',
+  },
+  {
+    href: '/singapore/adventures',
+    emoji: '🗺️',
+    title: 'Adventures',
+    desc: 'SE Asia nearby trips',
+    accent: 'border-teal-400',
+    emojiBg: 'bg-teal-50 dark:bg-teal-900',
+  },
+  {
+    href: '/timeline',
+    emoji: '⏱️',
+    title: 'Timeline',
+    desc: 'TW → SV → SG story',
+    accent: 'border-red-400',
+    emojiBg: 'bg-red-50 dark:bg-red-900',
+  },
+]
+
+const statusItems = [
+  { emoji: '🇸🇬', text: 'Based in Singapore' },
+  { emoji: '🇯🇵', text: 'JLPT N2 · Jul 2026' },
+  { emoji: '🚀', text: 'Co-founder @ SkyReal' },
+  { emoji: '✈️', text: 'Home to Taiwan · Jul 4' },
 ]
 
 export default function Home() {
@@ -23,38 +72,55 @@ export default function Home() {
       />
 
       {/* Hero */}
-      <div className="pt-10 pb-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          <div className="space-y-3">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl">
-              Hey, I&apos;m Yuwei 👋
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-              32. Engineer, explorer, eater. Currently in{' '}
-              <span className="font-semibold text-green-600 dark:text-green-400">Singapore</span>{' '}
-              — previously{' '}
+      <div className="pt-10 pb-12 space-y-8">
+        {/* Profile row */}
+        <div className="flex flex-col sm:flex-row sm:items-start gap-6">
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+              <span className="text-2xl font-bold text-white tracking-tight">YW</span>
+            </div>
+          </div>
+
+          {/* Name + bio */}
+          <div className="space-y-3 flex-1">
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+                Yuwei Chen
+              </h1>
+              <p className="text-base text-gray-500 dark:text-gray-400 mt-0.5">
+                Engineer · Explorer · Eater · 32
+              </p>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+              Currently in{' '}
+              <span className="font-semibold text-green-600 dark:text-green-400">Singapore</span>
+              {' '}—{' '}
+              previously{' '}
               <span className="font-semibold text-blue-600 dark:text-blue-400">Silicon Valley</span>{' '}
               &{' '}
               <span className="font-semibold text-red-600 dark:text-red-400">Taiwan</span>.
-              Grinding JLPT N2, logging every run, eating my way through the Michelin guide.
+              Grinding JLPT N2, logging every run, eating through the Michelin guide.
             </p>
+
             {/* Social row */}
-            <div className="flex flex-wrap items-center gap-4 pt-1">
-              <SocialIcon kind="github" href={siteMetadata.github} size="5" />
-              <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size="5" />
-              <SocialIcon kind="youtube" href={siteMetadata.youtube} size="5" />
-              <SocialIcon kind="instagram" href={siteMetadata.instagram} size="5" />
+            <div className="flex items-center gap-2 flex-wrap">
+              <SocialIcon kind="github" href={siteMetadata.github} size={5} />
+              <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={5} />
+              <SocialIcon kind="youtube" href={siteMetadata.youtube} size={5} />
+              <SocialIcon kind="instagram" href={siteMetadata.instagram} size={5} />
+              <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-1" />
               <a
                 href={siteMetadata.skyreal}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:opacity-80 transition-opacity"
               >
                 🚀 SkyReal
               </a>
               <a
                 href={`mailto:${siteMetadata.email}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
               >
                 ✉️ Email
               </a>
@@ -62,12 +128,25 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Status chips */}
+        <div className="flex flex-wrap gap-2">
+          {statusItems.map((item) => (
+            <span
+              key={item.text}
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300"
+            >
+              <span>{item.emoji}</span>
+              <span>{item.text}</span>
+            </span>
+          ))}
+        </div>
+
         {/* Countdown */}
         <CountdownBanner />
 
-        {/* Quick nav grid */}
+        {/* Quick nav */}
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
             Explore
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -75,34 +154,22 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group flex flex-col gap-1 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-sm transition-all"
+                className={`group flex flex-col gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-sm transition-all duration-200 border-l-2 ${item.accent}`}
               >
-                <span className="text-2xl">{item.emoji}</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                  {item.title}
+                <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg ${item.emojiBg}`}>
+                  {item.emoji}
                 </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</span>
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm leading-tight">
+                    {item.title}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    {item.desc}
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* About strip */}
-        <div className="flex flex-wrap gap-4 pt-2 border-t border-gray-100 dark:border-gray-800">
-          {[
-            { emoji: '🇯🇵', text: 'Studying for JLPT N2 · Jul 2026' },
-            { emoji: '🍜', text: 'Eating through Singapore\'s Michelin guide' },
-            { emoji: '🚀', text: 'Co-founder @ SkyReal' },
-            { emoji: '✈️', text: 'Flying back to Taiwan · Jul 4' },
-          ].map((item) => (
-            <div
-              key={item.text}
-              className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
-            >
-              <span>{item.emoji}</span>
-              <span>{item.text}</span>
-            </div>
-          ))}
         </div>
       </div>
     </>
