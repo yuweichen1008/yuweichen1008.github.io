@@ -1,12 +1,12 @@
 
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Yuwei Chen</title>
+      <title>Yomi.work</title>
       <link>https://yuweichen1008.github.io/blog</link>
-      <description>32. Silicon Valley → Taiwan → Singapore. Tech, food, fitness, Japanese, and whatever comes next.</description>
+      <description>32. Silicon Valley → Taiwan → Singapore. Tech, food, Japanese, and whatever comes next.</description>
       <language>en-us</language>
-      <managingEditor>yuweichen1008@gmail.com (Yuwei Chen)</managingEditor>
-      <webMaster>yuweichen1008@gmail.com (Yuwei Chen)</webMaster>
+      <managingEditor>yuweichen1008@gmail.com (Yomi)</managingEditor>
+      <webMaster>yuweichen1008@gmail.com (Yomi)</webMaster>
       <lastBuildDate>Tue, 08 Mar 2016 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://yuweichen1008.github.io/tags/features/index.xml" rel="self" type="application/rss+xml"/>
       
@@ -16,7 +16,7 @@
     <link>https://yuweichen1008.github.io/blog/code-sample</link>
     <description>Example of a markdown file with code blocks and syntax highlighting</description>
     <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
-    <author>yuweichen1008@gmail.com (Yuwei Chen)</author>
+    <author>yuweichen1008@gmail.com (Yomi)</author>
     <category>markdown</category><category>code</category><category>features</category>
   </item>
 
