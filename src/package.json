@@ -9,7 +9,8 @@
     "postbuild": "touch out/.nojekyll && cp -a out/. ../build/ && cp -a out/. ../build/yuweichen1008",
     "serve": "next start && next export",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
+    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
+    "setup-hooks": "cp ../scripts/pre-push ../.git/hooks/pre-push && chmod +x ../.git/hooks/pre-push && echo 'Git hooks installed.'"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.6.0",

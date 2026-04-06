@@ -15,8 +15,9 @@ const LayoutWrapper = ({ children }) => {
       <div className="flex flex-col justify-between min-h-screen">
         <header className="flex items-center justify-between py-8 border-b border-gray-100 dark:border-gray-800">
           <Link href="/" aria-label="Home">
-            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-              {siteMetadata.headerTitle}
+            <span className="flex items-center gap-2 text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+              <span>🦙</span>
+              <span>{siteMetadata.headerTitle}</span>
             </span>
           </Link>
 

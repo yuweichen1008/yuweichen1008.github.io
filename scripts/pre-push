@@ -1,0 +1,19 @@
+#!/bin/sh
+# Local pre-push hook — run `npm run setup-hooks` once to install.
+# Mirrors the GitHub Actions build step to catch failures before they hit CI.
+
+echo "🔧 Running pre-push build check..."
+
+cd "$(git rev-parse --show-toplevel)/src" || exit 1
+
+NODE_OPTIONS=--openssl-legacy-provider npm run build
+
+status=$?
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ Build failed — push blocked. Fix the errors above and try again."
+  exit 1
+fi
+
+echo "✅ Build passed — pushing."
+exit 0
