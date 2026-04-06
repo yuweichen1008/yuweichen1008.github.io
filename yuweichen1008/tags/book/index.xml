@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Yuwei Chen</title>
+      <link>https://yuweichen1008.github.io/blog</link>
+      <description>32. Silicon Valley → Taiwan → Singapore. Tech, food, fitness, Japanese, and whatever comes next.</description>
+      <language>en-us</language>
+      <managingEditor>yuweichen1008@gmail.com (Yuwei Chen)</managingEditor>
+      <webMaster>yuweichen1008@gmail.com (Yuwei Chen)</webMaster>
+      <lastBuildDate>Wed, 15 Aug 2018 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://yuweichen1008.github.io/tags/book/index.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://yuweichen1008.github.io/blog/the-time-machine</guid>
+    <title>The Time Machine</title>
+    <link>https://yuweichen1008.github.io/blog/the-time-machine</link>
+    <description>The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. His pale grey eyes shone and twinkled, and his usually pale face was flushed and animated...</description>
+    <pubDate>Wed, 15 Aug 2018 00:00:00 GMT</pubDate>
+    <author>yuweichen1008@gmail.com (Yuwei Chen)</author>
+    <category>writings</category><category>book</category><category>reflection</category>
+  </item>
+
+    </channel>
+  </rss>
