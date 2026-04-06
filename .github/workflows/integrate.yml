@@ -38,11 +38,13 @@ jobs:
           NOTION_DB_FOOD_LOG: ${{ secrets.NOTION_DB_FOOD_LOG }}
           NOTION_DB_ADVENTURES: ${{ secrets.NOTION_DB_ADVENTURES }}
           NOTION_DB_FITNESS: ${{ secrets.NOTION_DB_FITNESS }}
+          NOTION_DB_DAILY_STATS: ${{ secrets.NOTION_DB_DAILY_STATS }}
+          NOTION_DB_NOW_STATUS: ${{ secrets.NOTION_DB_NOW_STATUS }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: src/out
+          folder: build
           clean: true

@@ -3,6 +3,19 @@ import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
 import CountdownBanner from '@/components/CountdownBanner'
+import { StepsWidget, NowSection } from '@/components/StepsWidget'
+import { getDailyStats, getNowStatus } from '@/lib/notion'
+import fallbackNow from '@/data/nowData'
+
+export async function getStaticProps() {
+  const [stats, nowItems] = await Promise.all([getDailyStats(), getNowStatus()])
+  return {
+    props: {
+      stats,
+      nowItems: nowItems.length ? nowItems : fallbackNow,
+    },
+  }
+}
 
 const quickLinks = [
   {
@@ -62,7 +75,7 @@ const statusItems = [
   { emoji: '✈️', text: 'Home to Taiwan · Jul 4' },
 ]
 
-export default function Home() {
+export default function Home({ stats, nowItems }) {
   return (
     <>
       <PageSeo
@@ -71,7 +84,6 @@ export default function Home() {
         url={siteMetadata.siteUrl}
       />
 
-      {/* Hero */}
       <div className="pt-10 pb-12 space-y-8">
         {/* Profile row */}
         <div className="flex flex-col sm:flex-row sm:items-start gap-6">
@@ -144,6 +156,14 @@ export default function Home() {
         {/* Countdown */}
         <CountdownBanner />
 
+        {/* Daily stats row */}
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 px-5 py-4 bg-gray-50 dark:bg-gray-800">
+          <div className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+            Today
+          </div>
+          <StepsWidget stats={stats} />
+        </div>
+
         {/* Quick nav */}
         <div>
           <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
@@ -171,6 +191,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* Now section */}
+        <NowSection items={nowItems} />
       </div>
     </>
   )

@@ -205,6 +205,49 @@ async function getFitnessLog() {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
 }
 
+// ─── Daily Stats ─────────────────────────────────────────────────────────────
+
+async function getDailyStats() {
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  const pages = await queryDatabase(process.env.NOTION_DB_DAILY_STATS, {
+    property: 'Date',
+    date: { on_or_after: thirtyDaysAgo.toISOString().split('T')[0] },
+  })
+  return pages
+    .map((page) => {
+      const props = page.properties
+      return {
+        id: page.id,
+        date: getDate(props.Date),
+        steps: getNumber(props.Steps),
+        sleep: getNumber(props.Sleep),
+        weight: getNumber(props.Weight),
+        notes: getText(props.Notes),
+      }
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+}
+
+// ─── Now Status ──────────────────────────────────────────────────────────────
+
+async function getNowStatus() {
+  const pages = await queryDatabase(process.env.NOTION_DB_NOW_STATUS, {
+    property: 'Active',
+    checkbox: { equals: true },
+  })
+  return pages.map((page) => {
+    const props = page.properties
+    return {
+      id: page.id,
+      name: getTitle(props.Name),
+      category: getSelect(props.Category),
+      url: getUrl(props.URL),
+      notes: getText(props.Notes),
+    }
+  })
+}
+
 module.exports = {
   getJournalEntries,
   getJournalEntry,
@@ -213,4 +256,6 @@ module.exports = {
   getFoodLog,
   getAdventures,
   getFitnessLog,
+  getDailyStats,
+  getNowStatus,
 }
