@@ -10,6 +10,10 @@ module.exports = {
       spacing: {
         '9/16': '56.25%',
       },
+      minHeight: {
+        '12': '3rem',
+        '16': '4rem',
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -21,6 +25,7 @@ module.exports = {
       },
       colors: {
         blue: colors.sky,
+        orange: colors.orange,
         code: {
           green: '#b5f4a5',
           yellow: '#ffe484',
