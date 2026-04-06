@@ -1,20 +1,15 @@
 import { useState } from 'react'
-
-const CATEGORY_CONFIG = {
-  food: { emoji: '🍜', color: 'bg-orange-400', label: 'Food' },
-  exercise: { emoji: '🏃', color: 'bg-blue-400', label: 'Exercise' },
-  friends: { emoji: '👥', color: 'bg-pink-400', label: 'Friends' },
-  learning: { emoji: '📚', color: 'bg-purple-400', label: 'Learning' },
-  work: { emoji: '💼', color: 'bg-yellow-400', label: 'Work' },
-  entertainment: { emoji: '🎬', color: 'bg-red-400', label: 'Entertainment' },
-  adventure: { emoji: '🗺️', color: 'bg-green-400', label: 'Adventure' },
-}
+import { CATEGORY_CONFIG } from '@/lib/categoryConfig'
 
 const SPRINT_START = new Date('2026-04-01')
 const SPRINT_END = new Date('2026-07-04')
 
-function formatDate(date) {
-  return date.toISOString().split('T')[0]
+// Use local date to avoid UTC off-by-one in UTC+8 (SGT) between midnight and 08:00
+function localDateStr(date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
 }
 
 function getDaysInMonth(year, month) {
@@ -25,7 +20,6 @@ function getFirstDayOfMonth(year, month) {
   return new Date(year, month, 1).getDay()
 }
 
-// Build an index: dateStr -> array of journal entries
 function buildDateIndex(entries) {
   const idx = {}
   entries.forEach((entry) => {
@@ -42,17 +36,16 @@ function MonthGrid({ year, month, dateIndex, onDayClick, selectedDate }) {
   const daysInMonth = getDaysInMonth(year, month)
   const firstDay = getFirstDayOfMonth(year, month)
   const monthName = new Date(year, month, 1).toLocaleString('en-US', { month: 'long' })
-  const today = formatDate(new Date())
+  const today = localDateStr(new Date())
 
   const cells = []
-  // Empty cells before first day
   for (let i = 0; i < firstDay; i++) {
     cells.push(<div key={`empty-${i}`} />)
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(year, month, d)
-    const dateStr = formatDate(date)
+    const dateStr = localDateStr(date)
     const isInSprint = date >= SPRINT_START && date <= SPRINT_END
     const isToday = dateStr === today
     const isSelected = dateStr === selectedDate
@@ -63,7 +56,7 @@ function MonthGrid({ year, month, dateIndex, onDayClick, selectedDate }) {
     cells.push(
       <button
         key={d}
-        onClick={() => isInSprint && onDayClick(dateStr, entries)}
+        onClick={() => isInSprint && onDayClick(dateStr)}
         className={[
           'relative p-1 rounded-lg text-left transition-all min-h-12',
           isInSprint ? 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' : 'opacity-30 cursor-default',
@@ -92,7 +85,7 @@ function MonthGrid({ year, month, dateIndex, onDayClick, selectedDate }) {
                 <span
                   key={cat}
                   title={cfg.label}
-                  className={`w-1.5 h-1.5 rounded-full ${cfg.color} flex-shrink-0`}
+                  className={`w-1.5 h-1.5 rounded-full ${cfg.dotColor} flex-shrink-0`}
                 />
               )
             })}
@@ -185,41 +178,32 @@ function DayDetailPanel({ dateStr, entries, onClose }) {
   )
 }
 
+const MONTHS = [
+  { year: 2026, month: 3 }, // April
+  { year: 2026, month: 4 }, // May
+  { year: 2026, month: 5 }, // June
+  { year: 2026, month: 6 }, // July (partial)
+]
+
 export default function CalendarGrid({ entries = [] }) {
   const [selectedDate, setSelectedDate] = useState(null)
-  const [selectedEntries, setSelectedEntries] = useState([])
 
   const dateIndex = buildDateIndex(entries)
+  // Derive entries from index — no separate state that can go stale
+  const selectedEntries = selectedDate ? dateIndex[selectedDate] || [] : []
 
-  const months = [
-    { year: 2026, month: 3 }, // April
-    { year: 2026, month: 4 }, // May
-    { year: 2026, month: 5 }, // June
-    { year: 2026, month: 6 }, // July (partial)
-  ]
+  const totalLogged = Object.keys(dateIndex).length
 
-  function handleDayClick(dateStr, dayEntries) {
-    if (selectedDate === dateStr) {
-      setSelectedDate(null)
-      setSelectedEntries([])
-    } else {
-      setSelectedDate(dateStr)
-      setSelectedEntries(dayEntries)
-    }
+  function handleDayClick(dateStr) {
+    setSelectedDate(selectedDate === dateStr ? null : dateStr)
   }
-
-  const totalLogged = Object.keys(dateIndex).filter((d) => {
-    const date = new Date(d + 'T00:00:00')
-    return date >= SPRINT_START && date <= SPRINT_END
-  }).length
 
   return (
     <div>
-      {/* Category legend */}
       <div className="flex flex-wrap gap-3 mb-6 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
         {Object.entries(CATEGORY_CONFIG).map(([key, cfg]) => (
           <span key={key} className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
-            <span className={`w-2.5 h-2.5 rounded-full ${cfg.color}`} />
+            <span className={`w-2.5 h-2.5 rounded-full ${cfg.dotColor}`} />
             {cfg.emoji} {cfg.label}
           </span>
         ))}
@@ -228,8 +212,7 @@ export default function CalendarGrid({ entries = [] }) {
         </span>
       </div>
 
-      {/* Calendar grids */}
-      {months.map(({ year, month }) => (
+      {MONTHS.map(({ year, month }) => (
         <MonthGrid
           key={`${year}-${month}`}
           year={year}
@@ -240,15 +223,11 @@ export default function CalendarGrid({ entries = [] }) {
         />
       ))}
 
-      {/* Day detail panel */}
       {selectedDate && (
         <DayDetailPanel
           dateStr={selectedDate}
           entries={selectedEntries}
-          onClose={() => {
-            setSelectedDate(null)
-            setSelectedEntries([])
-          }}
+          onClose={() => setSelectedDate(null)}
         />
       )}
     </div>

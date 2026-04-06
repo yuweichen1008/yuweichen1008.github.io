@@ -1,153 +1,141 @@
-![tailwind-nextjs-banner](/public/static/images/twitter-card.png)
+# yuwei.life
 
-# Tailwind Nextjs Starter Blog
+Personal site for Yuwei Chen — built with Next.js 11 and Tailwind CSS, deployed to GitHub Pages.
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/timlrx/tailwind-nextjs-starter-blog?style=social)](https://GitHub.com/timlrx/tailwind-nextjs-starter-blog/stargazers/)
-[![GitHub forks](https://img.shields.io/github/forks/timlrx/tailwind-nextjs-starter-blog?style=social)](https://GitHub.com/timlrx/tailwind-nextjs-starter-blog/network/)
-[![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftimlrxx)](https://twitter.com/timlrxx)
+## Pages
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/timlrx/tailwind-nextjs-starter-blog)
+| Route | Description |
+|---|---|
+| `/life` | Three-city biography: Taiwan → Silicon Valley → Singapore |
+| `/calendar` | 95-day sprint (Apr 1 → Jul 4, 2026) with daily log calendar |
+| `/journal` | Day-to-day entries by category: food / exercise / friends / learning / work / entertainment / adventure |
+| `/timeline` | Chronological life events, filterable by city and category |
+| `/singapore` | Singapore hub → food log + nearby adventures |
+| `/singapore/food` | Michelin & hawker food log |
+| `/singapore/adventures` | Nearby trips (Batam, Bintan, JB, Bali, Bangkok, …) |
+| `/fitness` | Activity log (run / cycle / swim / hike / gym) with weekly chart |
 
-This is a [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/) blogging starter template. Comes out of the box configured with the latest technologies to make technical writing a breeze. Easily configurable and customizable. Perfect as a replacement to existing Jekyll and Hugo individual blogs.
+## Content management (Notion)
 
-## Examples
+All content is managed via [Notion](https://notion.so) — no code edits needed for new entries.
 
-- [Demo Blog](https://tailwind-nextjs-starter-blog.vercel.app/) - this repo
-- [My personal blog](https://www.timlrx.com) - modified to auto-generate blog posts with dates
+### Databases required
 
-Using the template? Happy to accept any PR with modifications made e.g. sub-paths, localization or multiple authors
+| Database | Env secret | Purpose |
+|---|---|---|
+| Journal | `NOTION_DB_JOURNAL` | Daily log entries |
+| Timeline | `NOTION_DB_TIMELINE` | Life events |
+| FoodLog | `NOTION_DB_FOOD_LOG` | Restaurant / hawker visits |
+| Adventures | `NOTION_DB_ADVENTURES` | Trip tracker |
+| FitnessLog | `NOTION_DB_FITNESS` | Activity log |
 
-## Motivation
+### Setup
 
-I wanted to port my existing blog to Nextjs and Tailwind CSS but there was no easy out of the box template to use so I decided to create one.
+1. Create an **Internal Integration** at [notion.so/profile/integrations](https://www.notion.so/profile/integrations)
+2. Create the five databases (schemas in [NOTION_SETUP.md](#notion-database-schemas) below)
+3. Connect the integration to each database (`...` → Connect to → your integration)
+4. Add secrets to GitHub repo: **Settings → Secrets and variables → Actions**
 
-It is inspired by [Lee Robinson's blog](https://github.com/leerob/leerob.io), but focuses only on static site generation. Design is adapted from [Tailwindlabs blog](https://github.com/tailwindlabs/blog.tailwindcss.com).
+| Secret | Value |
+|---|---|
+| `NOTION_TOKEN` | Internal Integration Secret (`ntn_...`) |
+| `NOTION_DB_JOURNAL` | Journal database ID (from URL) |
+| `NOTION_DB_TIMELINE` | Timeline database ID |
+| `NOTION_DB_FOOD_LOG` | FoodLog database ID |
+| `NOTION_DB_ADVENTURES` | Adventures database ID |
+| `NOTION_DB_FITNESS` | FitnessLog database ID |
 
-I wanted it to be nearly as feature-rich as popular blogging templates like [beautiful-jekyll](https://github.com/daattali/beautiful-jekyll) and [Hugo Academic](https://github.com/wowchemy/wowchemy-hugo-modules) but with the best of React's ecosystem and current web development's best practices.
+### Local development
 
-## Features
-
-- Easy styling customization with [Tailwind 2.0](https://blog.tailwindcss.com/tailwindcss-v2)
-- Near perfect lighthouse score - [Lighthouse report](https://www.webpagetest.org/result/210111_DiC1_08f3670c3430bf4a9b76fc3b927716c5/)
-- Lightweight, 43kB first load JS, uses Preact in production build
-- Mobile-friendly view
-- Light and dark theme
-- [MDX - write JSX in markdown documents!](https://mdxjs.com/)
-- Server-side syntax highlighting with [rehype-prism](https://github.com/mapbox/rehype-prism)
-- Math display supported via [KaTeX](https://katex.org/)
-- Automatic image optimization via [next/image](https://nextjs.org/docs/basic-features/image-optimization)
-- Flexible data retrieval with [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote)
-- Support for tags - each unique tag will be its own page
-- Support for nested routing of blog posts
-- Projects page
-- SEO friendly with RSS feed, sitemaps and more!
-
-## Sample posts
-
-- [A markdown guide](https://tailwind-nextjs-starter-blog.vercel.app/blog/github-markdown-guide)
-- [Learn more about images in Next.js](https://tailwind-nextjs-starter-blog.vercel.app/blog/guide-to-using-images-in-nextjs)
-- [A tour of math typesetting](https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator)
-- [Simple MDX image grid](https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada)
-- [Example of long prose](https://tailwind-nextjs-starter-blog.vercel.app/blog/the-time-machine)
-- [Example of Nested Route Post](https://tailwind-nextjs-starter-blog.vercel.app/blog/nested-route/introducing-multi-part-posts-with-nested-routing)
-
-## Quick Start Guide
-
-1. `npx degit https://github.com/timlrx/tailwind-nextjs-starter-blog.git`
-2. Personalize `siteMetadata.json`
-3. Modify `projectsData.js`
-4. Modify `headerNavLinks.js` to customize navigation links
-5. Add blog posts
-6. Deploy on Vercel
-
-## Development
-
-First, run the development server:
+Create `src/.env.local` with the same six values, then:
 
 ```bash
-npm start
-# or
-npm run dev
+NODE_OPTIONS=--openssl-legacy-provider npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+The site rebuilds automatically on every push and **daily at 2 AM UTC** (via GitHub Actions cron) to pick up new Notion content.
 
-## Extend / Customize
+## Build
 
-`data/siteMetadata.json` - contains most of the site related information which should be modified for a user's need.
-
-`data/projectsData.js` - data used to generate styled card in projects page.
-
-`data/headerNavLinks.js` - navigation links.
-
-`data/logo.svg` - replace with your own logo.
-
-`data/blog` - replace with your own blog posts.
-
-`public/static` - store assets such as images and favicons.
-
-`css/tailwind.css` - contains the tailwind stylesheet which can be modified to change the overall look and feel of the site.
-
-`components/social-icons` - to add other icons, simply copy an svg file from [Simple Icons](https://simpleicons.org/) and map them in `index.js`. Other icons uses [heroicons](https://heroicons.com/).
-
-`components/MDXComponents.js` - pass your own JSX code or React component by specifying it over here. You can then call them directly in the `.mdx` or `.md` file. By default, a custom link and image component is passed.
-
-`layouts` - main templates used in pages.
-
-`pages` - pages to route to. Read the [Next.js documentation](https://nextjs.org/docs) for more information
-
-## Post
-
-### Frontmatter
-
-Frontmatter follows [Hugo's standards](https://gohugo.io/content-management/front-matter/).
-
-Currently 7 fields are supported.
-
-```
-title (required)
-date (required)
-tags (required, can be empty array)
-lastmod (optional)
-draft (optional)
-summary (optional)
-images (optional, if none provided defaults to socialBanner in siteMetadata config)
+```bash
+cd src
+NODE_OPTIONS=--openssl-legacy-provider npm run build
 ```
 
-Here's an example of a post's frontmatter:
+> **Note:** `NODE_OPTIONS=--openssl-legacy-provider` is required because Next.js 11 + Webpack 5 is incompatible with Node.js 17+ OpenSSL 3.
 
-```
----
-title: 'Introducing Tailwind Nexjs Starter Blog'
-date: '2021-01-12'
-lastmod: '2021-01-18'
-tags: ['next-js', 'tailwind', 'guide']
-draft: false
-summary: 'Looking for a performant, out of the box template, with all the best in web technology to support your blogging needs? Checkout the Tailwind Nextjs Starter Blog template.'
-images: ['/static/images/canada/mountains.jpg', '/static/images/canada/toronto.jpg']
----
-```
+## Notion database schemas
 
-### Compose
+### Journal
 
-`scripts/compose.js` can be used to easily generate a post with pre-filled front matter.
+| Property | Type | Notes |
+|---|---|---|
+| Name | Title | Entry title |
+| Date | Date | Entry date |
+| Slug | Text | URL slug e.g. `2026-04-15-ramen-run` |
+| Categories | Multi-select | food / exercise / friends / learning / work / entertainment / adventure |
+| Mood | Select | great / good / okay / rough |
+| Summary | Text | One-sentence preview |
+| Published | Checkbox | Uncheck to draft |
 
-The first argument is the name of the post and the second optional argument is the extension (default to .mdx)
+### Timeline
 
-Example code to generate the post called "My First Post" in markdown format
+| Property | Type |
+|---|---|
+| Name | Title |
+| Date | Date |
+| Location | Select: Silicon Valley / Taiwan / Singapore / Other |
+| Category | Multi-select: work / travel / food / fitness / milestone / learning |
+| Description | Text |
+| Photo | URL |
 
-```
-node ./scripts/compose.js "My First Post" .md
-```
+### FoodLog
 
-This will generate `./data/blog/my-first-post.md` with pre-filled front matter.
+| Property | Type |
+|---|---|
+| Name | Title |
+| Cuisine | Select |
+| MichelinStatus | Select: Star / Bib Gourmand / Recommended / Hawker / None |
+| Neighborhood | Select |
+| Rating | Number (1–5) |
+| VisitDate | Date |
+| Notes | Text |
+| Photo | URL |
+| Address | Text |
 
-## Deploy
+### Adventures
 
-**Vercel**  
-The easiest way to deploy the template is to use the [Vercel Platform](https://vercel.com) from the creators of Next.js. Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Property | Type |
+|---|---|
+| Name | Title |
+| Country | Select |
+| Status | Select: planned / completed / considering |
+| Dates | Date |
+| TransportNotes | Text |
+| Notes | Text |
+| LinkedEntry | URL |
+| Photo | URL |
 
-**Netlify / Github Pages / Firebase etc.**  
-As the template uses `next/image` for image optimization, additional configurations has to be made to deploy on other popular static hosting websites like [Netlify](https://www.netlify.com/) or [Github Pages](https://pages.github.com/). An alternative image optimization provider such as Imgix, Cloudinary or Akamai has to be used. Alternatively, replace the `next/image` component with a standard `<img>` tag. See [`next/image` documentation](https://nextjs.org/docs/basic-features/image-optimization) for more details.
+### FitnessLog
+
+| Property | Type |
+|---|---|
+| Name | Title |
+| Date | Date |
+| Type | Select: Run / Cycle / Swim / Hike / Gym |
+| Distance | Number (km) |
+| Duration | Number (min) |
+| Pace | Text (e.g. 5:30/km) |
+| HeartRate | Number (avg bpm) |
+| Notes | Text |
+| Route | URL (Strava link) |
+
+## Tech stack
+
+- **Framework**: Next.js 11 (static export)
+- **Styling**: Tailwind CSS v2
+- **Content**: MDX (blog) + Notion API (journal/timeline/food/adventures/fitness)
+- **Hosting**: GitHub Pages (`gh-pages` branch)
+- **CI**: GitHub Actions — build on push + daily cron rebuild

@@ -4,11 +4,6 @@ const notion = process.env.NOTION_TOKEN
   ? new Client({ auth: process.env.NOTION_TOKEN })
   : null
 
-function notionEnabled() {
-  return !!notion
-}
-
-// Generic helper: query a database and return all pages (handles pagination)
 async function queryDatabase(databaseId, filter) {
   if (!notion || !databaseId) return []
   try {
@@ -30,7 +25,6 @@ async function queryDatabase(databaseId, filter) {
   }
 }
 
-// Helper: extract plain text from a rich_text property
 function getText(prop) {
   if (!prop || !prop.rich_text) return ''
   return prop.rich_text.map((t) => t.plain_text).join('')
@@ -57,40 +51,36 @@ function getNumber(prop) {
   return prop?.number ?? null
 }
 
-function getCheckbox(prop) {
-  return prop?.checkbox ?? false
-}
-
 function getUrl(prop) {
   return prop?.url || ''
 }
 
-// ─── Journal ────────────────────────────────────────────────────────────────
+// ─── Journal ─────────────────────────────────────────────────────────────────
+
+function mapJournalPage(page) {
+  const props = page.properties
+  return {
+    id: page.id,
+    title: getTitle(props.Name),
+    date: getDate(props.Date),
+    slug: getText(props.Slug) || page.id,
+    categories: getMultiSelect(props.Categories),
+    mood: getSelect(props.Mood),
+    summary: getText(props.Summary),
+  }
+}
 
 async function getJournalEntries() {
   const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
     property: 'Published',
     checkbox: { equals: true },
   })
-
-  return pages.map((page) => {
-    const props = page.properties
-    return {
-      id: page.id,
-      title: getTitle(props.Name),
-      date: getDate(props.Date),
-      slug: getText(props.Slug) || page.id,
-      categories: getMultiSelect(props.Categories),
-      mood: getSelect(props.Mood),
-      summary: getText(props.Summary),
-    }
-  })
+  return pages.map(mapJournalPage)
 }
 
 async function getJournalEntry(slug) {
   if (!notion) return null
   try {
-    // First find the page by slug
     const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
       and: [
         { property: 'Published', checkbox: { equals: true } },
@@ -100,24 +90,14 @@ async function getJournalEntry(slug) {
     if (!pages.length) return null
     const page = pages[0]
     const blocks = await getPageBlocks(page.id)
-    const props = page.properties
-    return {
-      id: page.id,
-      title: getTitle(props.Name),
-      date: getDate(props.Date),
-      slug: getText(props.Slug) || page.id,
-      categories: getMultiSelect(props.Categories),
-      mood: getSelect(props.Mood),
-      summary: getText(props.Summary),
-      blocks,
-    }
+    return { ...mapJournalPage(page), blocks }
   } catch (err) {
     console.warn('[notion] getJournalEntry failed:', err.message)
     return null
   }
 }
 
-// ─── Page Blocks (for journal post rendering) ────────────────────────────────
+// ─── Page Blocks ──────────────────────────────────────────────────────────────
 
 async function getPageBlocks(pageId) {
   if (!notion) return []
@@ -226,7 +206,6 @@ async function getFitnessLog() {
 }
 
 module.exports = {
-  notionEnabled,
   getJournalEntries,
   getJournalEntry,
   getPageBlocks,

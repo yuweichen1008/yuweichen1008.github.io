@@ -1,26 +1,23 @@
 import Link from '@/components/Link'
+import FilterPills from '@/components/FilterPills'
 import { useState } from 'react'
-
-const CATEGORY_CONFIG = {
-  food: { emoji: '🍜', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300' },
-  exercise: { emoji: '🏃', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' },
-  friends: { emoji: '👥', color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300' },
-  learning: { emoji: '📚', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' },
-  work: { emoji: '💼', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300' },
-  entertainment: { emoji: '🎬', color: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300' },
-  adventure: { emoji: '🗺️', color: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' },
-}
-
-const MOOD_EMOJI = { great: '😄', good: '🙂', okay: '😐', rough: '😔' }
+import { CATEGORY_CONFIG, MOOD_EMOJI } from '@/lib/categoryConfig'
 
 const ALL_CATEGORIES = Object.keys(CATEGORY_CONFIG)
+
+const FILTER_OPTIONS = ALL_CATEGORIES.map((cat) => ({
+  value: cat,
+  label: cat,
+  emoji: CATEGORY_CONFIG[cat].emoji,
+}))
 
 export default function JournalListLayout({ entries }) {
   const [activeFilter, setActiveFilter] = useState('all')
 
-  const filtered = activeFilter === 'all'
-    ? entries
-    : entries.filter((e) => (e.categories || []).includes(activeFilter))
+  const filtered =
+    activeFilter === 'all'
+      ? entries
+      : entries.filter((e) => (e.categories || []).includes(activeFilter))
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -31,35 +28,7 @@ export default function JournalListLayout({ entries }) {
         <p className="text-gray-600 dark:text-gray-400">
           Day-to-day life in Singapore. Food, runs, friends, study.
         </p>
-        {/* Filter pills */}
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setActiveFilter('all')}
-            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-              activeFilter === 'all'
-                ? 'bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-800'
-                : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-            }`}
-          >
-            All
-          </button>
-          {ALL_CATEGORIES.map((cat) => {
-            const cfg = CATEGORY_CONFIG[cat]
-            return (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  activeFilter === cat
-                    ? `${cfg.color} font-semibold`
-                    : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {cfg.emoji} {cat}
-              </button>
-            )
-          })}
-        </div>
+        <FilterPills options={FILTER_OPTIONS} active={activeFilter} onChange={setActiveFilter} />
       </div>
 
       <ul>
@@ -103,7 +72,7 @@ export default function JournalListLayout({ entries }) {
                         return (
                           <span
                             key={cat}
-                            className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${cfg.color}`}
+                            className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${cfg.pillColor}`}
                           >
                             {cfg.emoji} {cat}
                           </span>

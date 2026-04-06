@@ -7,11 +7,11 @@ function RichText({ richText = [] }) {
       {richText.map((t, i) => {
         let node = t.plain_text
         const ann = t.annotations || {}
-        if (ann.bold) node = <strong key={i}>{node}</strong>
-        if (ann.italic) node = <em key={i}>{node}</em>
-        if (ann.code) node = <code key={i} className="bg-gray-100 dark:bg-gray-800 px-1 rounded text-sm">{node}</code>
-        if (ann.strikethrough) node = <s key={i}>{node}</s>
-        if (t.href) node = <a key={i} href={t.href} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">{node}</a>
+        if (ann.bold) node = <strong>{node}</strong>
+        if (ann.italic) node = <em>{node}</em>
+        if (ann.code) node = <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded text-sm">{node}</code>
+        if (ann.strikethrough) node = <s>{node}</s>
+        if (t.href) node = <a href={t.href} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">{node}</a>
         return <span key={i}>{node}</span>
       })}
     </>

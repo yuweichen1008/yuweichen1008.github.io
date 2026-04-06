@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
 
 const TAIWAN_DATE = new Date('2026-07-04T00:00:00+08:00')
-// JLPT N2 is typically first Sunday of July — July 5, 2026
 const JLPT_DATE = new Date('2026-07-05T09:00:00+08:00')
 const SPRINT_START = new Date('2026-04-01T00:00:00+08:00')
 const SPRINT_END = new Date('2026-07-04T00:00:00+08:00')
 
 function daysUntil(target) {
   const now = new Date()
-  const diff = target - now
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
+  return Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)))
 }
 
 function sprintProgress() {
@@ -19,52 +17,58 @@ function sprintProgress() {
   return Math.round((elapsed / total) * 100)
 }
 
+function msUntilMidnight() {
+  const now = new Date()
+  const midnight = new Date(now)
+  midnight.setDate(midnight.getDate() + 1)
+  midnight.setHours(0, 0, 0, 0)
+  return midnight - now
+}
+
+function getValues() {
+  return {
+    taiwanDays: daysUntil(TAIWAN_DATE),
+    jlptDays: daysUntil(JLPT_DATE),
+    progress: sprintProgress(),
+  }
+}
+
+function CountdownItem({ emoji, label, days, date }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="text-3xl">{emoji}</div>
+      <div>
+        <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">
+          {label}
+        </div>
+        <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          {days === 0 ? 'Today!' : `${days} days`}
+        </div>
+        <div className="text-xs text-gray-400">{date}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function CountdownBanner() {
-  const [taiwanDays, setTaiwanDays] = useState(daysUntil(TAIWAN_DATE))
-  const [jlptDays, setJlptDays] = useState(daysUntil(JLPT_DATE))
-  const [progress, setProgress] = useState(sprintProgress())
+  const [values, setValues] = useState(getValues)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTaiwanDays(daysUntil(TAIWAN_DATE))
-      setJlptDays(daysUntil(JLPT_DATE))
-      setProgress(sprintProgress())
-    }, 60000)
-    return () => clearInterval(interval)
+    // Values only change once per day — schedule update at next midnight
+    let timeoutId = setTimeout(function tick() {
+      setValues(getValues())
+      timeoutId = setTimeout(tick, msUntilMidnight())
+    }, msUntilMidnight())
+    return () => clearTimeout(timeoutId)
   }, [])
+
+  const { taiwanDays, jlptDays, progress } = values
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-4 mb-8">
       <div className="flex flex-wrap gap-4 items-center justify-between mb-4">
-        {/* Taiwan countdown */}
-        <div className="flex items-center gap-3">
-          <div className="text-3xl">✈️</div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">
-              Back to Taiwan
-            </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {taiwanDays === 0 ? "Today!" : `${taiwanDays} days`}
-            </div>
-            <div className="text-xs text-gray-400">Jul 4, 2026</div>
-          </div>
-        </div>
-
-        {/* JLPT N2 countdown */}
-        <div className="flex items-center gap-3">
-          <div className="text-3xl">🇯🇵</div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">
-              JLPT N2 Exam
-            </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {jlptDays === 0 ? "Today!" : `${jlptDays} days`}
-            </div>
-            <div className="text-xs text-gray-400">Jul 5, 2026</div>
-          </div>
-        </div>
-
-        {/* Sprint stats */}
+        <CountdownItem emoji="✈️" label="Back to Taiwan" days={taiwanDays} date="Jul 4, 2026" />
+        <CountdownItem emoji="🇯🇵" label="JLPT N2 Exam" days={jlptDays} date="Jul 5, 2026" />
         <div className="flex items-center gap-3">
           <div className="text-3xl">📅</div>
           <div>
@@ -77,7 +81,6 @@ export default function CountdownBanner() {
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
         <div
           className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-500"
