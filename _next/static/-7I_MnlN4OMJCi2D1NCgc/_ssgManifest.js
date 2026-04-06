@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fcalendar","\u002Ffitness","\u002Fjournal","\u002Fblog","\u002Fsingapore\u002Fadventures","\u002Fsingapore\u002Ffood","\u002Ftags","\u002Ftimeline","\u002Ftags\u002F[tag]","\u002Fblog\u002F[...slug]","\u002Fblog\u002Fpage\u002F[page]","\u002Fjournal\u002F[slug]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
