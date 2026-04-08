@@ -6,14 +6,15 @@ import { getJournalEntries } from '@/lib/notion'
 import { getCalendarEvents } from '@/lib/gcal'
 
 export async function getStaticProps() {
+  const hasNotion = !!process.env.NOTION_TOKEN
   const [entries, calEvents] = await Promise.all([
     getJournalEntries(),
     getCalendarEvents(process.env.GOOGLE_CALENDAR_ICAL_URL),
   ])
-  return { props: { entries, calEvents } }
+  return { props: { entries, calEvents, hasNotion } }
 }
 
-export default function Calendar({ entries, calEvents }) {
+export default function Calendar({ entries, calEvents, hasNotion }) {
   return (
     <>
       <PageSeo
@@ -32,6 +33,13 @@ export default function Calendar({ entries, calEvents }) {
         </div>
         <div className="py-8">
           <CountdownBanner />
+          {!hasNotion && (
+            <div className="mb-4 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 text-sm text-yellow-800 dark:text-yellow-200">
+              Notion not connected — add <code className="font-mono">NOTION_TOKEN</code> to{' '}
+              <code className="font-mono">.env.local</code> to see journal entries. Check{' '}
+              <a href="/debug" className="underline">the debug page</a> for status.
+            </div>
+          )}
           <CalendarGrid entries={entries} calEvents={calEvents} />
         </div>
       </div>

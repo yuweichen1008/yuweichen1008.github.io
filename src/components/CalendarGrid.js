@@ -132,7 +132,6 @@ function MonthGrid({ year, month, dateIndex, calEventIndex, onDayClick, selected
 
 function DayDetailPanel({ dateStr, entries, calEvs, onClose }) {
   const hasAnything = (entries && entries.length) || (calEvs && calEvs.length)
-  if (!hasAnything) return null
 
   const date = new Date(dateStr + 'T00:00:00')
   const formatted = date.toLocaleDateString('en-US', {
@@ -170,6 +169,12 @@ function DayDetailPanel({ dateStr, entries, calEvs, onClose }) {
           ×
         </button>
       </div>
+
+      {!hasAnything && (
+        <p className="text-sm text-gray-400 dark:text-gray-500 italic">
+          Nothing logged for this day yet.
+        </p>
+      )}
 
       {/* GCal events */}
       {calEvs && calEvs.length > 0 && (

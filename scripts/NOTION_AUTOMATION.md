@@ -64,72 +64,217 @@ Now every journal entry gets a URL-safe slug automatically (e.g. "My Ramen Run" 
 
 ## 4. Apple Shortcut — Daily Stats (Steps, Sleep, Weight)
 
-This Shortcut runs each evening to log health data directly to Notion.
+> **Time to set up:** ~15 minutes  
+> **Runs:** Once per evening (or auto at 10 PM)  
+> **Result:** One new row in your Notion DailyStats DB every day
 
-**Setup:**
-1. Open the **Shortcuts** app on iPhone
-2. Tap **"+"** to create a new shortcut
-3. Add these actions in order:
+### Before you start — have these ready
 
-### Actions:
+- Your **Notion Token**: `ntn_XXXXXXXX...` (from Section 1)
+- Your **DailyStats DB ID**: 32-character string from the Notion URL (from Section 2)
 
-**a) Get today's steps**
-- Action: `Get Health Samples`
-- Type: `Step Count`
-- Period: `Today`
-- Aggregate: `Sum`
-- Save to variable: `steps`
+---
 
-**b) Get last night's sleep**
-- Action: `Get Health Samples`
-- Type: `Sleep Analysis` → select `Time in Bed`
-- Period: `Last Night`
-- Aggregate: `Sum`  
-- Action: `Calculate` → divide by 3600 (converts seconds to hours)
-- Save to variable: `sleepHours`
+### Step 1 — Create the Shortcut
 
-**c) Get current weight (optional)**
-- Action: `Get Health Samples`
-- Type: `Body Mass`
-- Period: `Today` or `Latest Sample`
-- Aggregate: `Latest`
-- Save to variable: `weight`
+1. Open the **Shortcuts** app on your iPhone
+2. Tap the **"+"** button in the top-right corner
+3. Tap **"Add Action"** (the search bar at the bottom)
+4. Tap the title bar at the top (says "New Shortcut") → rename it **"Log Daily Stats"**
 
-**d) Get today's date**
-- Action: `Format Date`
-- Date: `Current Date`
-- Format: `Custom` → `yyyy-MM-dd`
-- Save to variable: `today`
+---
 
-**e) Create Notion entry**
-- Action: `Get Contents of URL`
-- URL: `https://api.notion.com/v1/pages`
-- Method: `POST`
-- Headers:
-  - `Authorization`: `Bearer ntn_YOUR_TOKEN_HERE`
-  - `Notion-Version`: `2022-06-28`
-  - `Content-Type`: `application/json`
-- Request Body (JSON):
-```json
-{
-  "parent": { "database_id": "YOUR_NOTION_DB_DAILY_STATS_ID" },
-  "properties": {
-    "Name": { "title": [{ "text": { "content": "REPLACE_WITH_today_variable" } }] },
-    "Date": { "date": { "start": "REPLACE_WITH_today_variable" } },
-    "Steps": { "number": "REPLACE_WITH_steps_variable" },
-    "Sleep": { "number": "REPLACE_WITH_sleepHours_variable" },
-    "Weight": { "number": "REPLACE_WITH_weight_variable" }
-  }
-}
+### Step 2 — Get Step Count
+
+1. In the search bar type **"Health"** → tap **"Get Health Samples"**
+2. The action appears. Tap the blue **"Type"** word → search for **"Step Count"** → select it
+3. Tap **"Period"** → select **"Today"**
+4. Tap **"Include"** → select **"Sum"** (you want total steps, not individual samples)
+5. Tap **"Results"** (the output token) → tap **"Add to Variable"** → name it **`Steps`**
+
 ```
-*(In the Shortcuts app, tap on each `REPLACE_WITH_xxx` and select the corresponding variable)*
+┌─────────────────────────────────────┐
+│  Get Health Samples                 │
+│  Type:    Step Count          ▼     │
+│  Period:  Today               ▼     │
+│  Include: Sum                 ▼     │
+│                                     │
+│  → Add to Variable: Steps           │
+└─────────────────────────────────────┘
+```
 
-**f) Show notification**
-- Action: `Show Notification`
-- Title: `✅ Logged`
-- Body: `steps steps · sleepHours hrs sleep`
+---
 
-**Run it:** Manually each evening, or add an **Automation** (Shortcuts → Automation → Time of Day → 10 PM) to run it automatically.
+### Step 3 — Get Sleep Hours
+
+Sleep is stored in seconds, so you need to divide by 3600.
+
+1. Add another **"Get Health Samples"** action
+2. Tap **"Type"** → search **"Asleep"** → select **"Time Asleep"**  
+   *(If you don't see it, try "Sleep Analysis" and pick "Asleep")*
+3. Tap **"Period"** → **"Last Night"**
+4. Tap **"Include"** → **"Sum"**
+5. Tap the result token → **"Add to Variable"** → name it **`SleepSeconds`**
+
+Now divide by 3600:
+
+6. Add a **"Calculate"** action (search "Calculate")
+7. Set it to: **`SleepSeconds`** ÷ **3600**
+8. Tap the result → **"Add to Variable"** → name it **`SleepHours`**
+
+```
+┌─────────────────────────────────────┐
+│  Get Health Samples                 │
+│  Type:    Time Asleep         ▼     │
+│  Period:  Last Night          ▼     │
+│  Include: Sum                 ▼     │
+│  → Add to Variable: SleepSeconds    │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│  Calculate                          │
+│  [SleepSeconds]  ÷  3600            │
+│  → Add to Variable: SleepHours      │
+└─────────────────────────────────────┘
+```
+
+> **Tip:** If the Shortcuts app doesn't show "Time Asleep" as an option, use "Time in Bed" instead. It's slightly different (includes awake time in bed) but good enough.
+
+---
+
+### Step 4 — Get Weight (optional)
+
+Skip this if you don't log weight in Apple Health.
+
+1. Add **"Get Health Samples"**
+2. Type → **"Body Mass"**
+3. Period → **"This Week"**
+4. Include → **"Latest Sample"**
+5. Result → **"Add to Variable"** → name it **`Weight`**
+
+---
+
+### Step 5 — Format Today's Date
+
+The Notion API needs dates in `YYYY-MM-DD` format (e.g. `2026-04-07`).
+
+1. Add **"Format Date"** action (search "Format Date")
+2. Tap **"Date"** → select **"Current Date"**
+3. Tap **"Format"** → select **"Custom"**
+4. In the custom field type exactly: **`yyyy-MM-dd`**
+5. Result → **"Add to Variable"** → name it **`Today`**
+
+```
+┌─────────────────────────────────────┐
+│  Format Date                        │
+│  Date:    Current Date        ▼     │
+│  Format:  Custom              ▼     │
+│           yyyy-MM-dd                │
+│  → Add to Variable: Today           │
+└─────────────────────────────────────┘
+```
+
+---
+
+### Step 6 — Build the JSON body (Text action)
+
+This is the trickiest part. You'll write JSON as a Text block and insert your variables inline.
+
+1. Add a **"Text"** action (search "Text")
+2. Tap inside the text field and type the JSON below
+3. When you reach a spot marked `[VARIABLE]`, **don't type it** — instead:
+   - Tap in the text field at that position
+   - Tap the **variable token button** (looks like `{x}` in the keyboard bar above the keyboard)
+   - Select the variable from the list
+
+Type this, inserting variables where shown:
+
+```
+{"parent":{"database_id":"YOUR_DB_ID_HERE"},"properties":{"Name":{"title":[{"text":{"content":"[Today]"}}]},"Date":{"date":{"start":"[Today]"}},"Steps":{"number":[Steps]},"Sleep":{"number":[SleepHours]},"Weight":{"number":[Weight]}}}
+```
+
+Replace:
+- `YOUR_DB_ID_HERE` → paste your actual DailyStats DB ID (the 32-char string)
+- `[Today]` → tap the `{x}` button → select **Today** variable (do this twice — once for Name, once for Date)
+- `[Steps]` → tap `{x}` → select **Steps**
+- `[SleepHours]` → tap `{x}` → select **SleepHours**
+- `[Weight]` → tap `{x}` → select **Weight** (or delete `,"Weight":{"number":[Weight]}` if skipping)
+
+4. Result → **"Add to Variable"** → name it **`Body`**
+
+> **What it looks like in Shortcuts:** The variables appear as colored pill-shaped tokens inside the text, not as plain text. That's correct — Shortcuts substitutes the real values at runtime.
+
+---
+
+### Step 7 — Send to Notion
+
+1. Add **"Get Contents of URL"** (search "Get Contents of URL")
+2. Tap the URL field → type: `https://api.notion.com/v1/pages`
+3. Tap **"Method"** → select **"POST"**
+4. Tap **"Headers"** → tap **"Add new field"** three times:
+
+   | Key | Value |
+   |-----|-------|
+   | `Authorization` | `Bearer ntn_YOUR_TOKEN_HERE` ← paste your real token |
+   | `Notion-Version` | `2022-06-28` |
+   | `Content-Type` | `application/json` |
+
+5. Tap **"Request Body"** → select **"File"**  
+   *(This lets you pass the raw JSON text variable)*
+6. Tap the content field → tap `{x}` → select **Body**
+
+```
+┌─────────────────────────────────────────────────┐
+│  Get Contents of URL                            │
+│  URL: https://api.notion.com/v1/pages           │
+│  Method: POST                             ▼     │
+│                                                 │
+│  Headers:                                       │
+│    Authorization:   Bearer ntn_xxxx...          │
+│    Notion-Version:  2022-06-28                  │
+│    Content-Type:    application/json            │
+│                                                 │
+│  Request Body: File                       ▼     │
+│    [Body]                                       │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+### Step 8 — Success Notification
+
+1. Add **"Show Notification"** action
+2. Title: `✅ Stats logged`
+3. Body: tap `{x}` and insert **Steps**, then type ` steps · `, insert **SleepHours**, then type ` hrs sleep`
+
+Result looks like: *"8,432 steps · 7.2 hrs sleep"*
+
+---
+
+### Step 9 — Test it
+
+1. Tap the **▶ Play** button at the bottom of the Shortcut editor
+2. It will ask for Health permissions the first time — tap **Allow All**
+3. Check your Notion DailyStats DB — a new row should appear within a few seconds
+
+**If it fails:** Tap the result of the "Get Contents of URL" step after running — it shows the Notion API response. Common errors:
+- `401 Unauthorized` → your token is wrong or has a typo
+- `400 Bad Request` → the DB ID is wrong, or the JSON has a formatting error
+- `404 Not Found` → the integration isn't connected to the DailyStats DB (do Section 1 → "Connect each database")
+
+---
+
+### Step 10 — Automate it (run every night at 10 PM)
+
+1. Open **Shortcuts** app → tap **"Automation"** tab (bottom)
+2. Tap **"+"** → **"Personal Automation"**
+3. Tap **"Time of Day"**
+4. Set time: **10:00 PM**, repeat: **Daily**
+5. Tap **"Next"** → tap **"Add Action"** → search **"Run Shortcut"**
+6. Select **"Log Daily Stats"**
+7. Tap **"Next"** → turn **OFF** "Ask Before Running" → **"Done"**
+
+It now runs silently every night and you wake up to a new row in Notion.
 
 ---
 
