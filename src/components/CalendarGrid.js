@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { CATEGORY_CONFIG } from '@/lib/categoryConfig'
 
 const SPRINT_START = new Date('2026-04-01')
-const SPRINT_END = new Date('2026-07-04')
+const SPRINT_END = new Date('2026-07-05')
+const SPRINT_TOTAL_DAYS = 96
 
 function localDateStr(date) {
   const y = date.getFullYear()
@@ -281,7 +282,7 @@ export default function CalendarGrid({ entries = [], calEvents = [] }) {
           </span>
         ))}
         <span className="ml-auto text-sm font-medium text-gray-500 dark:text-gray-400">
-          {totalLogged} / 95 days logged
+          {totalLogged} / {SPRINT_TOTAL_DAYS} days logged
         </span>
       </div>
 

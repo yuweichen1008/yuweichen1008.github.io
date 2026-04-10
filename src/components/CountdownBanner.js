@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 const TAIWAN_DATE = new Date('2026-07-04T00:00:00+08:00')
 const JLPT_DATE = new Date('2026-07-05T09:00:00+08:00')
 const SPRINT_START = new Date('2026-04-01T00:00:00+08:00')
-const SPRINT_END = new Date('2026-07-04T00:00:00+08:00')
+const SPRINT_END = new Date('2026-07-05T09:00:00+08:00')
 
 function daysUntil(target) {
   const now = new Date()
@@ -83,19 +83,19 @@ export default function CountdownBanner() {
         />
         <div className="w-px bg-gray-200 dark:bg-gray-700 self-stretch hidden sm:block" />
         <Stat
-          emoji="📅"
+          emoji="🎯"
           label="Sprint"
           value={`${progress}%`}
-          sub="Apr 1 → Jul 4"
+          sub="Apr 1 → Jul 5 · 96 days"
         />
       </div>
 
       {/* Progress bar */}
       <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700/50">
         <div className="flex justify-between text-xs text-gray-400 mb-1.5">
-          <span>Apr 1</span>
-          <span className="font-medium text-gray-500 dark:text-gray-400">{progress}% complete</span>
-          <span>Jul 4</span>
+          <span>Apr 1 🚀</span>
+          <span className="font-medium text-gray-500 dark:text-gray-400">{progress}% — keep going</span>
+          <span>Jul 5 🎌</span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
           <div

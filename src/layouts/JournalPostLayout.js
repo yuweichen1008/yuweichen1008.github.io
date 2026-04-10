@@ -2,9 +2,10 @@ import Link from '@/components/Link'
 import NotionRenderer from '@/components/NotionRenderer'
 import GiscusComments from '@/components/GiscusComments'
 import { CATEGORY_CONFIG, MOOD_EMOJI, MOOD_LABEL } from '@/lib/categoryConfig'
+import { MDXRemote } from 'next-mdx-remote'
 
 export default function JournalPostLayout({ entry }) {
-  const { title, date, categories = [], mood, blocks = [], wordCount = 0 } = entry
+  const { title, date, categories = [], mood, blocks = [], wordCount = 0, mdxSource } = entry
 
   const formattedDate = date
     ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
@@ -67,7 +68,7 @@ export default function JournalPostLayout({ entry }) {
       </header>
 
       <div className="py-8 prose dark:prose-dark max-w-none">
-        <NotionRenderer blocks={blocks} />
+        {mdxSource ? <MDXRemote {...mdxSource} /> : <NotionRenderer blocks={blocks} />}
       </div>
 
       {/* Share + nav */}

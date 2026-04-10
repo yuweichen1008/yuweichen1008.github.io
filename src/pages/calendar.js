@@ -1,5 +1,6 @@
 import { PageSeo } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
+import Link from '@/components/Link'
 import CountdownBanner from '@/components/CountdownBanner'
 import CalendarGrid from '@/components/CalendarGrid'
 import { getJournalEntries } from '@/lib/notion'
@@ -37,7 +38,7 @@ export default function Calendar({ entries, calEvents, hasNotion }) {
             <div className="mb-4 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 text-sm text-yellow-800 dark:text-yellow-200">
               Notion not connected — add <code className="font-mono">NOTION_TOKEN</code> to{' '}
               <code className="font-mono">.env.local</code> to see journal entries. Check{' '}
-              <a href="/debug" className="underline">the debug page</a> for status.
+              <Link href="/debug" className="underline">the debug page</Link> for status.
             </div>
           )}
           <CalendarGrid entries={entries} calEvents={calEvents} />

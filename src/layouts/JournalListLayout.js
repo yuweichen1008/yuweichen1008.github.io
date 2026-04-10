@@ -22,9 +22,19 @@ export default function JournalListLayout({ entries }) {
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       <div className="pt-6 pb-6 space-y-4">
-        <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-          Journal
-        </h1>
+        <div className="flex items-start justify-between">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+            Journal
+          </h1>
+          {process.env.NODE_ENV === 'development' && (
+            <Link
+              href="/journal/new"
+              className="mt-1 inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            >
+              ✏️ Write
+            </Link>
+          )}
+        </div>
         <p className="text-gray-600 dark:text-gray-400">
           Day-to-day life in Singapore. Food, runs, friends, study.
         </p>

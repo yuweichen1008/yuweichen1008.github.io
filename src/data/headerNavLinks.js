@@ -4,7 +4,7 @@ const headerNavLinks = [
   { href: '/journal', title: 'Journal' },
   { href: '/singapore', title: 'Singapore' },
   { href: '/timeline', title: 'Timeline' },
-  { href: '/fitness', title: 'Fitness' },
+  { href: '/projects', title: 'Projects' },
 ]
 
 export default headerNavLinks

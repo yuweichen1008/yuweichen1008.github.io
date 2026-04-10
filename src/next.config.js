@@ -62,7 +62,7 @@ module.exports = {
     defaultPathMap,
     { dev, dir, outDir, distDir, buildId }
   ) {
-    // Enumerate journal slugs from Notion (or empty if no token)
+    // Enumerate journal slugs from Notion and local markdown
     let journalPaths = {}
     try {
       const { getJournalEntries } = require('./lib/notion')
@@ -76,7 +76,21 @@ module.exports = {
         }
       })
     } catch (e) {
-      console.warn('[exportPathMap] Could not fetch journal entries:', e.message)
+      console.warn('[exportPathMap] Could not fetch Notion journal entries:', e.message)
+    }
+    try {
+      const { getLocalJournalEntries } = require('./lib/localJournal')
+      const localEntries = getLocalJournalEntries()
+      localEntries.forEach((entry) => {
+        if (entry.slug && !journalPaths[`/journal/${entry.slug}`]) {
+          journalPaths[`/journal/${entry.slug}`] = {
+            page: '/journal/[slug]',
+            query: { slug: entry.slug },
+          }
+        }
+      })
+    } catch (e) {
+      console.warn('[exportPathMap] Could not read local journal entries:', e.message)
     }
 
     return {
@@ -94,7 +108,6 @@ module.exports = {
       '/singapore': { page: '/singapore' },
       '/singapore/food': { page: '/singapore/food' },
       '/singapore/adventures': { page: '/singapore/adventures' },
-      '/fitness': { page: '/fitness' },
       '/debug': { page: '/debug' },
       // Dynamic journal entry routes
       ...journalPaths,
