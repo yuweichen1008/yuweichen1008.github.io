@@ -14,12 +14,12 @@ export async function getStaticProps() {
 }
 
 const focusItems = [
-  { emoji: '🇯🇵', titleKey: 'jlpt', title: 'JLPT N2', desc: 'Studying Japanese daily, targeting N2 in July 2026.' },
-  { emoji: '🍜', titleKey: 'eating', title: 'Eating Singapore', desc: 'Working through the Michelin guide, one hawker centre at a time.' },
-  { emoji: '🏃', titleKey: 'running', title: 'Running', desc: 'Building base mileage, logging every run.' },
-  { emoji: '✈️', titleKey: 'seasia', title: 'Exploring SE Asia', desc: 'Weekend trips to nearby countries — Indonesia, Malaysia, Thailand.' },
-  { emoji: '📅', titleKey: 'sprint', title: 'Apr 1 → Jul 4', desc: '95 days documented before flying back to Taiwan.' },
-  { emoji: '💻', titleKey: 'building', title: 'Building in public', desc: 'This site is the project — shipping as I go.' },
+  { emoji: '🇯🇵', title: 'JLPT N2', desc: 'Studying Japanese daily, targeting N2 in July 2026.' },
+  { emoji: '🍜', title: 'Eating Singapore', desc: 'Working through the Michelin guide, one hawker centre at a time.' },
+  { emoji: '🚀', title: 'SkyReal', desc: 'Building the next chapter of SkyReal — startup mode, full speed.' },
+  { emoji: '✈️', title: 'Exploring SE Asia', desc: 'Weekend trips to nearby countries — Indonesia, Malaysia, Thailand.' },
+  { emoji: '📅', title: 'Apr 1 → Jul 5', desc: '96 days before JLPT N2 and the next chapter.' },
+  { emoji: '✍️', title: 'Writing in public', desc: 'Ten essays about building a career across three countries.' },
 ]
 
 export default function Life({ chapters }) {

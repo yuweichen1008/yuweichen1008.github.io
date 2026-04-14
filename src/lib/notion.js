@@ -78,6 +78,16 @@ async function getJournalEntries() {
   return pages.map(mapJournalPage)
 }
 
+async function getFeaturedArticles() {
+  const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
+    and: [
+      { property: 'Published', checkbox: { equals: true } },
+      { property: 'Featured', checkbox: { equals: true } },
+    ],
+  })
+  return pages.map(mapJournalPage)
+}
+
 async function getJournalEntry(slug) {
   if (!notion) return null
   try {
@@ -301,6 +311,7 @@ async function getNowStatus() {
 
 module.exports = {
   getJournalEntries,
+  getFeaturedArticles,
   getJournalEntry,
   getPageBlocks,
   getTimelineEvents,

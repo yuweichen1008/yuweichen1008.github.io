@@ -4,27 +4,80 @@ import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
 import CountdownBanner from '@/components/CountdownBanner'
 import { StepsWidget, NowSection } from '@/components/StepsWidget'
-import { getDailyStats, getNowStatus } from '@/lib/notion'
+import { getDailyStats, getNowStatus, getFeaturedArticles } from '@/lib/notion'
+import { getLocalJournalEntries } from '@/lib/localJournal'
 import fallbackNow from '@/data/nowData'
 import { useTranslation } from '@/lib/i18n'
+import { CATEGORY_CONFIG } from '@/lib/categoryConfig'
 
 export async function getStaticProps() {
-  const [stats, nowItems] = await Promise.all([getDailyStats(), getNowStatus()])
+  const [stats, nowItems, notionFeatured, localEntries] = await Promise.all([
+    getDailyStats(),
+    getNowStatus(),
+    getFeaturedArticles(),
+    Promise.resolve(getLocalJournalEntries()),
+  ])
+  const seenSlugs = new Set(notionFeatured.map((e) => e.slug))
+  const localFeatured = localEntries.filter((e) => e.featured && !seenSlugs.has(e.slug))
+  const featured = [...notionFeatured, ...localFeatured].slice(0, 5)
   return {
     props: {
       stats,
       nowItems: nowItems.length ? nowItems : fallbackNow,
+      featured,
     },
   }
 }
 
 const quickLinks = [
-  { href: '/calendar', emoji: '📅', titleKey: 'calendar', desc: '95-day sprint before flying home', accent: 'border-blue-400', emojiBg: 'bg-blue-50 dark:bg-blue-900' },
-  { href: '/journal', emoji: '📓', titleKey: 'journal', desc: 'Daily life in Singapore', accent: 'border-purple-400', emojiBg: 'bg-purple-50 dark:bg-purple-900' },
-  { href: '/singapore/food', emoji: '🍜', titleKey: 'food', desc: 'Michelin & hawker picks', accent: 'border-orange-400', emojiBg: 'bg-orange-50 dark:bg-orange-900' },
-  { href: '/projects', emoji: '🚀', titleKey: 'projects', desc: 'What I\'m building', accent: 'border-indigo-400', emojiBg: 'bg-indigo-50 dark:bg-indigo-900' },
-  { href: '/singapore/adventures', emoji: '🗺️', titleKey: 'adventures', desc: 'SE Asia nearby trips', accent: 'border-teal-400', emojiBg: 'bg-teal-50 dark:bg-teal-900' },
-  { href: '/timeline', emoji: '⏱️', titleKey: 'timeline', desc: 'TW → SV → SG story', accent: 'border-red-400', emojiBg: 'bg-red-50 dark:bg-red-900' },
+  {
+    href: '/calendar',
+    emoji: '📅',
+    titleKey: 'calendar',
+    desc: '96 days → Jul 5. Every day a commit.',
+    accent: 'border-blue-400',
+    emojiBg: 'bg-blue-50 dark:bg-blue-900',
+  },
+  {
+    href: '/journal',
+    emoji: '📓',
+    titleKey: 'journal',
+    desc: 'Daily life in Singapore',
+    accent: 'border-purple-400',
+    emojiBg: 'bg-purple-50 dark:bg-purple-900',
+  },
+  {
+    href: '/singapore/food',
+    emoji: '🍜',
+    titleKey: 'food',
+    desc: 'Michelin & hawker picks',
+    accent: 'border-orange-400',
+    emojiBg: 'bg-orange-50 dark:bg-orange-900',
+  },
+  {
+    href: '/projects',
+    emoji: '🚀',
+    titleKey: 'projects',
+    desc: 'What I\'m building',
+    accent: 'border-indigo-400',
+    emojiBg: 'bg-indigo-50 dark:bg-indigo-900',
+  },
+  {
+    href: '/singapore/adventures',
+    emoji: '🗺️',
+    titleKey: 'adventures',
+    desc: 'SE Asia — Indonesia, Thailand, Malaysia',
+    accent: 'border-teal-400',
+    emojiBg: 'bg-teal-50 dark:bg-teal-900',
+  },
+  {
+    href: '/timeline',
+    emoji: '⏱️',
+    titleKey: 'timeline',
+    desc: 'TW → SV → SG. The full arc.',
+    accent: 'border-red-400',
+    emojiBg: 'bg-red-50 dark:bg-red-900',
+  },
 ]
 
 const QUICK_LINK_LABELS = {
@@ -36,7 +89,51 @@ const QUICK_LINK_LABELS = {
   timeline: { en: 'Timeline', zh: '時間軸', ja: '年表' },
 }
 
-export default function Home({ stats, nowItems }) {
+function ArticleRow({ article, index }) {
+  const cats = (article.categories || []).slice(0, 2)
+  return (
+    <Link
+      href={`/journal/${article.slug}`}
+      className="group flex items-start gap-4 py-4 border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800 -mx-3 px-3 rounded-lg transition-colors"
+    >
+      <span className="flex-shrink-0 w-6 text-sm font-mono text-gray-300 dark:text-gray-600 pt-0.5 text-right">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <span className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+            {article.title}
+          </span>
+          <span className="flex-shrink-0 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors mt-0.5">
+            →
+          </span>
+        </div>
+        {article.summary && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed line-clamp-1">
+            {article.summary}
+          </p>
+        )}
+        {cats.length > 0 && (
+          <div className="flex gap-1 mt-1.5">
+            {cats.map((cat) => {
+              const cfg = CATEGORY_CONFIG[cat.toLowerCase()]
+              return (
+                <span
+                  key={cat}
+                  className="text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                >
+                  {cfg ? `${cfg.emoji} ${cat}` : cat}
+                </span>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </Link>
+  )
+}
+
+export default function Home({ stats, nowItems, featured }) {
   const { t, locale } = useTranslation()
 
   const statusItems = [
@@ -54,7 +151,7 @@ export default function Home({ stats, nowItems }) {
         url={siteMetadata.siteUrl}
       />
 
-      <div className="pt-10 pb-12 space-y-8">
+      <div className="pt-10 pb-12 space-y-10">
         {/* Profile row */}
         <div className="flex flex-col sm:flex-row sm:items-start gap-6">
           <div className="flex-shrink-0">
@@ -117,6 +214,28 @@ export default function Home({ stats, nowItems }) {
         {/* Countdown */}
         <CountdownBanner />
 
+        {/* Selected Writing */}
+        {featured.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                {t('home.selectedWriting')}
+              </h2>
+              <Link
+                href="/journal"
+                className="text-xs text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+              >
+                All writing →
+              </Link>
+            </div>
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1">
+              {featured.map((article, i) => (
+                <ArticleRow key={article.id || article.slug} article={article} index={i} />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Daily stats */}
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 px-5 py-4 bg-gray-50 dark:bg-gray-800">
           <div className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
@@ -137,16 +256,17 @@ export default function Home({ stats, nowItems }) {
                 href={item.href}
                 className={`group flex flex-col gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-sm transition-all duration-200 border-l-2 ${item.accent}`}
               >
-                <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg ${item.emojiBg}`}>
+                <span
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg ${item.emojiBg}`}
+                >
                   {item.emoji}
                 </span>
                 <div>
                   <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm leading-tight">
-                    {QUICK_LINK_LABELS[item.titleKey]?.[locale] || QUICK_LINK_LABELS[item.titleKey]?.en}
+                    {QUICK_LINK_LABELS[item.titleKey]?.[locale] ||
+                      QUICK_LINK_LABELS[item.titleKey]?.en}
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                    {item.desc}
-                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{item.desc}</div>
                 </div>
               </Link>
             ))}

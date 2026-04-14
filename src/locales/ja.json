@@ -10,13 +10,14 @@
     "blog": "ブログ"
   },
   "home": {
-    "tagline": "エンジニア・探検家・食いしん坊・32歳",
-    "bio": "現在シンガポール在住。シリコンバレーと台湾にも縁がある。JLPT N2合格を目指し、ミシュランガイドを食べ歩き、公開制作中。",
+    "tagline": "エンジニア・創業者・探検家・32歳",
+    "bio": "セルフメイド。三カ国、一つのキャリア。台湾生まれ、シリコンバレー育ち、シンガポール在住。SkyReal共同創業者。JLPT N2猛勉強中。7月4日に台湾へ帰国。",
     "status_sg": "シンガポール在住",
     "status_jlpt": "JLPT N2 · 2026年7月",
     "status_skyreal": "SkyReal 共同創業者",
     "status_taiwan": "7月4日台湾帰国",
     "explore": "探る",
+    "selectedWriting": "厳選記事",
     "rightNow": "今",
     "today": "今日",
     "noSteps": "データなし — Notion DailyStats に追加してください"
@@ -25,11 +26,11 @@
     "heroTitle": "三つの都市",
     "heroSub": "台湾生まれ。シリコンバレーで成長。シンガポール在住。これまでの物語。",
     "rightNow": "今（2026年）",
-    "cta_calendar": "4/1 → 7/4 記録 →",
+    "cta_calendar": "96日間スプリント →",
     "cta_timeline": "全年表 →"
   },
   "footer": {
-    "tagline": "7月4日に台湾へ帰るまで、シンガポールでの生活を記録中。",
+    "tagline": "エンジニア・創業者・三カ国、一つのキャリア。",
     "pages": "ページ",
     "built": "Next.js · Tailwind · GitHub Pages"
   }
