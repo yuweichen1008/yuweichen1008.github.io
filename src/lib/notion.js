@@ -88,17 +88,26 @@ async function getFeaturedArticles() {
   return pages.map(mapJournalPage)
 }
 
+// Matches a bare Notion page UUID (fallback slug when Slug property is empty)
+const NOTION_UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 async function getJournalEntry(slug) {
   if (!notion) return null
   try {
-    const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
-      and: [
-        { property: 'Published', checkbox: { equals: true } },
-        { property: 'Slug', rich_text: { equals: slug } },
-      ],
-    })
-    if (!pages.length) return null
-    const page = pages[0]
+    let page = null
+    if (NOTION_UUID_RE.test(slug)) {
+      // Slug property was empty in Notion — fetch page directly by ID
+      page = await notion.pages.retrieve({ page_id: slug })
+    } else {
+      const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
+        and: [
+          { property: 'Published', checkbox: { equals: true } },
+          { property: 'Slug', rich_text: { equals: slug } },
+        ],
+      })
+      if (pages.length) page = pages[0]
+    }
+    if (!page) return null
     const blocks = await getPageBlocks(page.id)
     return { ...mapJournalPage(page), blocks, wordCount: countWordsInBlocks(blocks) }
   } catch (err) {
