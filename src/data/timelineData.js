@@ -12,7 +12,7 @@ const timelineEvents = [
     location: 'Taiwan',
     categories: ['milestone'],
     description: 'Grew up in Taiwan — the beginning of everything.',
-    photo: `${BASE}/static/images/timeline/born-in-taiwan.jpg`,
+    photo: `${BASE}/static/images/timeline/born-in-taiwan.png`,
   },
   {
     id: '2',
@@ -22,7 +22,7 @@ const timelineEvents = [
     location: 'Taiwan',
     categories: ['learning', 'milestone'],
     description: 'Started my undergraduate studies in Taiwan, majoring in Mechanical Engineering.',
-    photo: '',
+    photo: `${BASE}/static/images/timeline/college.png`,
   },
   {
     id: '3',
@@ -32,7 +32,7 @@ const timelineEvents = [
     location: 'Taiwan',
     categories: ['learning', 'milestone'],
     description: 'Started my graduate studies in Taiwan, focusing on Electronics Engineering.',
-    photo: '',
+    photo: `${BASE}/static/images/timeline/graduate.jpg`,
   },
   {
     id: '4',
@@ -42,7 +42,7 @@ const timelineEvents = [
     location: 'Taiwan',
     categories: ['work', 'milestone'],
     description: "Started my career in the heart of Taiwan's tech industry.",
-    photo: '',
+    photo: `${BASE}/static/images/timeline/work.jpg`,
   },
   {
     id: '5',
@@ -52,7 +52,7 @@ const timelineEvents = [
     location: 'Silicon Valley',
     categories: ['work', 'milestone'],
     description: 'Packed up and moved to the Bay Area to start a tech career.',
-    photo: '',
+    photo: `${BASE}/static/images/timeline/silicon_valley.jpg`,
   },
   {
     id: '6',
@@ -86,4 +86,6 @@ const timelineEvents = [
   },
 ]
 
-export default timelineEvents
+// Support both CJS require() (next.config.js) and ESM import (pages)
+module.exports = timelineEvents
+module.exports.default = timelineEvents

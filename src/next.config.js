@@ -93,6 +93,28 @@ module.exports = {
       console.warn('[exportPathMap] Could not read local journal entries:', e.message)
     }
 
+    // Enumerate timeline event slugs from Notion and fallback data
+    let timelinePaths = {}
+    try {
+      const { getTimelineEvents } = require('./lib/notion')
+      const events = await getTimelineEvents()
+      events.forEach((e) => {
+        if (e.slug) {
+          timelinePaths[`/timeline/${e.slug}`] = { page: '/timeline/[slug]', query: { slug: e.slug } }
+        }
+      })
+    } catch (e) {
+      console.warn('[exportPathMap] Could not fetch Notion timeline events:', e.message)
+    }
+    // Always include fallback slugs
+    const fallbackTimeline = require('./data/timelineData')
+    const fallbackArray = Array.isArray(fallbackTimeline) ? fallbackTimeline : (fallbackTimeline.default || [])
+    fallbackArray.forEach((e) => {
+      if (e.slug && !timelinePaths[`/timeline/${e.slug}`]) {
+        timelinePaths[`/timeline/${e.slug}`] = { page: '/timeline/[slug]', query: { slug: e.slug } }
+      }
+    })
+
     return {
       '/': { page: '/' },
       '/about': { page: '/about' },
@@ -109,8 +131,9 @@ module.exports = {
       '/singapore/food': { page: '/singapore/food' },
       '/singapore/adventures': { page: '/singapore/adventures' },
       '/debug': { page: '/debug' },
-      // Dynamic journal entry routes
+      // Dynamic routes
       ...journalPaths,
+      ...timelinePaths,
     }
   },
 }

@@ -20,7 +20,7 @@ export default function GiscusComments() {
   const categoryId = process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID
 
   useEffect(() => {
-    if (!ref.current || !repo || !repoId) return
+    if (!ref.current || !repo || !repoId || repoId.startsWith('<')) return
 
     // Remove any existing giscus iframe before re-inserting (theme change)
     const existing = ref.current.querySelector('iframe.giscus-frame')
@@ -53,7 +53,8 @@ export default function GiscusComments() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [giscusTheme, repo, repoId])
 
-  if (!repo || !repoId) {
+  const isConfigured = repo && repoId && !repoId.startsWith('<') && !repo.startsWith('<')
+  if (!isConfigured) {
     return (
       <div className="mt-8 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-dashed border-gray-300 dark:border-gray-600 text-sm text-gray-500 dark:text-gray-400">
         💬 Comments coming soon — set up Giscus to enable.{' '}
