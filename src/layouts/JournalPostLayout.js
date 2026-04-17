@@ -3,12 +3,16 @@ import NotionRenderer from '@/components/NotionRenderer'
 import GiscusComments from '@/components/GiscusComments'
 import { CATEGORY_CONFIG, MOOD_EMOJI, MOOD_LABEL } from '@/lib/categoryConfig'
 import { MDXRemote } from 'next-mdx-remote'
+import { useTranslation } from '@/lib/i18n'
+
+const DATE_LOCALE = { en: 'en-US', zh: 'zh-TW', ja: 'ja-JP' }
 
 export default function JournalPostLayout({ entry }) {
   const { title, date, categories = [], mood, blocks = [], wordCount = 0, mdxSource } = entry
+  const { t, locale } = useTranslation()
 
   const formattedDate = date
-    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+    ? new Date(date + 'T00:00:00').toLocaleDateString(DATE_LOCALE[locale] || 'en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -16,8 +20,8 @@ export default function JournalPostLayout({ entry }) {
       })
     : ''
 
-  // Share URL (works on static sites — uses window.location)
   const shareTitle = encodeURIComponent(`${title} — yuwei.life`)
+  const minRead = Math.max(1, Math.round(wordCount / 200))
 
   return (
     <article className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -26,7 +30,7 @@ export default function JournalPostLayout({ entry }) {
           href="/journal"
           className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
-          ← Journal
+          {t('journal.back')}
         </Link>
 
         <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -40,7 +44,9 @@ export default function JournalPostLayout({ entry }) {
           {wordCount > 0 && (
             <>
               <span>·</span>
-              <span>{wordCount.toLocaleString()} words · {Math.max(1, Math.round(wordCount / 200))} min read</span>
+              <span>
+                {wordCount.toLocaleString()} {t('journal.words')} · {minRead} {t('journal.minRead')}
+              </span>
             </>
           )}
         </div>
@@ -52,14 +58,14 @@ export default function JournalPostLayout({ entry }) {
         {categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => {
-              const cfg = CATEGORY_CONFIG[cat]
+              const cfg = CATEGORY_CONFIG[cat.toLowerCase()] || CATEGORY_CONFIG[cat]
               if (!cfg) return null
               return (
                 <span
                   key={cat}
                   className={`inline-flex items-center gap-1 text-sm px-3 py-1 rounded-full ${cfg.pillColor}`}
                 >
-                  {cfg.emoji} {cat}
+                  {cfg.emoji} {cfg.label}
                 </span>
               )
             })}
@@ -77,10 +83,10 @@ export default function JournalPostLayout({ entry }) {
           href="/journal"
           className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
-          ← Back to Journal
+          {t('journal.backFull')}
         </Link>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Share:</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('journal.share')}</span>
           <a
             href={`https://twitter.com/intent/tweet?text=${shareTitle}&url=`}
             target="_blank"

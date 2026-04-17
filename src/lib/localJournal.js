@@ -49,6 +49,7 @@ function getLocalJournalEntries() {
             summary: data.summary || '',
             wordCount,
             featured: !!data.featured,
+            location: data.location || '',
             source: 'local',
           }
         } catch (e) {

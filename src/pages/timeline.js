@@ -3,12 +3,48 @@ import { PageSeo } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import FilterPills from '@/components/FilterPills'
 import { getTimelineEvents } from '@/lib/notion'
+import { getLocalJournalEntries } from '@/lib/localJournal'
 import fallbackEvents from '@/data/timelineData'
 
+// Journal category keys → timeline category keys (lowercase)
+const JOURNAL_CAT_MAP = {
+  work: 'work',
+  food: 'food',
+  learning: 'learning',
+  adventure: 'travel',
+  life: 'milestone',
+}
+
 export async function getStaticProps() {
-  let events = await getTimelineEvents()
-  if (!events.length) events = fallbackEvents
-  return { props: { events } }
+  // 1. Load Notion timeline events (or fallback)
+  let notionEvents = await getTimelineEvents()
+  if (!notionEvents.length) notionEvents = fallbackEvents
+
+  // 2. Load local journal entries and map to timeline event shape
+  const localEntries = getLocalJournalEntries()
+  const notionSlugs = new Set(notionEvents.map((e) => e.slug))
+
+  const journalEvents = localEntries
+    .filter((e) => e.date && !notionSlugs.has(e.slug))
+    .map((e) => ({
+      id: e.id,
+      title: e.title,
+      date: e.date,
+      location: e.location || 'Singapore',
+      categories: (e.categories || [])
+        .map((c) => JOURNAL_CAT_MAP[c.toLowerCase()])
+        .filter(Boolean),
+      description: e.summary || '',
+      slug: e.slug,
+      journalLink: true,
+    }))
+
+  // 3. Merge and sort newest first
+  const allEvents = [...notionEvents, ...journalEvents].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  )
+
+  return { props: { events: allEvents } }
 }
 
 const LOCATION_COLORS = {
@@ -105,6 +141,9 @@ export default function Timeline({ events }) {
                       month: 'short',
                     })
                   : ''
+                const linkHref = event.journalLink
+                  ? `/journal/${event.slug}`
+                  : `/timeline/${event.slug}`
                 return (
                   <div key={event.id} className="flex gap-6 relative">
                     {/* Dot */}
@@ -112,16 +151,19 @@ export default function Timeline({ events }) {
                       className={`w-6 h-6 rounded-full flex-shrink-0 mt-1 z-10 border-2 border-white dark:border-gray-900 ${dotColor}`}
                     />
                     {/* Card */}
-                    <div
-                      className={`flex-1 p-4 rounded-lg border-l-4 ${cardColor}`}
-                    >
+                    <div className={`flex-1 p-4 rounded-lg border-l-4 ${cardColor}`}>
                       <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
                         <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">
                           {event.title}
                         </h3>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 flex-shrink-0">
-                          {date}
-                        </span>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {event.journalLink && (
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                              essay
+                            </span>
+                          )}
+                          <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
+                        </div>
                       </div>
                       <div className="flex flex-wrap gap-1 mb-2">
                         {event.location && (
@@ -145,10 +187,10 @@ export default function Timeline({ events }) {
                       )}
                       {event.slug && (
                         <a
-                          href={`/timeline/${event.slug}`}
+                          href={linkHref}
                           className="text-xs text-blue-500 hover:text-blue-600 font-medium"
                         >
-                          View + comment →
+                          {event.journalLink ? 'Read essay →' : 'View + comment →'}
                         </a>
                       )}
                     </div>

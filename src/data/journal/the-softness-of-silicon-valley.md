@@ -5,8 +5,9 @@ slug: "the-softness-of-silicon-valley"
 categories: [Life, Work, Identity]
 mood: "Introspective"
 summary: "I thought getting in was the hard part. It wasn't. The hard part was learning how to exist in a world where no one tells you if you're enough."
+location: "Silicon Valley"
 featured: true
---------------
+---
 
 # The Softness of Silicon Valley
 

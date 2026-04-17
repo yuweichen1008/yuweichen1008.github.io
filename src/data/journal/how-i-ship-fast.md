@@ -5,6 +5,7 @@ slug: "how-i-ship-fast"
 categories: [Work, Learning]
 mood: "Excited"
 summary: "2y10m in Silicon Valley rewired how I think about speed. These are the habits I kept when I left."
+location: "Singapore"
 featured: true
 ---
 

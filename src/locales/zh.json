@@ -29,6 +29,17 @@
     "cta_calendar": "96天衝刺 →",
     "cta_timeline": "完整時間軸 →"
   },
+  "journal": {
+    "title": "日誌",
+    "desc": "新加坡的日常生活。美食、朋友、學習。",
+    "empty": "尚無文章。",
+    "back": "← 日誌",
+    "backFull": "← 返回日誌",
+    "share": "分享：",
+    "words": "字",
+    "minRead": "分鐘閱讀",
+    "writeNew": "✏️ 撰寫"
+  },
   "footer": {
     "tagline": "工程師・創辦人・三個國家，一段職涯。",
     "pages": "頁面",

@@ -5,6 +5,7 @@ slug: "eating-michelin-singapore"
 categories: [Food, Adventure]
 mood: "Happy"
 summary: "The guide has 45 starred restaurants and over 100 Bib Gourmands. I'm going through all of them. Here's what I've learned."
+location: "Singapore"
 featured: true
 ---
 

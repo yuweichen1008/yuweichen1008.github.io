@@ -29,6 +29,17 @@
     "cta_calendar": "96日間スプリント →",
     "cta_timeline": "全年表 →"
   },
+  "journal": {
+    "title": "日記",
+    "desc": "シンガポールでの日常。食事、友人、勉強。",
+    "empty": "まだ記事はありません。",
+    "back": "← 日記",
+    "backFull": "← 日記に戻る",
+    "share": "シェア：",
+    "words": "語",
+    "minRead": "分で読める",
+    "writeNew": "✏️ 書く"
+  },
   "footer": {
     "tagline": "エンジニア・創業者・三カ国、一つのキャリア。",
     "pages": "ページ",

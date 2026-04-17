@@ -5,6 +5,7 @@ slug: "jlpt-n2-in-90-days"
 categories: [Learning]
 mood: "Excited"
 summary: "I'm not a language natural. I failed Japanese once already. Here's the exact system I'm using to not fail again."
+location: "Singapore"
 featured: true
 ---
 

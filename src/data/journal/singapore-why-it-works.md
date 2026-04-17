@@ -5,8 +5,9 @@ slug: "singapore-why-it-works"
 categories: [Adventure, Work]
 mood: "Reflective"
 summary: "SV gave me scale. Taiwan gave me roots. Singapore gave me perspective. This is what the city actually does to you."
+location: "Singapore"
 featured: true
---------------
+---
 
 # Why Singapore Works (For Me)
 

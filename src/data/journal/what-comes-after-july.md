@@ -5,6 +5,7 @@ slug: "what-comes-after-july"
 categories: [Learning, Work]
 mood: "Reflective"
 summary: "July 4 I fly back to Taiwan. July 5 I sit the JLPT N2 exam. After that? I honestly don't know yet. Here's what I'm thinking."
+location: "Singapore"
 featured: true
 ---
 

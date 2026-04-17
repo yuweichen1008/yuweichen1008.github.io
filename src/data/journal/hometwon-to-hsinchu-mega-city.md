@@ -5,8 +5,9 @@ slug: "hometown-to-silicon-valley-threshold"
 categories: [Life, Learning]
 mood: "Reflective"
 summary: "Before Silicon Valley, there was a kid shaped by night markets, failure, and a quiet decision to try one more time."
+location: "Taiwan"
 featured: true
---------------
+---
 
 # From Night Markets to a One-Way Flight
 

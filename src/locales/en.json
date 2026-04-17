@@ -29,6 +29,17 @@
     "cta_calendar": "96-day Sprint →",
     "cta_timeline": "Full Timeline →"
   },
+  "journal": {
+    "title": "Journal",
+    "desc": "Day-to-day life in Singapore. Food, friends, study.",
+    "empty": "No entries yet.",
+    "back": "← Journal",
+    "backFull": "← Back to Journal",
+    "share": "Share:",
+    "words": "words",
+    "minRead": "min read",
+    "writeNew": "✏️ Write"
+  },
   "footer": {
     "tagline": "Engineer · Founder · Three countries, one career.",
     "pages": "Pages",

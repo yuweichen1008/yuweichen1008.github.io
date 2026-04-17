@@ -43,11 +43,11 @@ const timelineEvents = [
   {
     id: '5',
     slug: 'singapore-sprint',
-    title: 'Apr 1 → Jul 4 Documentation Sprint',
+    title: 'Apr 1 → Jul 5 · 96-Day Sprint',
     date: '2026-04-01',
     location: 'Singapore',
     categories: ['milestone'],
-    description: '95 days documented before flying back to Taiwan.',
+    description: '96 days documented before JLPT N2 and flying back to Taiwan.',
     photo: '',
   },
 ]

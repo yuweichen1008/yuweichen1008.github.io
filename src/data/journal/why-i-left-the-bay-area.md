@@ -5,8 +5,9 @@ slug: "why-i-left-the-bay-area"
 categories: [Work, Identity]
 mood: "Reflective"
 summary: "I told people I chose to leave Silicon Valley. The truth is, I had 40 days to take apart a life I thought I was still building."
+location: "Silicon Valley"
 featured: true
---------------
+---
 
 # Why I Left the Bay Area
 
