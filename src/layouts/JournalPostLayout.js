@@ -6,10 +6,30 @@ import { MDXRemote } from 'next-mdx-remote'
 import { useTranslation } from '@/lib/i18n'
 
 const DATE_LOCALE = { en: 'en-US', zh: 'zh-TW', ja: 'ja-JP' }
+const LOCALE_LABEL = { en: 'EN', zh: '中文', ja: '日本語' }
 
 export default function JournalPostLayout({ entry }) {
-  const { title, date, categories = [], mood, blocks = [], wordCount = 0, mdxSource } = entry
-  const { t, locale } = useTranslation()
+  const {
+    date,
+    categories = [],
+    mood,
+    blocks = [],
+    wordCount = 0,
+    // Multi-locale fields (local .md entries)
+    mdxSources,
+    titles,
+    availableLocales,
+    // Legacy single-locale field (Notion entries)
+    mdxSource,
+    title: titleFallback,
+  } = entry
+
+  const { t, locale, setLocale } = useTranslation()
+
+  // Pick locale-appropriate content, falling back to English
+  const activeLocale = mdxSources ? (mdxSources[locale] ? locale : 'en') : null
+  const displayTitle = titles?.[locale] || titles?.en || titleFallback
+  const mdxContent = mdxSources?.[locale] || mdxSources?.en || mdxSource
 
   const formattedDate = date
     ? new Date(date + 'T00:00:00').toLocaleDateString(DATE_LOCALE[locale] || 'en-US', {
@@ -20,7 +40,7 @@ export default function JournalPostLayout({ entry }) {
       })
     : ''
 
-  const shareTitle = encodeURIComponent(`${title} — yuwei.life`)
+  const shareTitle = encodeURIComponent(`${displayTitle} — yuwei.life`)
   const minRead = Math.max(1, Math.round(wordCount / 200))
 
   return (
@@ -52,7 +72,7 @@ export default function JournalPostLayout({ entry }) {
         </div>
 
         <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10">
-          {title}
+          {displayTitle}
         </h1>
 
         {categories.length > 0 && (
@@ -71,10 +91,39 @@ export default function JournalPostLayout({ entry }) {
             })}
           </div>
         )}
+
+        {/* Language switcher — only shown when translations exist */}
+        {availableLocales && availableLocales.length > 1 && (
+          <div className="flex items-center gap-2 pt-1">
+            <span className="text-xs text-gray-400 dark:text-gray-500">
+              🌐
+            </span>
+            <div className="flex gap-1">
+              {availableLocales.map((loc) => (
+                <button
+                  key={loc}
+                  onClick={() => setLocale(loc)}
+                  className={`text-xs px-2 py-0.5 rounded-full border transition-colors ${
+                    activeLocale === loc
+                      ? 'border-blue-400 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 font-medium'
+                      : 'border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-400'
+                  }`}
+                >
+                  {LOCALE_LABEL[loc]}
+                </button>
+              ))}
+            </div>
+            {activeLocale === 'en' && locale !== 'en' && (
+              <span className="text-xs text-gray-400 dark:text-gray-500 italic">
+                — translation not available
+              </span>
+            )}
+          </div>
+        )}
       </header>
 
       <div className="py-8 prose dark:prose-dark max-w-none">
-        {mdxSource ? <MDXRemote {...mdxSource} /> : <NotionRenderer blocks={blocks} />}
+        {mdxContent ? <MDXRemote {...mdxContent} /> : <NotionRenderer blocks={blocks} />}
       </div>
 
       {/* Share + nav */}

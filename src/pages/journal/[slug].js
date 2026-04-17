@@ -27,7 +27,13 @@ export async function getStaticProps({ params }) {
   const localEntry = getLocalJournalEntry(params.slug)
   if (!localEntry) return { notFound: true }
 
-  const mdxSource = await serialize(localEntry.content)
+  // Serialize all available locale variants in parallel
+  const [enMdx, zhMdx, jaMdx] = await Promise.all([
+    serialize(localEntry.content),
+    localEntry.translations?.zh?.content ? serialize(localEntry.translations.zh.content) : null,
+    localEntry.translations?.ja?.content ? serialize(localEntry.translations.ja.content) : null,
+  ])
+
   return {
     props: {
       entry: {
@@ -39,8 +45,26 @@ export async function getStaticProps({ params }) {
         mood: localEntry.mood,
         summary: localEntry.summary,
         wordCount: localEntry.wordCount,
+        location: localEntry.location,
         source: 'local',
-        mdxSource,
+        // Per-locale content bundles — client picks based on selected language
+        mdxSources: { en: enMdx, zh: zhMdx, ja: jaMdx },
+        titles: {
+          en: localEntry.title,
+          zh: localEntry.translations?.zh?.title || localEntry.title,
+          ja: localEntry.translations?.ja?.title || localEntry.title,
+        },
+        summaries: {
+          en: localEntry.summary,
+          zh: localEntry.translations?.zh?.summary || localEntry.summary,
+          ja: localEntry.translations?.ja?.summary || localEntry.summary,
+        },
+        // Which locales have actual translations (not just fallback)
+        availableLocales: [
+          'en',
+          ...(localEntry.translations?.zh ? ['zh'] : []),
+          ...(localEntry.translations?.ja ? ['ja'] : []),
+        ],
       },
     },
   }

@@ -20,7 +20,7 @@ const lifeChapters = [
   {
     city: 'Silicon Valley',
     flag: '🇺🇸',
-    years: '2017 – 2022',
+    years: '2023 – 2025',
     headline: {
       en: 'Where the career took off',
       zh: '事業起飛的地方',
@@ -38,7 +38,7 @@ const lifeChapters = [
   {
     city: 'Singapore',
     flag: '🇸🇬',
-    years: '2022 – now',
+    years: '2026 – now',
     headline: {
       en: 'The current chapter',
       zh: '現在這一章',

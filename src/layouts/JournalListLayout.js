@@ -56,6 +56,15 @@ export default function JournalListLayout({ entries }) {
                 { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
               )
             : ''
+          // Show translated title/summary if available for this locale
+          const displayTitle =
+            locale !== 'en' && entry.translations?.[locale]?.title
+              ? entry.translations[locale].title
+              : entry.title
+          const displaySummary =
+            locale !== 'en' && entry.translations?.[locale]?.summary
+              ? entry.translations[locale].summary
+              : entry.summary
           return (
             <li key={entry.id} className="py-5">
               <article className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline">
@@ -73,7 +82,7 @@ export default function JournalListLayout({ entries }) {
                       href={`/journal/${entry.slug}`}
                       className="text-gray-900 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400"
                     >
-                      {entry.title}
+                      {displayTitle}
                     </Link>
                   </h3>
                   {(entry.categories || []).length > 0 && (
@@ -92,8 +101,8 @@ export default function JournalListLayout({ entries }) {
                       })}
                     </div>
                   )}
-                  {entry.summary && (
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">{entry.summary}</p>
+                  {displaySummary && (
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{displaySummary}</p>
                   )}
                 </div>
               </article>
