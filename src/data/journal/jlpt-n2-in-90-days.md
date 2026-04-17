@@ -1,6 +1,6 @@
 ---
 title: "JLPT N2 in 90 Days: My Study Stack"
-date: "2026-04-10"
+date: "2026-03-31"
 slug: "jlpt-n2-in-90-days"
 categories: [Learning]
 mood: "Excited"

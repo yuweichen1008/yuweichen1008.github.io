@@ -1,47 +1,160 @@
 ---
 title: "Why Singapore Works (For Me)"
-date: "2026-04-12"
+date: "2026-02-10"
 slug: "singapore-why-it-works"
 categories: [Adventure, Work]
-mood: "Happy"
+mood: "Reflective"
 summary: "SV gave me scale. Taiwan gave me roots. Singapore gave me perspective. This is what the city actually does to you."
 featured: true
----
+--------------
 
 # Why Singapore Works (For Me)
 
-I want to write an honest account of Singapore, not a tourism pitch or an expat's lament. Both genres exist in abundance. This is neither.
+I want to write an honest account of Singapore, not a tourism pitch or an expat's lament.
+
+This is neither.
+
+This is about timing.
 
 ## What I expected
 
-I expected a clean, efficient, slightly sterile city. I'd heard the jokes about it being a fine city in both senses. I expected a tech hub that was trying to be Silicon Valley in Asia.
+I expected a clean, efficient, slightly sterile city.
 
-I was half right.
+A place that worked, but didn’t necessarily feel alive.
+A tech hub trying to replicate something that already existed elsewhere.
+
+I was wrong in a more interesting way.
 
 ## What I got
 
-Singapore is not trying to be Silicon Valley. It doesn't want to be. It has its own model — one built on pragmatism, extreme connectedness to trade routes, and a political stability that is uncomfortable to some people and reassuring to others.
+Singapore doesn’t try to be Silicon Valley.
 
-What surprised me:
+It doesn’t need to.
 
-**The hawker culture is genuinely world-class.** I don't say this as a compliment to Singapore tourism — I say it as someone who grew up eating well in Taiwan and ate at restaurants for four years in California. The quality per dollar ratio at a hawker centre in Singapore is, in my experience, unmatched anywhere.
+It runs on a different model — less mythology, more execution. Less narrative, more structure.
 
-**The multiracial texture is real.** Singapore is not post-racial — it has racial categories baked into its national ID system. But the daily reality of Chinese-Malay-Indian-Western communities sharing the same blocks, the same hawker centres, the same MRT cars — it produces something that feels less performative and more just... normal, in a way that I hadn't experienced before.
+And for where I was in my life, that mattered.
 
-**The startup ecosystem is earlier stage than the Valley, which means more room.** In San Francisco, you're competing with everything. In Singapore, you're often one of a handful of companies doing a specific thing. That has costs — less talent density, fewer Series B investors — but it also has advantages that are easy to underestimate.
+Because I didn’t need inspiration.
 
-## What doesn't work
+I needed stability.
 
-**The heat.** I will never fully adapt. I run at 6am specifically to be done before 8am. Beyond that, the air conditioning infrastructure is so pervasive that you're essentially spending your life moving between air-conditioned spaces.
+## The January Loop
 
-**The visa treadmill for foreigners.** Singapore's employment pass system is transparent and rule-based, which I respect. But it creates a specific anxiety for founders — the rules for self-employed / startup founders are less clear than for employed professionals.
+In January 2026, I went back to Silicon Valley for a short trip.
 
-**The social formality.** Singapore is polite in a way that takes time to read. Disagreement rarely surfaces directly. Learning to read what people *mean* rather than what they *say* took me the better part of a year.
+Stayed at my aunt’s place.
+Same streets. Same grocery stores. Same air.
 
-## The net
+Nothing had changed.
 
-I'm here until July. Then I fly back to Taiwan.
+Which made it clear that something had.
 
-Whether I come back to Singapore — or whether Singapore becomes the base for whatever comes after — I don't know yet. But I know that the time here has made me a better engineer, a better founder, and a more complete person.
+I wasn’t looking at the Valley the same way anymore.
 
-The city does something to you if you let it. I'm glad I let it.
+The urgency was gone.
+The need to prove something — quieter.
+
+During that trip, I interviewed with a new company.
+
+Not as a reach.
+Not as a “maybe I’ll get lucky.”
+
+Just… a conversation.
+
+A few rounds later, I signed.
+
+## What Changed
+
+If this had happened a year earlier, it would have meant something different.
+
+Validation.
+Return.
+Continuation of a path that got interrupted.
+
+But this time, it didn’t feel like going back.
+
+It felt like choosing from a different place.
+
+Singapore created that distance.
+
+Not just geographically — but mentally.
+
+## What Singapore Actually Does
+
+**It removes noise.**
+
+There’s less signaling here. Less posturing.
+People are building things, but they’re not constantly narrating it.
+
+That changes how you think.
+
+**It forces routine.**
+
+The city is structured. Predictable. Efficient.
+
+At first, that feels limiting.
+Then it becomes grounding.
+
+After the chaos of leaving the US in 40 days,
+that structure matters more than I expected.
+
+**It puts you in between worlds.**
+
+Time zone, geography, culture — everything sits between East and West.
+
+You start seeing trade-offs more clearly.
+
+And once you see them, you can’t unsee them.
+
+## What Doesn’t Work
+
+**The heat.** Still not negotiable.
+
+**The visa structure.** Clear, but always present in the background.
+
+**The emotional distance.** It takes time to build real connections here. Longer than I expected.
+
+## The Contract
+
+Signing the new offer didn’t feel like a climax.
+
+No big moment. No sense of arrival.
+
+Just a quiet confirmation:
+
+I’m still moving forward.
+
+But not in the same way as before.
+
+Less urgency.
+Less dependency on external validation.
+
+More… control.
+
+## The Net
+
+I’m here until July.
+
+Then I go back to Taiwan.
+
+This time, it’s not a forced move.
+Not a compressed timeline.
+
+It’s planned.
+
+Intentional.
+
+That difference matters more than the destination.
+
+---
+
+Singapore works for me not because it’s perfect.
+
+But because it came at the exact moment I needed a place
+that didn’t demand anything from me—
+except that I figure out how I actually want to live.
+
+And for the first time in a while,
+
+I am.

@@ -35,7 +35,6 @@ const CATEGORY_OPTIONS = [
   { value: 'work', label: 'Work', emoji: '💼' },
   { value: 'travel', label: 'Travel', emoji: '✈️' },
   { value: 'food', label: 'Food', emoji: '🍜' },
-  { value: 'fitness', label: 'Fitness', emoji: '🏃' },
   { value: 'milestone', label: 'Milestone', emoji: '⭐' },
   { value: 'learning', label: 'Learning', emoji: '📚' },
 ]

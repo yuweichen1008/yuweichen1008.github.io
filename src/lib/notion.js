@@ -219,29 +219,6 @@ async function getAdventures() {
   })
 }
 
-// ─── Fitness Log ─────────────────────────────────────────────────────────────
-
-async function getFitnessLog() {
-  const pages = await queryDatabase(process.env.NOTION_DB_FITNESS)
-  return pages
-    .map((page) => {
-      const props = page.properties
-      return {
-        id: page.id,
-        name: getTitle(props.Name),
-        date: getDate(props.Date),
-        type: getSelect(props.Type),
-        distance: getNumber(props.Distance),
-        duration: getNumber(props.Duration),
-        pace: getText(props.Pace),
-        heartRate: getNumber(props.HeartRate),
-        notes: getText(props.Notes),
-        route: getUrl(props.Route),
-      }
-    })
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-}
-
 // ─── Life Chapters ───────────────────────────────────────────────────────────
 
 async function getLifeChapters() {
@@ -326,7 +303,6 @@ module.exports = {
   getTimelineEvents,
   getFoodLog,
   getAdventures,
-  getFitnessLog,
   getDailyStats,
   getNowStatus,
   getLifeChapters,

@@ -1,6 +1,6 @@
 ---
 title: "What Comes After July"
-date: "2026-04-25"
+date: "2026-07-05"
 slug: "what-comes-after-july"
 categories: [Learning, Work]
 mood: "Reflective"

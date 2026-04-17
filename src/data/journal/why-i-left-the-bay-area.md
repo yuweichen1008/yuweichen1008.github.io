@@ -1,65 +1,189 @@
 ---
 title: "Why I Left the Bay Area"
-date: "2026-04-05"
+date: "2025-11-11"
 slug: "why-i-left-the-bay-area"
-categories: [Work, Adventure]
+categories: [Work, Identity]
 mood: "Reflective"
-summary: "Three years into a career in Silicon Valley, I booked a one-way ticket to Singapore. Most people thought I was crazy."
+summary: "I told people I chose to leave Silicon Valley. The truth is, I had 40 days to take apart a life I thought I was still building."
 featured: true
----
+--------------
 
 # Why I Left the Bay Area
 
-In 2022, I had everything that was supposed to matter: a job at a company people had heard of, an apartment in San Francisco, a gym card I used twice a week, and a growing sense that I was running on a treadmill.
+I didn’t leave Silicon Valley the way people think.
 
-Not unhappy. Just... running.
+There was no long-term plan.
+No slow transition.
+No “I’ve been thinking about this for a while.”
 
-## The treadmill feeling
+There was a decision.
 
-Silicon Valley optimizes for a specific type of ambition. Work hard, get promoted, work harder, get promoted again, maybe start a company, maybe get acquired. The loop is clear. The benchmarks are visible. The LinkedIn posts all follow the same arc.
+And then there were 40 days.
 
-I started noticing I could predict what would happen next. Not just at work — in conversations. "What are you working on?" "What round are you at?" "What's your burn rate?" The same ten questions in every room.
+## The Life That Was Still Forming
 
-I didn't want a different answer. I wanted different questions.
+By 2022, I had built something that looked, from the outside, complete.
 
-## The Singapore moment
+A recognizable company.
+A routine.
+A life that fit into the system.
 
-I'd visited Singapore once before — a long layover stretched into three days. I remember the heat hitting me like a wall when I stepped outside Changi, and then, two MRT stops later, eating the best laksa of my life for S$4 at a hawker centre.
+Not perfect. Not extraordinary.
+But stable in a way that felt… earned.
 
-It felt like a city that had figured something out. Dense but clean. Multicultural without being a performance of multiculturalism. Asia, but connected to everywhere.
+That’s what made what happened next so disorienting.
 
-I started doing the math. Cost of living: manageable. Tech ecosystem: growing fast. Timezone: useful for building products that serve both Eastern and Western users. Food: genuinely world-class.
+Because I wasn’t trying to leave.
 
-And SkyReal — the startup I'd been thinking about — needed to be built somewhere with access to Southeast Asian markets.
+I was still in the process of arriving.
 
-## What people got wrong
+## The Shift
 
-When I told people I was leaving for Singapore, I got two kinds of responses:
+It didn’t come as a single dramatic moment.
 
-**Type A**: "Oh, that's so interesting! I've always wanted to go to Asia."
-*(They meant: they'd never actually considered it.)*
+More like a slow realization that something fundamental had changed.
 
-**Type B**: "But you'll be giving up your visa, your network, your momentum."
-*(They meant: they'd have been too scared to do it.)*
+The company’s direction shifted.
+Priorities moved.
+And somewhere inside that change, my role—my *path*—was no longer where I thought it was.
 
-The visa concern was real. Leaving the US when you've spent years building toward a green card is genuinely hard. I won't pretend it wasn't a calculation.
+Then it became explicit:
 
-But I'd watched too many people optimize for the visa and end up staying somewhere they'd stopped learning. The visa isn't the goal. The work is the goal.
+Relocation.
 
-## Two years in
+Not optional in the way people like to frame these things.
+Not really a discussion.
 
-Singapore has given me things I didn't know I was missing:
+A timeline was set.
 
-**Proximity to Asia's growth story** — the startup ecosystems in Indonesia, Vietnam, and India are moving fast. Being in the region rather than reading about it from California is a different kind of education.
+Forty days.
 
-**A city that challenges your assumptions** — Singapore is deeply meritocratic in a way that cuts both ways. If you're performing, the doors open. If you're coasting, nobody pretends otherwise.
+## Forty Days to Unbuild a Life
 
-**Food as a daily joy** — I eat better here, more cheaply, than anywhere I've ever lived.
+Forty days is enough time to book flights.
 
-## The question I ask myself
+It’s not enough time to process what you’re leaving.
 
-Every few months, I ask: *Would I move back?*
+Everything became logistical:
 
-The honest answer right now is: not yet. Maybe not for a while. Maybe in a different form — a company that bridges both places.
+* Ending a lease
+* Selling or packing everything I owned
+* Closing accounts
+* Saying “we should catch up soon” to people you might not see again
 
-The Bay Area gave me the foundation. Singapore is where I'm building on it.
+You move fast because you have to.
+
+And because if you slow down, you might realize
+you’re not ready to let go.
+
+## The Story You Tell Others
+
+When people asked, I simplified it.
+
+“I’m moving to Singapore.”
+“It’s a good opportunity.”
+“Better alignment long-term.”
+
+All of that was *true*.
+
+None of that was the whole truth.
+
+Because the real feeling wasn’t excitement.
+
+It was interruption.
+
+Like a sentence that ended halfway through.
+
+## The Story You Tell Yourself
+
+There’s a moment, in situations like this, where you make a choice:
+
+Do you frame it as something that happened to you—
+or something you’re choosing?
+
+I chose the second.
+
+Not because it was fully accurate.
+But because it was the only version that allowed me to move forward.
+
+So I started doing what I’ve always done:
+
+Make sense of it.
+
+Singapore made sense.
+
+Asia made sense.
+New markets, new energy, proximity to growth.
+
+If I had to leave, then I would make it *intentional*.
+
+That’s how I processed it.
+
+Not by resisting the change—
+but by absorbing it into a narrative I could stand behind.
+
+## What People Didn’t See
+
+From the outside, it looked like a bold move.
+
+Another chapter. Another city. Another step forward.
+
+What people didn’t see was the compression.
+
+Years of effort condensed into a forced transition.
+
+The lack of closure.
+The conversations that didn’t happen.
+The version of life that didn’t get to fully play out.
+
+There’s a specific kind of weight to that.
+
+Not regret.
+
+But incompleteness.
+
+## What I Actually Left Behind
+
+I didn’t just leave a place.
+
+I left a version of myself that was still forming.
+
+The one who was:
+
+* Getting more comfortable in ambiguity
+* Learning how to belong without needing constant validation
+* Starting to understand what kind of life he actually wanted
+
+That version didn’t fail.
+
+It just… didn’t get to finish.
+
+## What This Chapter Really Means
+
+For a long time, I thought this story was about leaving Silicon Valley.
+
+It’s not.
+
+It’s about losing control over timing.
+
+About being forced to move before you feel ready.
+About realizing that not all transitions are clean or chosen.
+
+And about something harder to admit:
+
+Sometimes, you don’t get to decide when a chapter ends.
+
+You only get to decide how you carry it forward.
+
+---
+
+If you ask me now why I left, I can give you a clean answer.
+
+Career. Geography. Opportunity.
+
+But the honest answer is simpler than that:
+
+I left because staying was no longer an option.
+
+What came next…
+was figuring out what to do with that.

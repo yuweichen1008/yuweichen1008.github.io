@@ -19,7 +19,7 @@ function Stars({ rating }) {
   )
 }
 
-export default function FoodCard({ name, cuisine, michelinStatus, neighborhood, rating, visitDate, notes, photo }) {
+export default function FoodCard({ name, cuisine, michelinStatus, neighborhood, rating, visitDate, notes, photo, mapsUrl }) {
   const badge = MICHELIN_BADGE[michelinStatus]
   const date = visitDate
     ? new Date(visitDate + 'T00:00:00').toLocaleDateString('en-US', {
@@ -59,6 +59,16 @@ export default function FoodCard({ name, cuisine, michelinStatus, neighborhood, 
         </div>
         <Stars rating={rating} />
         {notes && <p className="text-sm text-gray-500 dark:text-gray-400">{notes}</p>}
+        {mapsUrl && (
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-blue-500 hover:underline mt-1"
+          >
+            📍 View on Maps
+          </a>
+        )}
       </div>
     </div>
   )

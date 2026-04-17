@@ -1,5 +1,12 @@
+import { useState } from 'react'
 import { PageSeo } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
+
+// Edit this list to control which repos appear in the "Highlights" section.
+// Use the exact repo name as it appears on GitHub.
+const PINNED_REPOS = [
+  'yuweichen1008.github.io',
+]
 
 const LANG_COLORS = {
   JavaScript: '#f1e05a',
@@ -28,31 +35,42 @@ function relativeDate(dateStr) {
   return `${Math.floor(days / 365)}y ago`
 }
 
-function RepoCard({ repo }) {
+function RepoCard({ repo, featured }) {
   return (
     <a
       href={repo.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all"
+      className={`group flex flex-col p-5 rounded-xl border bg-white dark:bg-gray-900 hover:shadow-md transition-all ${
+        featured
+          ? 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-500'
+          : 'border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500'
+      }`}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
         <span className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
           {repo.name}
         </span>
-        <svg
-          className="w-4 h-4 flex-shrink-0 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors mt-0.5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          />
-        </svg>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {featured && (
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 font-medium">
+              Featured
+            </span>
+          )}
+          <svg
+            className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors mt-0.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
+        </div>
       </div>
 
       <p className="text-sm text-gray-500 dark:text-gray-400 flex-1 leading-relaxed mb-4 line-clamp-2">
@@ -89,6 +107,53 @@ function RepoCard({ repo }) {
   )
 }
 
+function TimelineRow({ repo }) {
+  return (
+    <a
+      href={repo.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-start gap-4 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800 -mx-3 px-3 rounded-lg transition-colors"
+    >
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {repo.name}
+          </span>
+          {repo.language && (
+            <span className="flex items-center gap-1 text-xs text-gray-400">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ background: LANG_COLORS[repo.language] || '#8b949e' }}
+              />
+              {repo.language}
+            </span>
+          )}
+          {repo.stars > 0 && (
+            <span className="text-xs text-gray-400">★ {repo.stars}</span>
+          )}
+        </div>
+        {repo.description && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+            {repo.description}
+          </p>
+        )}
+      </div>
+      <span className="text-xs text-gray-400 flex-shrink-0 mt-0.5">{relativeDate(repo.updatedAt)}</span>
+    </a>
+  )
+}
+
+function groupByYear(repos) {
+  const groups = {}
+  for (const r of repos) {
+    const y = new Date(r.updatedAt).getFullYear()
+    if (!groups[y]) groups[y] = []
+    groups[y].push(r)
+  }
+  return Object.entries(groups).sort(([a], [b]) => Number(b) - Number(a))
+}
+
 export async function getStaticProps() {
   let repos = []
   try {
@@ -105,7 +170,7 @@ export async function getStaticProps() {
             b.stargazers_count - a.stargazers_count ||
             new Date(b.pushed_at) - new Date(a.pushed_at)
         )
-        .slice(0, 12)
+        .slice(0, 20)
         .map((r) => ({
           name: r.name,
           description: r.description,
@@ -125,6 +190,12 @@ export async function getStaticProps() {
 }
 
 export default function Projects({ repos }) {
+  const [view, setView] = useState('grid')
+
+  const pinned = repos.filter((r) => PINNED_REPOS.includes(r.name))
+  const rest = repos.filter((r) => !PINNED_REPOS.includes(r.name))
+  const yearGroups = groupByYear(rest)
+
   return (
     <>
       <PageSeo
@@ -142,7 +213,7 @@ export default function Projects({ repos }) {
           </p>
         </div>
 
-        <div className="py-10">
+        <div className="py-10 space-y-12">
           {repos.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-gray-400 dark:text-gray-500 text-sm">
@@ -159,12 +230,81 @@ export default function Projects({ repos }) {
             </div>
           ) : (
             <>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {repos.map((repo) => (
-                  <RepoCard key={repo.name} repo={repo} />
-                ))}
-              </div>
-              <div className="mt-10 text-center">
+              {/* Highlights */}
+              {pinned.length > 0 && (
+                <div>
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+                    Highlights
+                  </h2>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {pinned.map((repo) => (
+                      <RepoCard key={repo.name} repo={repo} featured />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* All Projects */}
+              {rest.length > 0 && (
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                      All Projects
+                    </h2>
+                    <div className="flex items-center gap-3 text-xs">
+                      <button
+                        onClick={() => setView('grid')}
+                        className={`transition-colors ${
+                          view === 'grid'
+                            ? 'text-blue-500 font-semibold'
+                            : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                        }`}
+                      >
+                        Grid
+                      </button>
+                      <span className="text-gray-300 dark:text-gray-600">|</span>
+                      <button
+                        onClick={() => setView('timeline')}
+                        className={`transition-colors ${
+                          view === 'timeline'
+                            ? 'text-blue-500 font-semibold'
+                            : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                        }`}
+                      >
+                        Timeline
+                      </button>
+                    </div>
+                  </div>
+
+                  {view === 'grid' && (
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {rest.map((repo) => (
+                        <RepoCard key={repo.name} repo={repo} />
+                      ))}
+                    </div>
+                  )}
+
+                  {view === 'timeline' && (
+                    <div className="space-y-8">
+                      {yearGroups.map(([year, yearRepos]) => (
+                        <div key={year}>
+                          <div className="text-sm font-semibold text-gray-400 dark:text-gray-500 mb-2 flex items-center gap-3">
+                            <span>{year}</span>
+                            <span className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+                          </div>
+                          <div>
+                            {yearRepos.map((repo) => (
+                              <TimelineRow key={repo.name} repo={repo} />
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="text-center">
                 <a
                   href="https://github.com/yuweichen1008"
                   target="_blank"

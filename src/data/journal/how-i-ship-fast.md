@@ -1,10 +1,10 @@
 ---
 title: "How I Ship Fast: Habits from Silicon Valley"
-date: "2026-04-15"
+date: "2026-03-28"
 slug: "how-i-ship-fast"
 categories: [Work, Learning]
 mood: "Excited"
-summary: "Four years in Silicon Valley rewired how I think about speed. These are the habits I kept when I left."
+summary: "2y10m in Silicon Valley rewired how I think about speed. These are the habits I kept when I left."
 featured: true
 ---
 

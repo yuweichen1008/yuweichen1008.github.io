@@ -49,7 +49,7 @@ export default function About() {
               to Taiwan on July 4th and documenting every day until then.
             </p>
             <p>
-              This site is my living journal — food, fitness, adventures, Japanese study, and
+              This site is my living journal — food, adventures, Japanese study, and
               whatever else I stumble into in this city.
             </p>
             <p>

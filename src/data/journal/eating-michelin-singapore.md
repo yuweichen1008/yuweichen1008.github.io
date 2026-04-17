@@ -1,6 +1,6 @@
 ---
 title: "Eating Through Singapore's Michelin Guide"
-date: "2026-04-18"
+date: "2026-04-17"
 slug: "eating-michelin-singapore"
 categories: [Food, Adventure]
 mood: "Happy"
