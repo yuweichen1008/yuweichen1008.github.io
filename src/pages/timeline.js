@@ -151,7 +151,16 @@ export default function Timeline({ events }) {
                       className={`w-6 h-6 rounded-full flex-shrink-0 mt-1 z-10 border-2 border-white dark:border-gray-900 ${dotColor}`}
                     />
                     {/* Card */}
-                    <div className={`flex-1 p-4 rounded-lg border-l-4 ${cardColor}`}>
+                    <div className={`flex-1 rounded-lg border-l-4 overflow-hidden ${cardColor}`}>
+                      {event.photo && (
+                        <img
+                          src={event.photo}
+                          alt={event.title}
+                          className="w-full h-36 object-cover"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      )}
+                      <div className="p-4">
                       <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
                         <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">
                           {event.title}
@@ -193,6 +202,7 @@ export default function Timeline({ events }) {
                           {event.journalLink ? 'Read essay →' : 'View + comment →'}
                         </a>
                       )}
+                      </div>{/* p-4 */}
                     </div>
                   </div>
                 )
