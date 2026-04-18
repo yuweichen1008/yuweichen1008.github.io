@@ -127,6 +127,7 @@ module.exports = {
       '/calendar': { page: '/calendar' },
       '/journal': { page: '/journal' },
       '/timeline': { page: '/timeline' },
+      '/picks': { page: '/picks' },
       '/singapore': { page: '/singapore' },
       '/singapore/food': { page: '/singapore/food' },
       '/singapore/adventures': { page: '/singapore/adventures' },

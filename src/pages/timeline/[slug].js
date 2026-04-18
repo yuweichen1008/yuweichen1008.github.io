@@ -4,11 +4,13 @@ import Link from '@/components/Link'
 import GiscusComments from '@/components/GiscusComments'
 import { getTimelineEvents } from '@/lib/notion'
 import fallbackEvents from '@/data/timelineData'
+import { useTranslation } from '@/lib/i18n'
+import { useState } from 'react'
 
 const LOCATION_COLORS = {
-  'Silicon Valley': 'border-blue-400 bg-blue-50 dark:bg-blue-900',
-  Taiwan: 'border-red-400 bg-red-50 dark:bg-red-900',
-  Singapore: 'border-green-400 bg-green-50 dark:bg-green-900',
+  'Silicon Valley': 'border-blue-400 bg-blue-50 dark:bg-blue-900/30',
+  Taiwan: 'border-red-400 bg-red-50 dark:bg-red-900/30',
+  Singapore: 'border-green-400 bg-green-50 dark:bg-green-900/30',
   Other: 'border-gray-400 bg-gray-50 dark:bg-gray-800',
 }
 
@@ -33,7 +35,62 @@ export async function getStaticProps({ params }) {
   return { props: { event } }
 }
 
+function PhotoViewer({ src, alt }) {
+  const [open, setOpen] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  if (failed || !src) return null
+
+  return (
+    <>
+      <div
+        className="relative w-full cursor-zoom-in overflow-hidden rounded-xl mb-6"
+        style={{ paddingTop: '52%' }}
+        onClick={() => setOpen(true)}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          onError={() => setFailed(true)}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end justify-end p-3">
+          <span className="text-white text-xs bg-black/40 px-2 py-0.5 rounded-full">expand</span>
+        </div>
+      </div>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setOpen(false)}
+        >
+          <img
+            src={src}
+            alt={alt}
+            className="max-w-full max-h-full rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-4 text-white text-3xl leading-none hover:text-gray-300"
+          >
+            ×
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function TimelinePost({ event }) {
+  const { locale } = useTranslation()
+
+  // Locale-aware display fields
+  const displayTitle =
+    (locale !== 'en' && event.translations?.[locale]?.title) || event.title
+  const displayDesc =
+    (locale !== 'en' && event.translations?.[locale]?.description) || event.description
+
   const date = event.date
     ? new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', {
         year: 'numeric',
@@ -72,8 +129,15 @@ export default function TimelinePost({ event }) {
           </div>
 
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10">
-            {event.title}
+            {displayTitle}
           </h1>
+
+          {/* Language indicator when a translation is shown */}
+          {locale !== 'en' && event.translations?.[locale]?.title && (
+            <p className="text-xs text-gray-400 dark:text-gray-500 italic">
+              Showing {locale === 'zh' ? '中文' : '日本語'} · original in English
+            </p>
+          )}
 
           {(event.categories || []).length > 0 && (
             <div className="flex flex-wrap gap-2">
@@ -90,18 +154,11 @@ export default function TimelinePost({ event }) {
         </header>
 
         {/* Photo + description */}
-        <div className={`py-8`}>
-          {event.photo && (
-            <img
-              src={event.photo}
-              alt={event.title}
-              className={`w-full max-h-80 object-cover rounded-xl mb-6 border-l-4 ${cardColor}`}
-              onError={(e) => { e.currentTarget.style.display = 'none' }}
-            />
-          )}
-          {event.description && (
+        <div className={`py-8 border-l-4 pl-6 ${cardColor}`}>
+          <PhotoViewer src={event.photo} alt={displayTitle} />
+          {displayDesc && (
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-              {event.description}
+              {displayDesc}
             </p>
           )}
         </div>

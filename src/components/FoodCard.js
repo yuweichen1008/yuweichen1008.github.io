@@ -1,9 +1,31 @@
+import { useState } from 'react'
+
 const MICHELIN_BADGE = {
-  Star: { label: '⭐ Michelin Star', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' },
-  'Bib Gourmand': { label: '😋 Bib Gourmand', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
-  Recommended: { label: '✓ Recommended', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  Hawker: { label: '🏪 Hawker', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
+  Star:           { label: '⭐ Michelin Star',  color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' },
+  'Bib Gourmand': { label: '😋 Bib Gourmand',  color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
+  Recommended:    { label: '✓ Recommended',     color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
+  Hawker:         { label: '🏪 Hawker',          color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
   None: null,
+}
+
+// Emoji placeholder when no photo URL is available
+const CUISINE_EMOJI = {
+  'Singaporean': '🇸🇬',
+  'Chinese':     '🥢',
+  'Japanese':    '🍣',
+  'Korean':      '🥘',
+  'Indian':      '🍛',
+  'Western':     '🍽️',
+  'Hawker':      '🏪',
+  'Thai':        '🌶️',
+  'Vietnamese':  '🍜',
+  'Italian':     '🍝',
+  'French':      '🥐',
+  'Mexican':     '🌮',
+  'Seafood':     '🦞',
+  'BBQ':         '🔥',
+  'Dessert':     '🍰',
+  'Cafe':        '☕',
 }
 
 function Stars({ rating }) {
@@ -19,20 +41,34 @@ function Stars({ rating }) {
   )
 }
 
+// To add photos: in your Notion FoodLog DB, add a `Photo` property (URL type)
+// and paste the image URL (Google Photos share link, Imgur, Cloudinary, etc.)
 export default function FoodCard({ name, cuisine, michelinStatus, neighborhood, rating, visitDate, notes, photo, mapsUrl }) {
+  const [imgFailed, setImgFailed] = useState(false)
   const badge = MICHELIN_BADGE[michelinStatus]
+  const cuisineEmoji = CUISINE_EMOJI[cuisine] || '🍽️'
+  const showPlaceholder = !photo || imgFailed
+
   const date = visitDate
-    ? new Date(visitDate + 'T00:00:00').toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-      })
+    ? new Date(visitDate + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
     : ''
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden hover:shadow-md transition-shadow">
-      {photo && (
-        <img src={photo} alt={name} className="w-full h-40 object-cover" />
+      {showPlaceholder ? (
+        <div className="w-full h-28 flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 gap-1 select-none">
+          <span className="text-4xl">{cuisineEmoji}</span>
+          {cuisine && <span className="text-xs text-gray-400 dark:text-gray-500">{cuisine}</span>}
+        </div>
+      ) : (
+        <img
+          src={photo}
+          alt={name}
+          className="w-full h-40 object-cover"
+          onError={() => setImgFailed(true)}
+        />
       )}
+
       <div className="p-4 space-y-2">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-bold text-gray-900 dark:text-gray-100 leading-snug">{name}</h3>
@@ -44,18 +80,8 @@ export default function FoodCard({ name, cuisine, michelinStatus, neighborhood, 
         </div>
         <div className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400">
           {cuisine && <span>{cuisine}</span>}
-          {neighborhood && (
-            <>
-              <span>·</span>
-              <span>{neighborhood}</span>
-            </>
-          )}
-          {date && (
-            <>
-              <span>·</span>
-              <span>{date}</span>
-            </>
-          )}
+          {neighborhood && <><span>·</span><span>{neighborhood}</span></>}
+          {date && <><span>·</span><span>{date}</span></>}
         </div>
         <Stars rating={rating} />
         {notes && <p className="text-sm text-gray-500 dark:text-gray-400">{notes}</p>}

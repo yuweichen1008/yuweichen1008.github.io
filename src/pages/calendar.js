@@ -26,10 +26,10 @@ export default function Calendar({ entries, calEvents, hasNotion }) {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="pt-6 pb-8 space-y-2">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
-            Apr 1 → Jul 4
+            Life Log
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            95 days in Singapore. Every day counts.
+            Singapore sprint Apr 1 → Jul 4. Life continues after.
           </p>
         </div>
         <div className="py-8">
