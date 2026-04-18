@@ -89,8 +89,8 @@ export default function Picks() {
             Recommended by Yomi
           </h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-            Across food, books, movies, outdoor, places, and experiences — things I'd actually tell
-            a friend. No affiliate links.
+            Across food, books, movies, outdoor, places, and experiences — things I&apos;d actually
+            tell a friend. No affiliate links.
           </p>
         </div>
 
