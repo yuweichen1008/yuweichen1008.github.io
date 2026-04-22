@@ -78,6 +78,22 @@ async function getJournalEntries() {
   return pages.map(mapJournalPage)
 }
 
+async function getRecentJournalEntries(limit = 5) {
+  if (!notion || !process.env.NOTION_DB_JOURNAL) return []
+  try {
+    const { results } = await notion.databases.query({
+      database_id: process.env.NOTION_DB_JOURNAL,
+      filter: { property: 'Published', checkbox: { equals: true } },
+      sorts: [{ property: 'Date', direction: 'descending' }],
+      page_size: limit,
+    })
+    return results.map(mapJournalPage)
+  } catch (err) {
+    console.warn('[notion] getRecentJournalEntries failed:', err.message)
+    return []
+  }
+}
+
 async function getFeaturedArticles() {
   const pages = await queryDatabase(process.env.NOTION_DB_JOURNAL, {
     and: [
@@ -297,6 +313,7 @@ async function getNowStatus() {
 
 module.exports = {
   getJournalEntries,
+  getRecentJournalEntries,
   getFeaturedArticles,
   getJournalEntry,
   getPageBlocks,
