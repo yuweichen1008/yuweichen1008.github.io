@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react'
 
-const TAIWAN_DATE = new Date('2026-07-04T00:00:00+08:00')
+// SG arrival date (first day in Singapore)
+const SG_ARRIVAL = new Date('2026-03-31T00:00:00+08:00')
+// JLPT N2 exam date
 const JLPT_DATE = new Date('2026-07-05T09:00:00+08:00')
-const SPRINT_START = new Date('2026-04-01T00:00:00+08:00')
-const SPRINT_END = new Date('2026-07-05T09:00:00+08:00')
 
 function daysUntil(target) {
   const now = new Date()
   return Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)))
 }
 
-function sprintProgress() {
+function daysSince(start) {
   const now = new Date()
-  const total = SPRINT_END - SPRINT_START
-  const elapsed = Math.min(Math.max(now - SPRINT_START, 0), total)
+  return Math.max(0, Math.floor((now - start) / (1000 * 60 * 60 * 24)))
+}
+
+function jlptProgress() {
+  const now = new Date()
+  const total = JLPT_DATE - SG_ARRIVAL
+  const elapsed = Math.min(Math.max(now - SG_ARRIVAL, 0), total)
   return Math.round((elapsed / total) * 100)
 }
 
@@ -27,9 +32,9 @@ function msUntilMidnight() {
 
 function getValues() {
   return {
-    taiwanDays: daysUntil(TAIWAN_DATE),
     jlptDays: daysUntil(JLPT_DATE),
-    progress: sprintProgress(),
+    sgDays: daysSince(SG_ARRIVAL),
+    progress: jlptProgress(),
   }
 }
 
@@ -54,7 +59,6 @@ export default function CountdownBanner() {
   const [values, setValues] = useState(getValues)
 
   useEffect(() => {
-    // Values only change once per day — schedule update at next midnight
     let timeoutId = setTimeout(function tick() {
       setValues(getValues())
       timeoutId = setTimeout(tick, msUntilMidnight())
@@ -62,44 +66,35 @@ export default function CountdownBanner() {
     return () => clearTimeout(timeoutId)
   }, [])
 
-  const { taiwanDays, jlptDays, progress } = values
+  const { jlptDays, sgDays, progress } = values
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-      {/* Stats row */}
       <div className="flex flex-wrap gap-6 px-5 py-4 bg-gray-50 dark:bg-gray-800">
-        <Stat
-          emoji="✈️"
-          label="Back to Taiwan"
-          value={taiwanDays === 0 ? 'Today!' : `${taiwanDays}d`}
-          sub="Jul 4, 2026"
-        />
-        <div className="w-px bg-gray-200 dark:bg-gray-700 self-stretch hidden sm:block" />
         <Stat
           emoji="🇯🇵"
           label="JLPT N2"
           value={jlptDays === 0 ? 'Today!' : `${jlptDays}d`}
-          sub="Jul 5, 2026"
+          sub="Jul 5, 2026 · keep going"
         />
         <div className="w-px bg-gray-200 dark:bg-gray-700 self-stretch hidden sm:block" />
         <Stat
-          emoji="🎯"
-          label="Sprint"
-          value={`${progress}%`}
-          sub="Apr 1 → Jul 5 · 96 days"
+          emoji="🇸🇬"
+          label="In Singapore"
+          value={`${sgDays}d`}
+          sub="Since Mar 31 · extending"
         />
       </div>
 
-      {/* Progress bar */}
       <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700/50">
         <div className="flex justify-between text-xs text-gray-400 mb-1.5">
-          <span>Apr 1 🚀</span>
-          <span className="font-medium text-gray-500 dark:text-gray-400">{progress}% — keep going</span>
-          <span>Jul 5 🎌</span>
+          <span>🛬 Mar 31</span>
+          <span className="font-medium text-gray-500 dark:text-gray-400">{progress}% to JLPT</span>
+          <span>🎌 Jul 5</span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
           <div
-            className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 h-1.5 rounded-full transition-all duration-500"
+            className="bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 h-1.5 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>

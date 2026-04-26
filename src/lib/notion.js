@@ -311,10 +311,39 @@ async function getNowStatus() {
   })
 }
 
+// ─── Team Lunch ───────────────────────────────────────────────────────────────
+
+async function getTeamLunch() {
+  const db = process.env.NOTION_DB_TEAM_LUNCH
+  if (!notion || !db) return null
+  try {
+    const today = new Date().toISOString().split('T')[0]
+    const { results } = await notion.databases.query({
+      database_id: db,
+      filter: { property: 'Date', date: { on_or_after: today } },
+      sorts: [{ property: 'Date', direction: 'ascending' }],
+      page_size: 1,
+    })
+    if (!results.length) return null
+    const page = results[0]
+    const props = page.properties
+    return {
+      id: page.id,
+      date: getDate(props.Date),
+      location: getTitle(props.Name),
+      notes: getText(props.Notes),
+    }
+  } catch (err) {
+    console.warn('[notion] getTeamLunch failed:', err.message)
+    return null
+  }
+}
+
 module.exports = {
   getJournalEntries,
   getRecentJournalEntries,
   getFeaturedArticles,
+  getTeamLunch,
   getJournalEntry,
   getPageBlocks,
   getTimelineEvents,

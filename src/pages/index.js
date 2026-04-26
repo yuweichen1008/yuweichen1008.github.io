@@ -1,185 +1,500 @@
 import { useState, useEffect } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { PageSeo } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
 import { NowSection } from '@/components/StepsWidget'
-import { getNowStatus, getRecentJournalEntries } from '@/lib/notion'
+import { getNowStatus, getRecentJournalEntries, getTeamLunch } from '@/lib/notion'
 import fallbackNow from '@/data/nowData'
 import { useTranslation } from '@/lib/i18n'
 import { CATEGORY_CONFIG } from '@/lib/categoryConfig'
+import SG_HOLIDAYS from '@/data/sgHolidays'
 
-// ─── Static data ─────────────────────────────────────────────────────────────
+// ─── Static data ──────────────────────────────────────────────────────────────
 
-const TICKER_ITEMS = [
-  'Executing a Six-Month Career Transformation Plan.',
-  'Grinding JLPT N2 vocabulary... again.',
-  'Fueling C++ and GCP deployments entirely with Maxwell Food Centre and Chick-fil-A.',
-  'Staring at red candles so OpenClaw doesn\'t have to.',
-  'Running half-marathons to offset the damage done by hawker food.',
-]
-
-const SPICY_TAKES = [
+const CHAPTERS = [
   {
-    type: 'trivia',
-    emoji: '🧠',
-    text: 'A 10x engineer is usually just someone who deleted 90% of their meetings.',
+    num: '01',
+    flag: '🇹🇼',
+    location: 'Taiwan',
+    period: '1993 – 2023',
+    tagline: 'Roots & Night Markets',
+    body: 'Where it began. Family, tradition, beef noodle soup at midnight, and learning what it means to work hard for something you love.',
+    from: 'from-rose-400',
+    to: 'to-orange-300',
+    ringColor: 'ring-rose-300 dark:ring-rose-700',
+    dark: true,
   },
   {
-    type: 'trivia',
-    emoji: '🧠',
-    text: 'The best architecture is the one you can delete in an afternoon.',
+    num: '02',
+    flag: '🇺🇸',
+    location: 'Silicon Valley',
+    period: '2023 – 2025',
+    tagline: 'Growth, Tech & Leadership',
+    body: 'Joined the startup world. Learned to ship, to lead, and to fail fast with dignity. Found out what I am made of.',
+    from: 'from-amber-400',
+    to: 'to-yellow-300',
+    ringColor: 'ring-amber-300 dark:ring-amber-700',
+    dark: false,
   },
   {
-    type: 'trivia',
-    emoji: '🧠',
-    text: 'If your system needs 12 microservices to render a button, you may have over-engineered it.',
-  },
-  {
-    type: 'quote',
-    emoji: '📖',
-    text: '人往往有很多理由不去做一件事，卻常常只有一個理由去做對的事情。',
-  },
-  {
-    type: 'quote',
-    emoji: '📖',
-    text: '長大的意義是學習與無法改變的關係共處。',
-  },
-  {
-    type: 'quote',
-    emoji: '📖',
-    text: 'Emotional maturity is not about having answers. It\'s about living comfortably with the questions.',
-  },
-  {
-    type: 'joke',
-    emoji: '😅',
-    text: 'I run half-marathons to earn the right to eat Maxwell hawker food. The math checks out.',
-  },
-  {
-    type: 'joke',
-    emoji: '😅',
-    text: 'OpenClaw watches the red candles so I can watch the hawker queue. This is called delegation.',
-  },
-  {
-    type: 'joke',
-    emoji: '😅',
-    text: 'JLPT N2: 3,000 vocab words, 0 Japanese speakers nearby. Maximum efficiency.',
+    num: '03',
+    flag: '🇸🇬',
+    location: 'Singapore',
+    period: '2026 – Present',
+    tagline: 'Perspective & Expansion',
+    body: 'Building deliberately. Running along East Coast Park at sunrise. Eating everything. Growing into the leader I want to become.',
+    from: 'from-teal-400',
+    to: 'to-emerald-300',
+    ringColor: 'ring-teal-300 dark:ring-teal-700',
+    dark: false,
   },
 ]
 
-const TAKE_STYLE = {
-  trivia: { color: 'text-blue-400', label: '// ARCH TRIVIA' },
-  quote: { color: 'text-yellow-400', label: '// MEMOIR FRAGMENT' },
-  joke: { color: 'text-green-400', label: '// HOT TAKE' },
-}
+const LIFE_CARDS = [
+  {
+    id: 'learner',
+    emoji: '🇯🇵',
+    title: 'The Constant Learner',
+    subtitle: 'JLPT N2 · Japanese',
+    body: 'Grinding kanji at midnight, writing flashcards on the MRT. Not chasing fluency — chasing the joy of almost-understanding.',
+    accent: 'text-purple-700 dark:text-purple-300',
+    bg: 'bg-purple-50 dark:bg-purple-900/30',
+    border: 'border-purple-200 dark:border-purple-800',
+    tag: '3,000+ words in',
+    tagBg: 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300',
+    wide: false,
+  },
+  {
+    id: 'explorer',
+    emoji: '🍜',
+    title: 'The Explorer',
+    subtitle: 'Michelin stars → Maxwell Food Centre → Chick-fil-A',
+    body: 'Every city has a food soul. Singapore\'s is a hawker stall at 7 AM, ceiling fans spinning, kopi-o in hand. Every meal is a small celebration.',
+    accent: 'text-orange-700 dark:text-orange-300',
+    bg: 'bg-orange-50 dark:bg-orange-900/30',
+    border: 'border-orange-200 dark:border-orange-800',
+    tag: 'Michelin Bib × 12+',
+    tagBg: 'bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300',
+    wide: true,
+  },
+  {
+    id: 'limits',
+    emoji: '🏃',
+    title: 'Pushing Limits',
+    subtitle: 'Running · Badminton · East Coast Park',
+    body: 'Half-marathon training between code deploys. Badminton at 6 AM. Every run is a reset. The body knows what the mind needs before the mind does.',
+    accent: 'text-emerald-700 dark:text-emerald-300',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/30',
+    border: 'border-emerald-200 dark:border-emerald-800',
+    tag: 'Half-marathon in training',
+    tagBg: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300',
+    wide: true,
+  },
+  {
+    id: 'builder',
+    emoji: '🔨',
+    title: 'The Builder',
+    subtitle: 'OpenClaw · SkyReal · Systems',
+    body: 'Technology as a lever for freedom. Building tools that think so I can focus on what matters — people, problems, and the occasional red candle.',
+    accent: 'text-blue-700 dark:text-blue-300',
+    bg: 'bg-blue-50 dark:bg-blue-900/30',
+    border: 'border-blue-200 dark:border-blue-800',
+    tag: 'C++ · GCP · Co-founder',
+    tagBg: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300',
+    wide: false,
+  },
+]
 
-// ─── Hero ticker ─────────────────────────────────────────────────────────────
+const DAILY_JOYS = [
+  'A morning run through East Coast Park is always worth getting up for.',
+  'You don\'t need to have it all figured out to take the next step.',
+  'Learning Japanese taught me that getting it wrong is just the first draft of getting it right.',
+  'Every hawker stall has a story. So does every person eating there.',
+  'Three countries later — not rootless, just polyglot.',
+  'Strategic management is just empathy with a spreadsheet.',
+  'The best runs are the ones you almost didn\'t take.',
+  'Emotional maturity is learning to be a fair witness to yourself.',
+  'Beef noodle soup at midnight fixes most things.',
+  'The gap between where you are and where you want to be is just time, effort, and a good meal.',
+]
 
-function HeroTicker() {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % TICKER_ITEMS.length), 3500)
-    return () => clearInterval(id)
-  }, [])
+// ─── Flip avatar ──────────────────────────────────────────────────────────────
+
+function FlipAvatar() {
+  const [flipped, setFlipped] = useState(false)
   return (
-    <div className="h-5 relative overflow-hidden">
-      <AnimatePresence exitBeforeEnter>
-        <motion.span
-          key={idx}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
-          className="absolute text-sm text-gray-400 dark:text-gray-500 italic"
+    <div
+      style={{ perspective: '500px', width: 72, height: 72, flexShrink: 0 }}
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
+      onClick={() => setFlipped((f) => !f)}
+      className="cursor-pointer"
+      title="hover me"
+    >
+      <div
+        style={{
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        {/* Front */}
+        <div
+          style={{ backfaceVisibility: 'hidden', position: 'absolute', inset: 0 }}
+          className="rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-gray-900"
         >
-          {TICKER_ITEMS[idx]}
-        </motion.span>
-      </AnimatePresence>
+          <span className="text-xl font-bold text-white tracking-tight select-none">YW</span>
+        </div>
+        {/* Back */}
+        <div
+          style={{
+            backfaceVisibility: 'hidden',
+            position: 'absolute',
+            inset: 0,
+            transform: 'rotateY(180deg)',
+          }}
+          className="rounded-2xl bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-gray-900"
+        >
+          <span className="text-3xl select-none">🍜</span>
+        </div>
+      </div>
     </div>
   )
 }
 
-// ─── Spicy take terminal card ─────────────────────────────────────────────────
+// ─── Three chapters ───────────────────────────────────────────────────────────
 
-function SpicyTakeCard() {
-  const [take, setTake] = useState(null)
-  const [spinning, setSpinning] = useState(false)
+function ChapterCard({ chapter, index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
+      whileHover={{ y: -4 }}
+      className={`relative rounded-2xl bg-gradient-to-br ${chapter.from} ${chapter.to} p-6 flex flex-col gap-3 overflow-hidden min-h-[200px]`}
+    >
+      {/* Chapter number watermark */}
+      <span
+        className="absolute -bottom-2 -right-1 text-8xl font-black select-none pointer-events-none"
+        style={{ opacity: 0.12, lineHeight: 1 }}
+      >
+        {chapter.num}
+      </span>
 
-  function fire() {
-    if (spinning) return
-    setSpinning(true)
-    setTake(null)
-    setTimeout(() => {
-      setTake(SPICY_TAKES[Math.floor(Math.random() * SPICY_TAKES.length)])
-      setSpinning(false)
-    }, 250)
+      <div className="flex items-center justify-between">
+        <span className={`text-xs font-bold uppercase tracking-widest ${chapter.dark ? 'text-white/70' : 'text-gray-700/70'}`}>
+          Chapter {chapter.num}
+        </span>
+        <span className="text-2xl">{chapter.flag}</span>
+      </div>
+
+      <div>
+        <h3 className={`text-xl font-extrabold leading-tight ${chapter.dark ? 'text-white' : 'text-gray-900'}`}>
+          {chapter.location}
+        </h3>
+        <p className={`text-xs mt-0.5 tabular-nums ${chapter.dark ? 'text-white/60' : 'text-gray-600/70'}`}>
+          {chapter.period}
+        </p>
+      </div>
+
+      <p className={`text-sm font-semibold italic leading-snug ${chapter.dark ? 'text-white/90' : 'text-gray-800'}`}>
+        {chapter.tagline}
+      </p>
+
+      <p className={`text-sm leading-relaxed ${chapter.dark ? 'text-white/80' : 'text-gray-700'}`}>
+        {chapter.body}
+      </p>
+    </motion.div>
+  )
+}
+
+// ─── Life in motion card ──────────────────────────────────────────────────────
+
+function LifeCard({ card, index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.35, delay: (index % 2) * 0.08, ease: 'easeOut' }}
+      whileHover={{ y: -3 }}
+      className={`group rounded-2xl border p-5 flex flex-col gap-3 ${card.bg} ${card.border} ${
+        card.wide ? 'sm:col-span-2 lg:col-span-1' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="text-3xl leading-none">{card.emoji}</span>
+        <span className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium flex-shrink-0 ${card.tagBg}`}>
+          {card.tag}
+        </span>
+      </div>
+      <div>
+        <h3 className={`font-bold text-base leading-tight ${card.accent}`}>{card.title}</h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{card.subtitle}</p>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">{card.body}</p>
+    </motion.div>
+  )
+}
+
+// ─── Daily Joy widget ─────────────────────────────────────────────────────────
+
+function DailyJoyWidget() {
+  const [idx, setIdx] = useState(() => Math.floor(Math.random() * DAILY_JOYS.length))
+  const [animKey, setAnimKey] = useState(0)
+
+  function nextJoy() {
+    setIdx((i) => {
+      let next
+      do { next = Math.floor(Math.random() * DAILY_JOYS.length) } while (next === i)
+      return next
+    })
+    setAnimKey((k) => k + 1)
   }
 
   return (
-    <div className="rounded-2xl bg-gray-950 dark:bg-black border border-gray-800 p-5 flex flex-col gap-3 h-full min-h-[200px]">
-      {/* macOS traffic lights */}
-      <div className="flex items-center gap-1.5">
-        <span className="w-3 h-3 rounded-full bg-red-500" />
-        <span className="w-3 h-3 rounded-full bg-yellow-500" />
-        <span className="w-3 h-3 rounded-full bg-green-500" />
-        <span className="ml-2 text-xs text-gray-600 font-mono">yomi@terminal ~ %</span>
+    <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 border border-amber-200 dark:border-amber-800 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="text-3xl flex-shrink-0">☀️</div>
+      <div className="flex-1 min-w-0">
+        <div className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-1">
+          Morning Run Thought
+        </div>
+        <motion.p
+          key={animKey}
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed italic"
+        >
+          &ldquo;{DAILY_JOYS[idx]}&rdquo;
+        </motion.p>
       </div>
-
-      {/* Output area */}
-      <div className="flex-1 min-h-[80px]">
-        <AnimatePresence exitBeforeEnter>
-          {spinning && (
-            <motion.p
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-xs text-gray-600 font-mono"
-            >
-              <span className="text-green-400">$</span> loading
-              <span className="animate-pulse">...</span>
-            </motion.p>
-          )}
-          {!spinning && !take && (
-            <motion.p
-              key="idle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-xs text-gray-600 font-mono"
-            >
-              <span className="text-green-400">$</span> awaiting input
-              <span className="animate-pulse">_</span>
-            </motion.p>
-          )}
-          {!spinning && take && (
-            <motion.div
-              key={take.text}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-2"
-            >
-              <div
-                className={`text-xs font-mono font-bold tracking-wider ${TAKE_STYLE[take.type].color}`}
-              >
-                {TAKE_STYLE[take.type].label}
-              </div>
-              <p className="text-sm text-gray-200 leading-relaxed font-mono">
-                {take.emoji} {take.text}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
       <button
-        onClick={fire}
-        disabled={spinning}
-        className="text-xs font-mono font-semibold px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-gray-300 transition-all disabled:opacity-40 self-start border border-gray-700"
+        onClick={nextJoy}
+        className="flex-shrink-0 text-xs font-semibold px-4 py-2 rounded-xl bg-amber-100 dark:bg-amber-900 hover:bg-amber-200 dark:hover:bg-amber-800 text-amber-700 dark:text-amber-300 transition-colors border border-amber-200 dark:border-amber-700"
       >
-        {take ? '$ next --random' : '$ get-spicy-take'}
+        Next →
       </button>
+    </div>
+  )
+}
+
+// ─── Singapore Hub helpers ────────────────────────────────────────────────────
+
+function getNextHoliday() {
+  const today = new Date().toISOString().split('T')[0]
+  return SG_HOLIDAYS.find((h) => h.date >= today) || null
+}
+
+function getNextWednesday() {
+  const d = new Date()
+  const day = d.getDay() // 0 Sun … 6 Sat
+  const diff = day === 3 ? 0 : (3 - day + 7) % 7
+  d.setDate(d.getDate() + diff)
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+}
+
+function WeatherWidget() {
+  const [wx, setWx] = useState(null)
+  const [err, setErr] = useState(false)
+
+  useEffect(() => {
+    fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast')
+      .then((r) => r.json())
+      .then((data) => {
+        const item = data.items?.[0]
+        if (!item) { setErr(true); return }
+        const g = item.general
+        setWx({
+          forecast: g?.forecast || '',
+          tempLow: g?.temperature?.low,
+          tempHigh: g?.temperature?.high,
+          humLow: g?.relative_humidity?.low,
+          humHigh: g?.relative_humidity?.high,
+        })
+      })
+      .catch(() => setErr(true))
+  }, [])
+
+  const icon = !wx ? '🌤️'
+    : /thunder/i.test(wx.forecast) ? '⛈️'
+    : /rain|shower/i.test(wx.forecast) ? '🌧️'
+    : /cloud/i.test(wx.forecast) ? '⛅'
+    : /fair|sunny/i.test(wx.forecast) ? '☀️'
+    : '🌤️'
+
+  return (
+    <div className="flex items-center justify-between gap-3 py-3 px-4 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex items-center gap-2.5 min-w-0">
+        <span className="text-lg flex-shrink-0">{icon}</span>
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            Weather · Singapore
+          </div>
+          <div className="text-sm text-gray-800 dark:text-gray-200 truncate">
+            {err
+              ? 'Unable to load'
+              : wx
+              ? `${wx.tempLow}–${wx.tempHigh}°C · ${wx.forecast}`
+              : 'Loading…'}
+          </div>
+          {wx && (
+            <div className="text-xs text-gray-400">
+              {wx.humLow}–{wx.humHigh}% humidity
+            </div>
+          )}
+        </div>
+      </div>
+      <a
+        href="https://www.nea.gov.sg/weather"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-shrink-0 text-xs text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+      >
+        NEA ↗
+      </a>
+    </div>
+  )
+}
+
+function NextHolidayRow() {
+  const h = getNextHoliday()
+  if (!h) return null
+  const daysAway = Math.max(
+    0,
+    Math.ceil((new Date(h.date + 'T00:00:00') - new Date()) / (1000 * 60 * 60 * 24))
+  )
+  const label = daysAway === 0 ? 'Today! 🎉' : daysAway === 1 ? 'Tomorrow' : `${daysAway}d away`
+  const dateStr = new Date(h.date + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })
+  return (
+    <div className="flex items-center justify-between gap-3 py-3 px-4 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex items-center gap-2.5">
+        <span className="text-lg">🗓️</span>
+        <div>
+          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            Next Public Holiday
+          </div>
+          <div className="text-sm text-gray-800 dark:text-gray-200">
+            {h.name}{h.note ? ` · ${h.note}` : ''} — {dateStr}
+          </div>
+        </div>
+      </div>
+      <span className="flex-shrink-0 text-xs font-medium px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300">
+        {label}
+      </span>
+    </div>
+  )
+}
+
+function TeamLunchRow({ lunch }) {
+  const nextWed = getNextWednesday()
+  const dateLabel = lunch?.date
+    ? new Date(lunch.date + 'T00:00:00').toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      })
+    : nextWed
+
+  return (
+    <div className="flex items-start justify-between gap-3 py-3 px-4 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex items-start gap-2.5 min-w-0">
+        <span className="text-lg flex-shrink-0 mt-0.5">🍱</span>
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            Wednesday Team Lunch
+          </div>
+          <div className="text-sm text-gray-800 dark:text-gray-200 font-medium">
+            {dateLabel}
+            {lunch?.location ? ` · ${lunch.location}` : ' · Location TBD'}
+          </div>
+          {lunch?.notes && (
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+              {lunch.notes}
+            </div>
+          )}
+          {!lunch && (
+            <div className="text-xs text-gray-400 mt-0.5">
+              Add <code className="font-mono">NOTION_DB_TEAM_LUNCH</code> to update via Notion
+            </div>
+          )}
+        </div>
+      </div>
+      <a
+        href="https://www.notion.so"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-shrink-0 text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors mt-1"
+      >
+        Edit ↗
+      </a>
+    </div>
+  )
+}
+
+function SGHub({ lunch }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      {/* Hub header */}
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-teal-50 dark:bg-teal-900/30 border-b border-teal-100 dark:border-teal-800">
+        <span className="text-sm">🇸🇬</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-teal-700 dark:text-teal-400">
+          Singapore Hub
+        </span>
+        <span className="ml-auto text-xs text-teal-500 dark:text-teal-500 italic">personal dashboard</span>
+      </div>
+
+      {/* Romans 6:14 */}
+      <div className="flex items-start gap-3 py-3 px-4 bg-amber-50 dark:bg-amber-950/30 border-b border-amber-100 dark:border-amber-900">
+        <span className="text-base flex-shrink-0 mt-0.5">✝️</span>
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
+            Romans 6:14
+          </div>
+          <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed italic">
+            &ldquo;For sin shall not have dominion over you: for ye are not under the law, but under grace.&rdquo;
+          </p>
+        </div>
+      </div>
+
+      {/* WhatsApp quick link */}
+      <div className="flex items-center justify-between gap-3 py-3 px-4 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex items-center gap-2.5">
+          <span className="text-lg">💬</span>
+          <div>
+            <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              WhatsApp
+            </div>
+            <div className="text-sm text-gray-800 dark:text-gray-200 font-mono">+65 8822-0383</div>
+          </div>
+        </div>
+        <a
+          href="https://wa.me/6588220383"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-green-500 hover:bg-green-600 text-white transition-colors"
+        >
+          Chat ↗
+        </a>
+      </div>
+
+      {/* Weather */}
+      <WeatherWidget />
+
+      {/* Next holiday */}
+      <NextHolidayRow />
+
+      {/* Team lunch */}
+      <TeamLunchRow lunch={lunch} />
     </div>
   )
 }
@@ -218,21 +533,23 @@ function RecentRow({ entry }) {
 // ─── Data fetching ────────────────────────────────────────────────────────────
 
 export async function getStaticProps() {
-  const [nowItems, recentUpdates] = await Promise.all([
+  const [nowItems, recentUpdates, teamLunch] = await Promise.all([
     getNowStatus(),
     getRecentJournalEntries(5),
+    getTeamLunch(),
   ])
   return {
     props: {
       nowItems: nowItems.length ? nowItems : fallbackNow,
       recentUpdates,
+      teamLunch: teamLunch || null,
     },
   }
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function Home({ nowItems, recentUpdates }) {
+export default function Home({ nowItems, recentUpdates, teamLunch }) {
   const { t, locale } = useTranslation()
 
   const NAV_LINKS = [
@@ -241,6 +558,7 @@ export default function Home({ nowItems, recentUpdates }) {
     { href: '/timeline', label: { en: 'Timeline', zh: '時間軸', ja: '年表' }[locale] || 'Timeline' },
     { href: '/singapore/food', label: { en: 'Food', zh: '美食', ja: '食記' }[locale] || 'Food' },
     { href: '/singapore/adventures', label: { en: 'Adventures', zh: '旅程', ja: '冒険' }[locale] || 'Adventures' },
+    { href: '/projects', label: { en: 'Projects', zh: '專案', ja: 'プロジェクト' }[locale] || 'Projects' },
   ]
 
   return (
@@ -251,23 +569,21 @@ export default function Home({ nowItems, recentUpdates }) {
         url={siteMetadata.siteUrl}
       />
 
-      <div className="pt-10 pb-16 space-y-12">
+      <div className="pt-10 pb-16 space-y-14">
 
-        {/* ── Hero ── */}
+        {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-start gap-6">
-          <div className="flex-shrink-0">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
-              <span className="text-xl font-bold text-white tracking-tight">YW</span>
-            </div>
-          </div>
-          <div className="space-y-2.5 flex-1">
+          <FlipAvatar />
+          <div className="space-y-2 flex-1">
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl">
               Yomi
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 max-w-lg leading-relaxed">
               {t('home.bio')}
             </p>
-            <HeroTicker />
+            <p className="text-xs text-gray-400 dark:text-gray-500 italic">
+              ↑ hover the avatar
+            </p>
             <div className="flex items-center gap-2 flex-wrap pt-1">
               <SocialIcon kind="github" href={siteMetadata.github} size={5} />
               <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={5} />
@@ -275,8 +591,16 @@ export default function Home({ nowItems, recentUpdates }) {
               <SocialIcon kind="instagram" href={siteMetadata.instagram} size={5} />
               <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-1" />
               <a
+                href={siteMetadata.skyreal}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:opacity-80 transition-opacity"
+              >
+                🚀 SkyReal
+              </a>
+              <a
                 href={`mailto:${siteMetadata.email}`}
-                className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+                className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 transition-colors"
               >
                 ✉️ Email
               </a>
@@ -284,180 +608,165 @@ export default function Home({ nowItems, recentUpdates }) {
           </div>
         </div>
 
-        {/* ── Quote strip ── */}
-        <div className="py-4 border-y border-gray-100 dark:border-gray-800 space-y-1">
-          <p className="text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed">
-            「人往往有很多理由不去做一件事，卻常常只有一個理由去做對的事情。」
-          </p>
-          <p className="text-xs text-gray-400 dark:text-gray-600">
-            People often have many reasons not to do something, but usually only one reason to do the right thing.
-          </p>
-        </div>
-
-        {/* ── Bento grid ── */}
+        {/* ── Three Chapters ────────────────────────────────────────────────── */}
         <div>
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
-            {t('home.building')}
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-            {/* OpenClaw — spans 2 cols on lg */}
-            <motion.div
-              className="sm:col-span-2 lg:col-span-2 group relative rounded-2xl bg-gray-900 border border-gray-800 overflow-hidden p-6 flex flex-col gap-4 min-h-[220px]"
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
+          <div className="flex items-center gap-3 mb-5">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+              Three Chapters
+            </h2>
+            <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+            <Link
+              href="/timeline"
+              className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             >
-              {/* Decorative stock lines */}
-              <div className="absolute inset-0 opacity-[0.08] pointer-events-none select-none">
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 400 200"
-                  preserveAspectRatio="none"
-                >
-                  <polyline
-                    points="0,140 50,120 100,155 150,90 200,115 250,65 300,95 350,45 400,75"
-                    fill="none"
-                    stroke="#22c55e"
-                    strokeWidth="2.5"
-                  />
-                  <polyline
-                    points="0,160 50,175 100,150 150,180 200,168 250,185 300,160 350,178 400,155"
-                    fill="none"
-                    stroke="#ef4444"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </div>
-
-              <div className="relative z-10 flex items-start gap-3">
-                <span className="text-2xl mt-0.5">📈</span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-white text-lg leading-tight">OpenClaw</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-green-900/60 text-green-400 border border-green-800 font-mono">
-                      active
-                    </span>
-                  </div>
-                  <div className="text-xs text-gray-500 font-mono mt-0.5">C++ · GCP · Algo Trading</div>
-                </div>
-                <span className="text-xs text-gray-600 font-mono mt-1 flex-shrink-0">private</span>
-              </div>
-
-              <p className="relative z-10 text-sm text-gray-300 leading-relaxed max-w-md">
-                Building an AI to automate my algorithmic trading so I don&#39;t have to stare at the
-                red candles myself. It stares at them for me. Progress.
-              </p>
-
-              <div className="relative z-10 flex flex-wrap gap-2 mt-auto">
-                {['Self-hosted', 'Real-time signals', 'Risk management', 'No more candle-watching'].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-0.5 rounded-full bg-gray-800 text-gray-400 border border-gray-700 font-mono"
-                    >
-                      {tag}
-                    </span>
-                  )
-                )}
-              </div>
-            </motion.div>
-
-            {/* SkyReal */}
-            <motion.a
-              href={siteMetadata.skyreal}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 flex flex-col gap-3 min-h-[200px]"
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-            >
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-2xl">🚀</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 font-mono flex-shrink-0">
-                  co-founder
-                </span>
-              </div>
-              <div className="flex-1">
-                <div className="font-bold text-gray-900 dark:text-gray-100 text-base">SkyReal</div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed">
-                  Transitioning from shipping code to leading teams. Content that actually works —
-                  video, brand, social for founders. Turns out steering a company and writing C++
-                  are different sports.
-                </p>
-              </div>
-              <div className="text-xs text-indigo-500 dark:text-indigo-400 group-hover:underline font-medium">
-                skyreal.org ↗
-              </div>
-            </motion.a>
-
-            {/* Content Creation */}
-            <motion.div
-              className="group rounded-2xl overflow-hidden relative min-h-[200px] flex flex-col"
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600" />
-              <div className="relative z-10 p-5 flex flex-col gap-3 h-full">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="text-2xl">🎙️</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 font-mono flex-shrink-0">
-                    new season
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <div className="font-bold text-white text-base">Content Creation</div>
-                  <p className="text-sm text-white/80 mt-1.5 leading-relaxed">
-                    YouTube Shorts + Podcast. Spicy, straightforward, humorously engaging talk show
-                    on self-love and identity. Subscribe if you want to laugh, then stare at the ceiling.
-                  </p>
-                </div>
-                <a
-                  href={siteMetadata.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-xs px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/30 transition-colors font-medium self-start"
-                >
-                  YouTube →
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Memoir */}
-            <motion.div
-              className="group rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-5 flex flex-col gap-3 min-h-[200px] relative overflow-hidden"
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-            >
-              <div className="absolute bottom-2 right-3 text-7xl opacity-[0.07] select-none pointer-events-none">
-                📖
-              </div>
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-2xl">📖</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-700 font-mono flex-shrink-0">
-                  in progress
-                </span>
-              </div>
-              <div className="flex-1">
-                <div className="font-bold text-gray-900 dark:text-gray-100 text-base">The Memoir</div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1.5 leading-relaxed">
-                  31 years of life transitions. A structured exploration of emotional maturity —
-                  the TW → SV → SG arc, written with more honesty than LinkedIn allows.
-                </p>
-              </div>
-              <p className="text-xs text-amber-600 dark:text-amber-500 italic leading-relaxed">
-                「長大的意義是學習與無法改變的關係共處。」
-              </p>
-            </motion.div>
-
-            {/* Spicy Take terminal */}
-            <SpicyTakeCard />
-
+              Full timeline →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {CHAPTERS.map((ch, i) => (
+              <ChapterCard key={ch.num} chapter={ch} index={i} />
+            ))}
           </div>
         </div>
 
-        {/* ── Latest activity ── */}
+        {/* ── Life in Motion ────────────────────────────────────────────────── */}
+        <div>
+          <div className="flex items-center gap-3 mb-5">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+              Life in Motion
+            </h2>
+            <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Learner — narrow */}
+            <LifeCard card={LIFE_CARDS[0]} index={0} />
+            {/* Explorer — wide on sm */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.35, delay: 0.08, ease: 'easeOut' }}
+              whileHover={{ y: -3 }}
+              className={`group rounded-2xl border p-5 flex flex-col gap-3 ${LIFE_CARDS[1].bg} ${LIFE_CARDS[1].border} sm:col-span-2 lg:col-span-2`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-3xl leading-none">{LIFE_CARDS[1].emoji}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium flex-shrink-0 ${LIFE_CARDS[1].tagBg}`}>
+                  {LIFE_CARDS[1].tag}
+                </span>
+              </div>
+              <div>
+                <h3 className={`font-bold text-base leading-tight ${LIFE_CARDS[1].accent}`}>
+                  {LIFE_CARDS[1].title}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{LIFE_CARDS[1].subtitle}</p>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{LIFE_CARDS[1].body}</p>
+              <Link
+                href="/singapore/food"
+                className={`text-xs font-medium self-start hover:underline ${LIFE_CARDS[1].accent}`}
+              >
+                See food log →
+              </Link>
+            </motion.div>
+
+            {/* Limits — wide on sm */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              whileHover={{ y: -3 }}
+              className={`group rounded-2xl border p-5 flex flex-col gap-3 ${LIFE_CARDS[2].bg} ${LIFE_CARDS[2].border} sm:col-span-2 lg:col-span-2`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-3xl leading-none">{LIFE_CARDS[2].emoji}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium flex-shrink-0 ${LIFE_CARDS[2].tagBg}`}>
+                  {LIFE_CARDS[2].tag}
+                </span>
+              </div>
+              <div>
+                <h3 className={`font-bold text-base leading-tight ${LIFE_CARDS[2].accent}`}>
+                  {LIFE_CARDS[2].title}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{LIFE_CARDS[2].subtitle}</p>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{LIFE_CARDS[2].body}</p>
+            </motion.div>
+            {/* Builder — narrow */}
+            <LifeCard card={LIFE_CARDS[3]} index={3} />
+          </div>
+        </div>
+
+        {/* ── Memoir showcase ───────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="relative rounded-2xl overflow-hidden border border-amber-200 dark:border-amber-800"
+        >
+          {/* Warm gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-amber-950/50 dark:via-orange-950/40 dark:to-rose-950/40" />
+
+          {/* Decorative large book */}
+          <div
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-9xl select-none pointer-events-none"
+            style={{ opacity: 0.07 }}
+          >
+            📖
+          </div>
+
+          <div className="relative z-10 p-8 sm:p-10">
+            <div className="max-w-xl space-y-5">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+                  The Memoir Project
+                </span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-mono">
+                  in progress
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-snug">
+                31 Years.&nbsp;3 Cities.
+                <br />
+                <span className="text-amber-600 dark:text-amber-400">1 Unfinished Story.</span>
+              </h2>
+
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                I&apos;m writing about the things I didn&apos;t understand until much later — the bridges
+                between identity and place, between who I was told to be and who I chose to become.
+                A structured exploration of emotional maturity across three continents.
+              </p>
+
+              {/* Quote blocks */}
+              <div className="space-y-3 border-l-2 border-amber-300 dark:border-amber-700 pl-4">
+                <div>
+                  <p className="text-sm text-gray-800 dark:text-gray-200 italic leading-relaxed">
+                    「人往往有很多理由不去做一件事，卻常常只有一個理由去做對的事情。」
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    People often have many reasons not to do something, but usually only one reason to do the right thing.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-800 dark:text-gray-200 italic leading-relaxed">
+                    「長大的意義是學習與無法改變的關係共處。」
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    The meaning of growing up is learning to coexist with unchangeable relationships.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Singapore Hub ────────────────────────────────────────────────── */}
+        <SGHub lunch={teamLunch} />
+
+        {/* ── Latest activity ───────────────────────────────────────────────── */}
         {recentUpdates.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -479,7 +788,10 @@ export default function Home({ nowItems, recentUpdates }) {
           </div>
         )}
 
-        {/* ── Explore nav ── */}
+        {/* ── Daily Joy widget ──────────────────────────────────────────────── */}
+        <DailyJoyWidget />
+
+        {/* ── Explore nav ───────────────────────────────────────────────────── */}
         <div className="flex items-center gap-1 flex-wrap py-3 border-t border-gray-100 dark:border-gray-800">
           {NAV_LINKS.map((link, i) => (
             <span key={link.href} className="flex items-center gap-1">
@@ -496,7 +808,7 @@ export default function Home({ nowItems, recentUpdates }) {
           ))}
         </div>
 
-        {/* ── Now section ── */}
+        {/* ── Now section ───────────────────────────────────────────────────── */}
         <NowSection items={nowItems} label={t('home.rightNow')} />
 
       </div>
