@@ -1,32 +1,31 @@
-// Static fallback shown when NOTION_DB_NOW_STATUS is not configured.
-// Update this list manually or replace with live Notion data.
+// Static "Right Now" items — update to reflect current focus areas.
 const nowData = [
   {
-    id: 'f1',
-    category: 'reading',
-    name: 'Genki II',
-    notes: 'Chapter 18 — Japanese grammar grind',
-    url: '',
-  },
-  {
-    id: 'f2',
+    id: 'n1',
     category: 'learning',
-    name: 'JLPT N2 vocab deck',
-    notes: '~30 new cards/day on Anki',
+    name: 'LLM Evaluation Frameworks',
+    notes: 'Deep-diving RAGAS and LLM-as-judge patterns for AI consulting engagements',
     url: '',
   },
   {
-    id: 'f3',
-    category: 'eating',
-    name: 'Maxwell Food Centre',
-    notes: 'Working through every stall',
+    id: 'n2',
+    category: 'learning',
+    name: 'JLPT N2 — Final Sprint',
+    notes: 'Listening section focus · targeting July exam · 30 cards/day on Anki',
     url: '',
   },
   {
-    id: 'f4',
+    id: 'n3',
     category: 'doing',
-    name: 'Morning runs — East Coast Park',
-    notes: 'Building up to 10k before July',
+    name: 'AI Consulting Practice',
+    notes: 'Scoping first Singapore client engagement in AI system design',
+    url: '',
+  },
+  {
+    id: 'n4',
+    category: 'reading',
+    name: 'The Coming Wave — Mustafa Suleyman',
+    notes: 'On AI deployment patterns and institutional readiness',
     url: '',
   },
 ]

@@ -10,19 +10,21 @@
     "blog": "ブログ"
   },
   "home": {
-    "tagline": "エンジニア・創業者・探検家・32歳",
-    "bio": "セルフメイド。三カ国、一つのキャリア。台湾生まれ、シリコンバレー育ち、シンガポールに根を張る。SkyReal共同創業者。JLPT N2猛勉強中。シンガポールでさらに深く。",
+    "tagline": "検証エンジニア → AI スペシャリスト · シンガポール",
+    "bio": "7年間のASIC/SoC検証エンジニア。新竹サイエンスパークからシリコンバレーへ。現在はシンガポールでAIコンサルタントとして転身中。JLPT N2。エンジニアの厳密さとLLM導入を融合。",
     "status_sg": "シンガポール在住",
     "status_jlpt": "JLPT N2 · 2026年7月",
-    "status_skyreal": "SkyReal 共同創業者",
-    "status_taiwan": "7月4日台湾帰国",
+    "status_consulting": "AI + 検証コンサルティング",
     "explore": "探る",
     "selectedWriting": "厳選記事",
     "latest": "最新",
     "building": "制作中",
     "rightNow": "今",
     "today": "今日",
-    "noSteps": "データなし — Notion DailyStats に追加してください"
+    "noSteps": "データなし — Notion DailyStats に追加してください",
+    "consulting": "コンサルティング",
+    "trainerCard": "トレーナーカード",
+    "skills": "スキル"
   },
   "life": {
     "heroTitle": "三つの都市",
@@ -43,7 +45,7 @@
     "writeNew": "✏️ 書く"
   },
   "footer": {
-    "tagline": "エンジニア・創業者・三カ国、一つのキャリア。",
+    "tagline": "検証エンジニア → AIコンサルタント · シリコンバレー → シンガポール。",
     "pages": "ページ",
     "built": "Next.js · Tailwind · GitHub Pages"
   }

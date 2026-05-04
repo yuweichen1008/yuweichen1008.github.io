@@ -2,7 +2,7 @@
   "title": "Yomi.work",
   "author": "Yomi",
   "headerTitle": "Yomi.work",
-  "description": "Engineer · Founder · Three countries, one career. Taiwan → Silicon Valley → Singapore.",
+  "description": "Verification Engineer pivoting to AI. 7 years ASIC/SoC verification, Silicon Valley background, JLPT N2, Singapore-based consultant.",
   "language": "en-us",
   "siteUrl": "https://yuweichen1008.github.io",
   "siteRepo": "https://github.com/yuweichen1008/yuweichen1008.github.io",
@@ -10,10 +10,10 @@
   "socialBanner": "/static/images/yomi.png",
   "email": "yuweichen1008@gmail.com",
   "github": "https://github.com/yuweichen1008",
-  "youtube": "https://www.youtube.com/@longinsilicon5232",
+  "youtube": "",
   "linkedin": "https://www.linkedin.com/in/yuwei-chen-1008",
-  "instagram": "https://www.instagram.com/long.in.silicon",
+  "instagram": "",
   "skyreal": "https://skyreal.org/",
-  "calendly": "calendly.com/timinbos",
+  "calendly": "https://calendly.com/timinbos",
   "locale": "en-US"
 }

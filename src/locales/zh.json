@@ -10,19 +10,21 @@
     "blog": "部落格"
   },
   "home": {
-    "tagline": "工程師・創辦人・探索者・32歲",
-    "bio": "三個國家，一段職涯。台灣出生，矽谷磨練，新加坡深耕。備考JLPT N2。在新加坡繼續走下去。",
+    "tagline": "驗證工程師 → AI 顧問 · 新加坡",
+    "bio": "七年 ASIC/SoC 驗證工程師，從新竹科學園區到矽谷。現在轉型為 AI 顧問，在新加坡深耕。JLPT N2。工程嚴謹性遇上 LLM 部署。",
     "status_sg": "現居新加坡",
     "status_jlpt": "JLPT N2 · 2026年7月",
-    "status_skyreal": "SkyReal 共同創辦人",
-    "status_taiwan": "7月4日dl",
+    "status_consulting": "AI + 驗證顧問",
     "explore": "探索",
     "selectedWriting": "精選文章",
     "latest": "最新更新",
     "building": "正在做",
     "rightNow": "現在",
     "today": "今天",
-    "noSteps": "尚無步數資料 — 請在 Notion DailyStats 新增"
+    "noSteps": "尚無步數資料 — 請在 Notion DailyStats 新增",
+    "consulting": "顧問服務",
+    "trainerCard": "訓練師卡片",
+    "skills": "技能"
   },
   "life": {
     "heroTitle": "三個城市",
@@ -43,7 +45,7 @@
     "writeNew": "✏️ 撰寫"
   },
   "footer": {
-    "tagline": "工程師・創辦人・三個國家，一段職涯。",
+    "tagline": "驗證工程師 → AI 顧問 · 矽谷 → 新加坡。",
     "pages": "頁面",
     "built": "Next.js · Tailwind · GitHub Pages"
   }

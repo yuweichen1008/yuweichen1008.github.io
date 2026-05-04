@@ -10,19 +10,21 @@
     "blog": "Blog"
   },
   "home": {
-    "tagline": "Engineer · Founder · Explorer · 32",
-    "bio": "Self-made. Three countries, one career. Taiwan-born, Silicon Valley-trained, Singapore-based. Co-founder of SkyReal. Grinding JLPT N2. Rooting deeper in Singapore.",
+    "tagline": "Verification Engineer → AI Specialist · Singapore Consultant",
+    "bio": "Seven years verifying silicon — ASIC/SoC at Hsinchu Science Park through Silicon Valley. Now pivoting into AI consulting in Singapore. JLPT N2. Engineering rigour meets LLM deployment.",
     "status_sg": "Based in Singapore",
     "status_jlpt": "JLPT N2 · Jul 2026",
-    "status_skyreal": "Co-founder @ SkyReal",
-    "status_taiwan": "Home to Taiwan · Jul 4",
+    "status_consulting": "AI + Verification Consulting",
     "explore": "Explore",
     "selectedWriting": "Selected Writing",
     "latest": "Latest",
     "building": "Building",
     "rightNow": "Right now",
     "today": "Today",
-    "noSteps": "No step data yet — add to Notion DailyStats"
+    "noSteps": "No step data yet — add to Notion DailyStats",
+    "consulting": "Consulting",
+    "trainerCard": "Trainer Card",
+    "skills": "Skills"
   },
   "life": {
     "heroTitle": "Three Cities",
@@ -43,7 +45,7 @@
     "writeNew": "✏️ Write"
   },
   "footer": {
-    "tagline": "Engineer · Founder · Three countries, one career.",
+    "tagline": "Verification Engineer → AI Consultant · Silicon Valley → Singapore.",
     "pages": "Pages",
     "built": "Next.js · Tailwind · GitHub Pages"
   }
