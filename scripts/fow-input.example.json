@@ -1,0 +1,29 @@
+{
+  "_comment": "Copy this file to fow-input.json at the repo root and fill in your data.",
+  "_comment2": "countries: ISO 3166-1 alpha-2 codes (2-letter). cities: name + decimal lat/lng.",
+  "countries": [
+    "TW",
+    "US",
+    "SG",
+    "JP",
+    "HK",
+    "KR",
+    "CA",
+    "TH",
+    "ID",
+    "MY"
+  ],
+  "cities": [
+    { "name": "Taipei",        "lat": 25.033,  "lng": 121.565 },
+    { "name": "San Francisco", "lat": 37.775,  "lng": -122.419 },
+    { "name": "Singapore",     "lat": 1.352,   "lng": 103.820 },
+    { "name": "Tokyo",         "lat": 35.676,  "lng": 139.650 },
+    { "name": "Kyoto",         "lat": 35.012,  "lng": 135.768 },
+    { "name": "Seoul",         "lat": 37.566,  "lng": 126.978 },
+    { "name": "Hong Kong",     "lat": 22.320,  "lng": 114.170 },
+    { "name": "Bangkok",       "lat": 13.756,  "lng": 100.502 },
+    { "name": "Bali",          "lat": -8.339,  "lng": 115.092 },
+    { "name": "Kuala Lumpur",  "lat": 3.140,   "lng": 101.687 },
+    { "name": "Vancouver",     "lat": 49.283,  "lng": -123.121 }
+  ]
+}
