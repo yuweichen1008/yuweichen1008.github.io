@@ -14,23 +14,58 @@ const fowData = {
     764, // TH
     360, // ID
     458, // MY
+    826, // GB
+    372, // IE
+    250, // FR
+    40, // AT
+    704, // VN
+    608, // PH
+    578, // NO
+    752, // SE
+    246, // FI
+    528, // NL
+    276, // DE
+    784, // AE
   ],
   stats: {
-    countries: 10,
-    cities: 11,
+    countries: 22,
+    cities: 34,
   },
   highlights: [
     { name: "Taipei", lat: 25.033, lng: 121.565 },
     { name: "San Francisco", lat: 37.775, lng: -122.419 },
+    { name: "Honolulu", lat: 21.307, lng: -157.858 },
+    { name: "Las Vegas", lat: 36.175, lng: -115.137 },
+    { name: "New York", lat: 40.713, lng: -74.006 },
+    { name: "Boston", lat: 42.361, lng: -71.058 },
+    { name: "Chicago", lat: 41.878, lng: -87.63 },
+    { name: "Minneapolis", lat: 44.977, lng: -93.265 },
+    { name: "Des Moines", lat: 41.59, lng: -93.62 },
+    { name: "Bozeman", lat: 45.679, lng: -111.042 },
     { name: "Singapore", lat: 1.352, lng: 103.82 },
     { name: "Tokyo", lat: 35.676, lng: 139.65 },
     { name: "Kyoto", lat: 35.012, lng: 135.768 },
     { name: "Seoul", lat: 37.566, lng: 126.978 },
     { name: "Hong Kong", lat: 22.32, lng: 114.17 },
     { name: "Bangkok", lat: 13.756, lng: 100.502 },
+    { name: "Hanoi", lat: 21.028, lng: 105.854 },
     { name: "Bali", lat: -8.339, lng: 115.092 },
+    { name: "Jakarta", lat: -6.208, lng: 106.846 },
+    { name: "Bohol", lat: 9.674, lng: 124.065 },
     { name: "Kuala Lumpur", lat: 3.14, lng: 101.687 },
     { name: "Vancouver", lat: 49.283, lng: -123.121 },
+    { name: "London", lat: 51.507, lng: -0.127 },
+    { name: "Dublin", lat: 53.349, lng: -6.26 },
+    { name: "Paris", lat: 48.857, lng: 2.35 },
+    { name: "Vienna", lat: 48.208, lng: 16.373 },
+    { name: "Amsterdam", lat: 52.37, lng: 4.895 },
+    { name: "Rotterdam", lat: 51.924, lng: 4.477 },
+    { name: "Aachen", lat: 50.776, lng: 6.084 },
+    { name: "Narvik", lat: 68.438, lng: 17.428 },
+    { name: "Tromsø", lat: 69.65, lng: 18.956 },
+    { name: "Stockholm", lat: 59.333, lng: 18.065 },
+    { name: "Helsinki", lat: 60.169, lng: 24.935 },
+    { name: "Abu Dhabi", lat: 24.466, lng: 54.367 },
   ],
 }
 
