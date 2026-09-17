@@ -14,7 +14,7 @@ export async function getStaticProps() {
 }
 
 const focusItems = [
-  { emoji: '🇯🇵', title: 'JLPT N2', desc: 'Studying Japanese daily, targeting N2 in July 2026.' },
+  { emoji: '🇯🇵', title: 'JLPT N2', desc: 'Sat N2 in July 2026 — 9 points short. Still studying daily.' },
   { emoji: '🍜', title: 'Eating Singapore', desc: 'Working through the Michelin guide, one hawker centre at a time.' },
   { emoji: '🚀', title: 'SkyReal', desc: 'Building the next chapter of SkyReal — startup mode, full speed.' },
   { emoji: '✈️', title: 'Exploring SE Asia', desc: 'Weekend trips to nearby countries — Indonesia, Malaysia, Thailand.' },

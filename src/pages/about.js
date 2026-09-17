@@ -30,7 +30,7 @@ export default function About() {
             <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
               {siteMetadata.author}
             </h3>
-            <div className="text-gray-500 dark:text-gray-400">Software Engineer</div>
+            <div className="text-gray-500 dark:text-gray-400">Verification Engineer → AI Builder</div>
             <div className="text-gray-500 dark:text-gray-400">Singapore</div>
             <div className="flex pt-6 space-x-3">
               <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} />
@@ -40,17 +40,28 @@ export default function About() {
           </div>
           <div className="pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
             <p>
-              Hey, I&apos;m Yuwei — 32, originally from Taiwan, currently based in Singapore after a
-              few years in Silicon Valley.
+              Hey, I&apos;m Yuwei (Yomi) — Taiwan-born, Silicon Valley-shaped, now working in
+              Singapore, and turning 33 this October 8th.
             </p>
             <p>
-              By day I work in tech. By night I&apos;m chasing Michelin stars at hawker centres,
-              logging km on the pavement, and grinding through JLPT N2 kanji. I&apos;m flying back
-              to Taiwan on July 4th and documenting every day until then.
+              I spent seven years making sure chips work before they ship — ASIC/SoC verification
+              from Hsinchu Science Park to the Bay Area. Now I bring that same rigour to AI: building
+              systems that are fast, useful, and actually trustworthy.
             </p>
             <p>
-              This site is my living journal — food, adventures, Japanese study, and
-              whatever else I stumble into in this city.
+              I speak English, Mandarin and Japanese (sat JLPT N2 in July 2026 and missed by 9 points,
+              so the next attempt is personal). I run on hawker food and good coffee, and I&apos;m
+              happiest when I&apos;m learning something hard with people I like.
+            </p>
+            <p>
+              Right now I&apos;m on the <strong>Level 33 Quest</strong>: from September 17 to November
+              11, one year after leaving the US, to build something great, get in the best shape of
+              my life, and walk into 33 as the sharpest version of me yet. I&apos;m also open to
+              opportunities worldwide, with conversations in Japan, the UK, the Netherlands and
+              Canada. Want to build something together?{' '}
+              <a href={siteMetadata.calendly} className="text-blue-500 hover:text-blue-600">
+                Let&apos;s talk →
+              </a>
             </p>
             <p>
               <Link href="/life" className="text-blue-500 hover:text-blue-600">

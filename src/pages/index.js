@@ -85,14 +85,14 @@ const SKILL_ENTRIES = [
     no: '003',
     type: 'Steel',
     icon: '🔩',
-    label: 'Japanese · JLPT N2',
-    years: 'N2',
-    pct: 65,
+    label: 'Japanese · N2 track',
+    years: 'N2−9',
+    pct: 60,
     barColor: 'bg-gray-400',
     bg: 'bg-gray-50 dark:bg-gray-800/40',
     border: 'border-gray-200 dark:border-gray-700',
     typeBg: 'bg-gray-100 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600',
-    body: 'JLPT N2 — daily Anki, weekly immersion. Linguistic discipline as a professional differentiator for Japan-market AI and tech projects.',
+    body: 'Sat JLPT N2 in Jul 2026 and missed by just 9 points — daily Anki, weekly immersion, still climbing. Linguistic discipline as a professional differentiator for Japan-market AI and tech projects.',
   },
   {
     no: '004',
@@ -473,7 +473,7 @@ export default function Home({ nowItems, recentUpdates }) {
                 {[
                   { icon: '🧠', title: 'AI System Design', desc: 'LLM integration, RAG pipelines, evaluation frameworks, deployment strategy.' },
                   { icon: '🔬', title: 'Verification Strategy', desc: 'SoC validation methodology, ASIC functional verification, HW/SW integration.' },
-                  { icon: '🇯🇵', title: 'Japan Bridge', desc: 'Technical liaison for Japanese-market AI projects. JLPT N2, engineering background.' },
+                  { icon: '🇯🇵', title: 'Japan Bridge', desc: 'Technical liaison for Japanese-market AI projects. Near-N2 Japanese, engineering background.' },
                 ].map((s) => (
                   <div
                     key={s.title}

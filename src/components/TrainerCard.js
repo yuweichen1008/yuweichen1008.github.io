@@ -12,11 +12,21 @@ const TYPES = [
 const STATS = [
   { label: 'Verification', value: '7 yr', pct: 87, color: 'bg-yellow-400' },
   { label: 'AI / Systems', value: '2 yr', pct: 30, color: 'bg-purple-400' },
-  { label: 'Japanese',     value: 'N2',   pct: 65, color: 'bg-gray-400' },
+  { label: 'Japanese',     value: '~N2',  pct: 60, color: 'bg-gray-400' },
   { label: 'SV Startup',   value: '2 yr', pct: 30, color: 'bg-blue-400' },
 ]
 
+const BIRTHDAY = new Date('1993-10-08T00:00:00')
+
+function trainerLevel(now = new Date()) {
+  const hadBirthday =
+    now.getMonth() > BIRTHDAY.getMonth() ||
+    (now.getMonth() === BIRTHDAY.getMonth() && now.getDate() >= BIRTHDAY.getDate())
+  return now.getFullYear() - BIRTHDAY.getFullYear() - (hadBirthday ? 0 : 1)
+}
+
 export default function TrainerCard() {
+  const level = trainerLevel()
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -33,7 +43,10 @@ export default function TrainerCard() {
           <span className="text-xs font-mono uppercase tracking-widest text-teal-600 dark:text-teal-400">
             Trainer Card
           </span>
-          <span className="text-xs font-mono text-gray-400 dark:text-gray-500">#YW-001</span>
+          <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
+            <span className="font-bold text-purple-600 dark:text-purple-400">Lv. {level}</span>
+            {level < 33 && <span> → 33 on Oct 8</span>} · #YW-001
+          </span>
         </div>
 
         {/* Avatar + name */}
@@ -46,10 +59,13 @@ export default function TrainerCard() {
               Yomi · Yu-Wei Chen
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-              Verification Engineer → AI Specialist
+              Verification Engineer → AI Builder
             </p>
             <p className="text-xs font-mono text-gray-400 dark:text-gray-500 mt-0.5">
-              Singapore · Ex–Silicon Valley
+              Singapore · Ex–Silicon Valley · Open worldwide
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+              Silicon-grade rigour, trilingual charm, always shipping.
             </p>
           </div>
         </div>

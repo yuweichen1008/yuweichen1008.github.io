@@ -8,7 +8,7 @@ const timelineEvents = [
     id: '1',
     slug: 'born-in-taiwan',
     title: 'Born in Taiwan',
-    date: '1993-01-01',
+    date: '1993-10-08',
     location: 'Taiwan',
     categories: ['milestone'],
     description: 'Grew up in Taiwan — the beginning of everything.',
@@ -125,6 +125,26 @@ const timelineEvents = [
     },
   },
   {
+    id: '8b',
+    slug: 'left-the-us',
+    title: 'Left the US',
+    date: '2025-11-11',
+    location: 'Silicon Valley',
+    categories: ['milestone', 'travel'],
+    description: 'Closed the Silicon Valley chapter and headed back to Asia.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '離開美國',
+        description: '結束矽谷篇章，回到亞洲。',
+      },
+      ja: {
+        title: 'アメリカを離れる',
+        description: 'シリコンバレーの章を閉じ、アジアへ戻った。',
+      },
+    },
+  },
+  {
     id: '7',
     slug: 'singapore',
     title: 'Relocated to Singapore',
@@ -161,6 +181,166 @@ const timelineEvents = [
       ja: {
         title: '4月1日→7月5日 · 96日間スプリント',
         description: 'JLPT N2と台湾帰国前の96日間の記録。',
+      },
+    },
+  },
+  {
+    id: '9',
+    slug: 'back-to-taiwan-july',
+    title: 'Trip back to Taiwan · #1',
+    date: '2026-07-03',
+    location: 'Taiwan',
+    categories: ['travel'],
+    description: 'First trip back to Taiwan since relocating to Singapore.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '回台灣 · 第1趟',
+        description: '移居新加坡後第一次回台灣。',
+      },
+      ja: {
+        title: '台湾へ帰省 · 1回目',
+        description: 'シンガポール移住後、初めての台湾帰省。',
+      },
+    },
+  },
+  {
+    id: '10',
+    slug: 'jlpt-n2-exam-day',
+    title: 'Sat the JLPT N2 · 9 points short',
+    date: '2026-07-05',
+    location: 'Taiwan',
+    categories: ['learning', 'milestone'],
+    description: 'Missed the pass line by just 9 points. Close enough to know the method works, and to keep going.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '參加JLPT N2 · 差9分',
+        description: '只差9分就合格。夠接近，證明方法有效，也值得繼續。',
+      },
+      ja: {
+        title: 'JLPT N2を受験 · あと9点',
+        description: '合格まであと9点。方法が正しいと分かるほど近く、続ける理由には十分。',
+      },
+    },
+  },
+  {
+    id: '11',
+    slug: 'tokyo-trip',
+    title: 'Tokyo',
+    date: '2026-07-31',
+    location: 'Tokyo',
+    categories: ['travel'],
+    description: 'Jul 31 → Aug 4. Five days in Tokyo, putting the Japanese to work.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '東京',
+        description: '7月31日→8月4日。在東京五天，實際使用日文。',
+      },
+      ja: {
+        title: '東京',
+        description: '7月31日→8月4日。東京で5日間、日本語を実戦で使う。',
+      },
+    },
+  },
+  {
+    id: '12',
+    slug: 'back-to-taiwan-august',
+    title: 'Trip back to Taiwan · #2',
+    date: '2026-08-22',
+    location: 'Taiwan',
+    categories: ['travel'],
+    description: 'Aug 22 → 23. A quick weekend back home.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '回台灣 · 第2趟',
+        description: '8月22日→23日。短暫的週末回家。',
+      },
+      ja: {
+        title: '台湾へ帰省 · 2回目',
+        description: '8月22日→23日。週末だけの短い帰省。',
+      },
+    },
+  },
+  {
+    id: '13',
+    slug: 'back-to-taiwan-september',
+    title: 'Trip back to Taiwan · #3',
+    date: '2026-09-12',
+    location: 'Taiwan',
+    categories: ['travel'],
+    description: 'An overnight family visit. Three trips home since the move to Singapore.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '回台灣 · 第3趟',
+        description: '一晚的家庭探訪。移居新加坡後已回台三次。',
+      },
+      ja: {
+        title: '台湾へ帰省 · 3回目',
+        description: '一泊の家族訪問。シンガポール移住後、3回目の帰省。',
+      },
+    },
+  },
+  {
+    id: '14',
+    slug: 'level-33-quest',
+    title: 'Sep 17 → Nov 11 · The Level 33 Quest',
+    date: '2026-09-17',
+    location: 'Singapore',
+    categories: ['milestone', 'work'],
+    description: 'Eight weeks, one big build, done together. Ship something great with AI, train hard, and keep doors open worldwide.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '9月17日→11月11日 · Lv.33 任務',
+        description: '八週、一個大作品、一起完成。用AI做出很棒的東西、認真鍛鍊，並持續向世界敞開大門。',
+      },
+      ja: {
+        title: '9月17日→11月11日 · Lv.33 クエスト',
+        description: '8週間、ひとつの大きなビルドを一緒に。AIで最高のものを作り、鍛え、世界への扉を開き続ける。',
+      },
+    },
+  },
+  {
+    id: '15',
+    slug: 'turning-33',
+    title: 'Level up · Turning 33',
+    date: '2026-10-08',
+    location: 'Singapore',
+    categories: ['milestone'],
+    description: 'Lv. 32 → Lv. 33. Three countries, three languages, one engineer who keeps evolving.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '升級 · 33歲',
+        description: 'Lv.32 → Lv.33。三個國家、三種語言，一個持續進化的工程師。',
+      },
+      ja: {
+        title: 'レベルアップ · 33歳に',
+        description: 'Lv.32 → Lv.33。3つの国、3つの言語、進化し続けるエンジニア。',
+      },
+    },
+  },
+  {
+    id: '16',
+    slug: 'one-year-since-leaving-us',
+    title: 'One year since leaving the US',
+    date: '2026-11-11',
+    location: 'Singapore',
+    categories: ['milestone'],
+    description: 'Twelve months since leaving the Bay Area. The Level 33 Quest wraps up, and the next chapter starts here.',
+    photo: '',
+    translations: {
+      zh: {
+        title: '離開美國滿一年',
+        description: '離開灣區滿十二個月。Lv.33 任務完成，下一章從這裡開始。',
+      },
+      ja: {
+        title: 'アメリカを離れて1年',
+        description: 'ベイエリアを離れて12か月。Lv.33 クエスト達成、次の章はここから。',
       },
     },
   },
