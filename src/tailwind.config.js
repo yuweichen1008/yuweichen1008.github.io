@@ -22,10 +22,15 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        pixel: ['"Press Start 2P"', ...defaultTheme.fontFamily.mono],
       },
       colors: {
         blue: colors.sky,
         orange: colors.orange,
+        teal: colors.teal,
+        amber: colors.amber,
+        rose: colors.rose,
+        emerald: colors.emerald,
         code: {
           green: '#b5f4a5',
           yellow: '#ffe484',

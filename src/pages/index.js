@@ -6,6 +6,7 @@ import siteMetadata from '@/data/siteMetadata'
 import Link from '@/components/Link'
 import { NowSection } from '@/components/StepsWidget'
 import TrainerCard from '@/components/TrainerCard'
+import QuestLog from '@/components/QuestLog'
 import fallbackNow from '@/data/nowData'
 import { useTranslation } from '@/lib/i18n'
 import { CATEGORY_CONFIG } from '@/lib/categoryConfig'
@@ -45,8 +46,8 @@ const CHAPTERS = [
     flag: '🇸🇬',
     location: 'Singapore',
     period: '2026 – Present',
-    tagline: 'Consulting & Second Career',
-    body: 'Building the AI consulting practice. Southeast Asia is where AI infrastructure is being deployed now. Being here is a strategic choice.',
+    tagline: 'AI Integration & the Level 33 Quest',
+    body: 'Working in Singapore and building with AI every day. Southeast Asia is where AI is being deployed now, and the next region could be anywhere: Japan, the UK, the Netherlands or Canada.',
     from: 'from-teal-400',
     to: 'to-emerald-300',
     ringColor: 'ring-teal-300 dark:ring-teal-700',
@@ -57,55 +58,81 @@ const CHAPTERS = [
 const SKILL_ENTRIES = [
   {
     no: '001',
-    type: 'Electric',
-    icon: '⚡',
-    label: 'Verification / Hardware',
-    years: '7 yr',
-    pct: 87,
-    barColor: 'bg-yellow-400',
-    bg: 'bg-yellow-50 dark:bg-yellow-900/20',
-    border: 'border-yellow-200 dark:border-yellow-800',
-    typeBg: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-700',
-    body: 'ASIC functional verification, SoC testbench architecture, DV methodology. Hsinchu Science Park through Silicon Valley. 7 years of finding the one bug in a billion cycles.',
-  },
-  {
-    no: '002',
     type: 'Psychic',
     icon: '🔮',
-    label: 'AI / ML Systems',
-    years: '2 yr',
-    pct: 30,
+    label: 'AI Integration · LLM Apps',
+    years: 'Main',
+    pct: 72,
     barColor: 'bg-purple-400',
     bg: 'bg-purple-50 dark:bg-purple-900/20',
     border: 'border-purple-200 dark:border-purple-800',
     typeBg: 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700',
-    body: 'LLM integration, RAG architectures, evaluation frameworks, AI product deployment. Pivoting from silicon to software intelligence — bringing engineering rigour to the stack.',
+    body: 'Plugging LLMs into real products: API integration, prompt and context design, structured outputs, and shipping AI features that hold up in production.',
+  },
+  {
+    no: '002',
+    type: 'Dragon',
+    icon: '🐉',
+    label: 'RAG & Evaluation',
+    years: 'Core',
+    pct: 65,
+    barColor: 'bg-indigo-400',
+    bg: 'bg-indigo-50 dark:bg-indigo-900/20',
+    border: 'border-indigo-200 dark:border-indigo-800',
+    typeBg: 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-700',
+    body: 'Retrieval pipelines, embeddings, LLM-as-judge and RAGAS-style evals. Coverage-driven testing for AI, the same way chips get signed off.',
   },
   {
     no: '003',
+    type: 'Electric',
+    icon: '⚡',
+    label: 'Agents & Automation',
+    years: 'Rising',
+    pct: 58,
+    barColor: 'bg-yellow-400',
+    bg: 'bg-yellow-50 dark:bg-yellow-900/20',
+    border: 'border-yellow-200 dark:border-yellow-800',
+    typeBg: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-700',
+    body: 'Tool-using agents and workflow automation that connect AI to the systems teams already use, with guardrails and observability built in.',
+  },
+  {
+    no: '004',
     type: 'Steel',
     icon: '🔩',
-    label: 'Japanese · N2 track',
-    years: 'N2−9',
-    pct: 60,
+    label: 'Verification / Hardware',
+    years: '7 yr',
+    pct: 87,
     barColor: 'bg-gray-400',
     bg: 'bg-gray-50 dark:bg-gray-800/40',
     border: 'border-gray-200 dark:border-gray-700',
     typeBg: 'bg-gray-100 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600',
-    body: 'Sat JLPT N2 in Jul 2026 and missed by just 9 points — daily Anki, weekly immersion, still climbing. Linguistic discipline as a professional differentiator for Japan-market AI and tech projects.',
+    body: 'ASIC functional verification, SoC testbench architecture, DV methodology. Hsinchu Science Park through Silicon Valley. 7 years of finding the one bug in a billion cycles.',
   },
   {
-    no: '004',
-    type: 'Dragon',
-    icon: '🐉',
-    label: 'Silicon Valley',
-    years: '2 yr',
-    pct: 30,
+    no: '005',
+    type: 'Fairy',
+    icon: '🌸',
+    label: 'Japanese · N2 track',
+    years: 'N2−9',
+    pct: 60,
+    barColor: 'bg-pink-400',
+    bg: 'bg-pink-50 dark:bg-pink-900/20',
+    border: 'border-pink-200 dark:border-pink-800',
+    typeBg: 'bg-pink-100 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-700',
+    body: 'Sat JLPT N2 in Jul 2026 and missed by just 9 points. Daily Anki, weekly immersion, still climbing. A real edge for Japan-market AI and tech projects.',
+  },
+  {
+    no: '006',
+    type: 'Flying',
+    icon: '✈️',
+    label: 'Global Operator',
+    years: '3 ctry',
+    pct: 55,
     barColor: 'bg-blue-400',
     bg: 'bg-blue-50 dark:bg-blue-900/20',
     border: 'border-blue-200 dark:border-blue-800',
     typeBg: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700',
-    body: 'Bay Area startup experience. Speed, shipping, cross-cultural team leadership. Bridging the rigour of hardware engineering with the pace of SV product development.',
+    body: 'Taiwan, Silicon Valley, Singapore. English, Mandarin, Japanese. Comfortable shipping with teams across time zones, and open to the next region.',
   },
 ]
 
@@ -132,7 +159,7 @@ function ChapterCard({ chapter, index }) {
 
       <div className="flex items-center justify-between">
         <span className={`text-xs font-bold uppercase tracking-widest ${chapter.dark ? 'text-white/70' : 'text-gray-700/70'}`}>
-          Chapter {chapter.num}
+          Region {chapter.num}
         </span>
         <span className="text-2xl">{chapter.flag}</span>
       </div>
@@ -366,13 +393,13 @@ export async function getStaticProps() {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5)
   return {
-    props: { nowItems: fallbackNow, recentUpdates },
+    props: { nowItems: fallbackNow, recentUpdates, buildTime: new Date().toISOString() },
   }
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function Home({ nowItems, recentUpdates }) {
+export default function Home({ nowItems, recentUpdates, buildTime }) {
   const { t, locale } = useTranslation()
 
   const NAV_LINKS = [
@@ -395,13 +422,16 @@ export default function Home({ nowItems, recentUpdates }) {
       <div className="pt-10 pb-16 space-y-14">
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
-        <TrainerCard />
+        <TrainerCard buildTime={buildTime} />
+
+        {/* ── Level 33 Quest ───────────────────────────────────────────────── */}
+        <QuestLog buildTime={buildTime} />
 
         {/* ── Three Chapters ────────────────────────────────────────────────── */}
         <div>
           <div className="flex items-center gap-3 mb-5">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-              Three Chapters
+            <h2 className="font-pixel text-[10px] uppercase text-gray-500 dark:text-gray-400">
+              ▶ Regions Unlocked
             </h2>
             <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
             <Link
@@ -421,8 +451,8 @@ export default function Home({ nowItems, recentUpdates }) {
         {/* ── Skills Pokédex ────────────────────────────────────────────────── */}
         <div>
           <div className="flex items-center gap-3 mb-5">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-              {t('home.skills')}
+            <h2 className="font-pixel text-[10px] uppercase text-gray-500 dark:text-gray-400">
+              ▶ Pokédex · {t('home.skills')}
             </h2>
             <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
           </div>
@@ -443,7 +473,7 @@ export default function Home({ nowItems, recentUpdates }) {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-blue-50 to-indigo-50 dark:from-teal-950/50 dark:via-blue-950/40 dark:to-indigo-950/40" />
           <div
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-9xl select-none pointer-events-none"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-9xl select-none pointer-events-none"
             style={{ opacity: 0.07 }}
           >
             🧠
@@ -453,26 +483,28 @@ export default function Home({ nowItems, recentUpdates }) {
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-                  {t('home.consulting')}
+                  ★ {t('home.consulting')}
                 </span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-700 font-mono">
-                  Available for projects
+                  Open to opportunities
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-snug">
-                AI Consulting +<br />
+                AI Integration +<br />
                 <span className="text-teal-600 dark:text-teal-400">Technical Strategy</span>
               </h2>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg">
-                Silicon Valley pedigree. Hardware rigour. Japanese fluency. Now deploying AI in Southeast Asia.
+                My move set: Silicon Valley pedigree, hardware-grade rigour, three languages, and a
+                full-time focus on getting AI working inside real products.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { icon: '🧠', title: 'AI System Design', desc: 'LLM integration, RAG pipelines, evaluation frameworks, deployment strategy.' },
-                  { icon: '🔬', title: 'Verification Strategy', desc: 'SoC validation methodology, ASIC functional verification, HW/SW integration.' },
+                  { icon: '🧠', title: 'AI Integration', desc: 'LLMs wired into your product, data and workflows, from prototype to production.' },
+                  { icon: '🤖', title: 'Agents & Automation', desc: 'Tool-using agents and AI workflows that remove repetitive work, with guardrails.' },
+                  { icon: '🔬', title: 'Eval & Verification', desc: 'RAG and LLM evaluation with the coverage mindset of silicon sign-off.' },
                   { icon: '🇯🇵', title: 'Japan Bridge', desc: 'Technical liaison for Japanese-market AI projects. Near-N2 Japanese, engineering background.' },
                 ].map((s) => (
                   <div
@@ -516,8 +548,8 @@ export default function Home({ nowItems, recentUpdates }) {
         {recentUpdates.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                {t('home.latest')}
+              <h2 className="font-pixel text-[10px] uppercase text-gray-500 dark:text-gray-400">
+                ▶ {t('home.latest')}
               </h2>
               <Link
                 href="/calendar"
